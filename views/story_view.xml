@@ -59,6 +59,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="story_book_menu" name="Story" parent="book_menu" action="story_book_action" sequence="10"/>
+    <menuitem id="story_book_menu" name="Story" parent="kathai_edu_menu" action="story_book_action" sequence="10"/>
 
 </odoo>

@@ -32,6 +32,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="story_export_menu" name="Export" parent="book_menu" action="story_export_action" sequence="30"/>
+    <menuitem id="story_export_menu" name="Export" parent="kathai_edu_menu" action="story_export_action" sequence="30"/>
 
 </odoo>

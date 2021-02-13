@@ -31,6 +31,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="story_tags_menu" name="Tags" parent="book_menu" action="story_tags_action" sequence="20"/>
+    <menuitem id="story_tags_menu" name="Tags" parent="kathai_edu_menu" action="story_tags_action" sequence="20"/>
 
 </odoo>
