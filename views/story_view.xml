@@ -10,6 +10,7 @@
                     <field name="status" widget="statusbar"/>
                 </header>
                 <sheet>
+                    <h1><field name="sequence"/></h1>
                     <group>
                         <field name="title"/>
                         <field name="preview"/>

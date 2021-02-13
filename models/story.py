@@ -24,9 +24,9 @@ class StoryBook(models.Model):
     status = fields.Selection(selection=STATUS, default=STATUS[0][0])
     is_exported = fields.Boolean(string="Is Exported", default=False)
 
-    @api.model_create_multi
+    @api.model
     def create(self, vals):
-        vals["sequence"] = self.env['ir.sequence'].next_by_code(self._name)
+        vals["sequence"] = self.env['ir.sequence'].next_by_code("story.book")
         return super(StoryBook, self).create(vals)
 
 
