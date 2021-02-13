@@ -20,10 +20,13 @@ class StoryExport(models.TransientModel):
     name = fields.Char(string="Name")
 
     def trigger_export(self):
-        recs = self.env["story.book"].search([("status", "=", "content_crawl"),
-                                              ("is_exported", "=", False)])
+        # Todo: Add status in production deployment
+        # recs = self.env["story.book"].search([("status", "=", "content_crawl"),
+        #                                       ("is_exported", "=", False)])
+        recs = self.env["story.book"].search([("is_exported", "=", False)])
 
         xml_data = self.construct_xml(recs)
+        print(xml_data)
         self.generate_tmp_file(xml_data)
 
     def construct_xml(self, recs):
@@ -31,7 +34,7 @@ class StoryExport(models.TransientModel):
         for rec in recs:
 
             if rec.content_ids:
-                story = SubElement(book, 'story', {"sequence": rec.sequence})
+                story = SubElement(book, 'story', {"id": rec.sequence})
 
                 title = SubElement(story, 'title')
                 title.text = rec.title
