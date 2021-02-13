@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="story_tags_form" model="ir.ui.view">
-        <field name="name">story.tags.form</field>
-        <field name="model">story.tags</field>
+    <record id="kathai_adu_tags_form" model="ir.ui.view">
+        <field name="name">kathai.adu.tags.form</field>
+        <field name="model">kathai.adu.tags</field>
         <field name="arch" type="xml">
             <form string="Tags">
                 <sheet>
@@ -15,9 +15,9 @@
         </field>
     </record>
 
-    <record id="story_tags_tree" model="ir.ui.view">
-        <field name="name">story.tags.tree</field>
-        <field name="model">story.tags</field>
+    <record id="kathai_adu_tags_tree" model="ir.ui.view">
+        <field name="name">kathai.adu.tags.tree</field>
+        <field name="model">kathai.adu.tags</field>
         <field name="arch" type="xml">
             <tree name="Tags">
                 <field name="name"/>
@@ -25,12 +25,16 @@
         </field>
     </record>
 
-    <record id="story_tags_action" model="ir.actions.act_window">
+    <record id="kathai_adu_tags_action" model="ir.actions.act_window">
         <field name="name">Tags</field>
-        <field name="res_model">story.tags</field>
+        <field name="res_model">kathai.adu.tags</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="story_tags_menu" name="Tags" parent="kathai_edu_menu" action="story_tags_action" sequence="20"/>
+    <menuitem id="kathai_adu_tags_menu"
+              name="Tags"
+              parent="kathai_adu_menu"
+              action="kathai_adu_tags_action"
+              sequence="20"/>
 
 </odoo>

@@ -2,9 +2,9 @@
 <odoo>
     <data noupdate="1">
 
-        <record id="story_book_sequence" model="ir.sequence">
-            <field name="name">Story Book</field>
-            <field name="code">story.book</field>
+        <record id="kathai_adu_story_sequence" model="ir.sequence">
+            <field name="name">Kathai Adu Story</field>
+            <field name="code">kathai.adu.story</field>
             <field name="prefix">ADU/%(year)s/%(month)s/</field>
             <field eval="1" name="number_next"/>
             <field eval="1" name="number_increment"/>

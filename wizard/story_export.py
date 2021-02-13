@@ -7,23 +7,23 @@ from datetime import datetime
 from paramiko import SSHClient, AutoAddPolicy
 import os
 
-HOST = config["story_export_host"]
-USERNAME = config["story_export_username"]
-PASSWORD = config["story_export_password"]
-REMOTE_FILE = config["story_export_path"]
+HOST = config["kathai_adu_export_host"]
+USERNAME = config["kathai_adu_export_username"]
+PASSWORD = config["kathai_adu_export_password"]
+REMOTE_FILE = config["kathai_adu_export_path"]
 
 
-class StoryExport(models.TransientModel):
-    _name = "story.export"
+class KathaiAduExport(models.TransientModel):
+    _name = "kathai.adu.export"
     _description = "Story Export"
 
     name = fields.Char(string="Name")
 
     def trigger_export(self):
         # Todo: Add status in production deployment
-        # recs = self.env["story.book"].search([("status", "=", "content_crawl"),
+        # recs = self.env["kathai.adu.story"].search([("status", "=", "content_crawl"),
         #                                       ("is_exported", "=", False)])
-        recs = self.env["story.book"].search([("is_exported", "=", False)])
+        recs = self.env["kathai.adu.story"].search([("is_exported", "=", False)])
 
         xml_data = self.construct_xml(recs)
         print(xml_data)
