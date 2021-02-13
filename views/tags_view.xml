@@ -19,7 +19,7 @@
         <field name="name">story.tags.tree</field>
         <field name="model">story.tags</field>
         <field name="arch" type="xml">
-            <tree name="Tags" editable="bottom">
+            <tree name="Tags">
                 <field name="name"/>
             </tree>
         </field>
@@ -31,6 +31,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="story_tags_menu" name="Tags" parent="story_menu" sequence="20"/>
+    <menuitem id="story_tags_menu" name="Tags" parent="book_menu" action="story_tags_action" sequence="20"/>
 
 </odoo>

@@ -5,7 +5,7 @@
         <field name="name">story.book.form</field>
         <field name="model">story.book</field>
         <field name="arch" type="xml">
-            <form string="Story Book">
+            <form string="Story">
                 <header>
                     <field name="status" widget="statusbar"/>
                 </header>
@@ -13,15 +13,15 @@
                     <group>
                         <field name="title"/>
                         <field name="preview"/>
-                        <field name="tag_ids"/>
+                        <field name="tag_ids" widget="many2many_tags"/>
                     </group>
-                    <group string="Site Detail">
+                    <group string="Site Detail" col="4">
                         <field name="domain"/>
                         <field name="url"/>
                         <field name="parent_id"/>
                         <field name="is_exported"/>
                     </group>
-                    <notebbok>
+                    <notebook>
                         <page string="Content">
                             <field name="content_ids">
                                 <tree editable="bottom">
@@ -30,7 +30,7 @@
                                 </tree>
                             </field>
                         </page>
-                    </notebbok>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -40,7 +40,7 @@
         <field name="name">story.book.tree</field>
         <field name="model">story.book</field>
         <field name="arch" type="xml">
-            <tree name="Story Book" editable="bottom">
+            <tree name="Story">
                 <field name="title"/>
                 <field name="preview"/>
                 <field name="tag_ids"/>
@@ -53,11 +53,11 @@
     </record>
 
     <record id="story_book_action" model="ir.actions.act_window">
-        <field name="name">Story Book</field>
+        <field name="name">Story</field>
         <field name="res_model">story.book</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="story_book_menu" name="Story Book" parent="story_menu" sequence="10"/>
+    <menuitem id="story_book_menu" name="Story" parent="book_menu" action="story_book_action" sequence="10"/>
 
 </odoo>

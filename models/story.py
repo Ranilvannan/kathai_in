@@ -8,7 +8,9 @@ STATUS = [("draft", "Draft"),
 class StoryBook(models.Model):
     _name = "story.book"
     _description = "Story Book"
-    _rec_name = "title"
+    _rec_name = "sequence"
+
+    sequence = fields.Char(string="Sequence")
 
     title = fields.Text(string="Title")
     preview = fields.Text(string="Preview")

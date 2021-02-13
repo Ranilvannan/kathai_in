@@ -1,2 +1,2 @@
-from . import story_book
+from . import story
 from . import tags
