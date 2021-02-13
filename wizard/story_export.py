@@ -27,26 +27,24 @@ class KathaiAduExport(models.TransientModel):
 
         xml_data = self.construct_xml(recs)
         print(xml_data)
-        self.generate_tmp_file(xml_data)
+        # self.generate_tmp_file(xml_data)
 
     def construct_xml(self, recs):
         book = Element('book')
         for rec in recs:
 
             if rec.content_ids:
-                story = SubElement(book, 'story', {"id": rec.sequence})
+                story = SubElement(book, 'story')
 
                 title = SubElement(story, 'title')
                 title.text = rec.title
 
+                preview = SubElement(story, 'preview')
+                preview.text = rec.preview
+
                 for line in rec.content_ids:
-                    content = SubElement(book, 'content', {"parent": rec.sequence})
-
-                    order = SubElement(content, 'order')
-                    order.text = str(line.order_seq)
-
-                    paragraph = SubElement(content, 'paragraph')
-                    paragraph.text = line.paragraph
+                    content = SubElement(story, 'content', {"order_seq": str(line.order_seq)})
+                    content.text = line.paragraph
 
         xml_string = tostring(book)
         xml_page = minidom.parseString(xml_string)
