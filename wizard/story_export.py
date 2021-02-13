@@ -36,6 +36,9 @@ class KathaiAduExport(models.TransientModel):
             if rec.content_ids:
                 story = SubElement(book, 'story')
 
+                sequence = SubElement(story, 'sequence')
+                sequence.text = rec.sequence
+
                 title = SubElement(story, 'title')
                 title.text = rec.title
 
