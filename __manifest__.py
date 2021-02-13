@@ -11,6 +11,7 @@
     'images': [],
     'depends': ['base', 'web', 'mail'],
     'data': [
+        'data/kathai_adu.xml',
         'security/kathai_adu_security.xml',
         'security/ir.model.access.csv',
         'views/menu_view.xml',
