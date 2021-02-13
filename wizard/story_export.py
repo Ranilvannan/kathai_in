@@ -13,17 +13,17 @@ PASSWORD = config["kathai_adu_export_password"]
 REMOTE_FILE = config["kathai_adu_export_path"]
 
 
-class KathaiAduExport(models.TransientModel):
-    _name = "kathai.adu.export"
+class KathaiInExport(models.TransientModel):
+    _name = "kathai.in.export"
     _description = "Story Export"
 
     name = fields.Char(string="Name")
 
     def trigger_export(self):
         # Todo: Add status in production deployment
-        # recs = self.env["kathai.adu.story"].search([("status", "=", "content_crawl"),
+        # recs = self.env["kathai.in.story"].search([("status", "=", "content_crawl"),
         #                                       ("is_exported", "=", False)])
-        recs = self.env["kathai.adu.story"].search([("is_exported", "=", False)])
+        recs = self.env["kathai.in.story"].search([("is_exported", "=", False)])
 
         xml_data = self.construct_xml(recs)
         print(xml_data)

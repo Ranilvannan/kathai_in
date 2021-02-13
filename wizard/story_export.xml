@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="kathai_adu_export_form" model="ir.ui.view">
-        <field name="name">kathai.adu.export.form</field>
-        <field name="model">kathai.adu.export</field>
+    <record id="kathai_in_export_form" model="ir.ui.view">
+        <field name="name">kathai.in.export.form</field>
+        <field name="model">kathai.in.export</field>
         <field name="arch" type="xml">
             <form string="Export">
                 <sheet>
@@ -16,9 +16,9 @@
         </field>
     </record>
 
-    <record id="kathai_adu_export_tree" model="ir.ui.view">
-        <field name="name">kathai.adu.export.tree</field>
-        <field name="model">kathai.adu.export</field>
+    <record id="kathai_in_export_tree" model="ir.ui.view">
+        <field name="name">kathai.in.export.tree</field>
+        <field name="model">kathai.in.export</field>
         <field name="arch" type="xml">
             <tree name="Export">
                 <field name="name"/>
@@ -26,16 +26,16 @@
         </field>
     </record>
 
-    <record id="kathai_adu_export_action" model="ir.actions.act_window">
+    <record id="kathai_in_export_action" model="ir.actions.act_window">
         <field name="name">Export</field>
-        <field name="res_model">kathai.adu.export</field>
+        <field name="res_model">kathai.in.export</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="kathai_adu_export_menu"
+    <menuitem id="kathai_in_export_menu"
               name="Export"
-              parent="kathai_adu_menu"
-              action="kathai_adu_export_action"
+              parent="kathai_in_menu"
+              action="kathai_in_export_action"
               sequence="30"/>
 
 </odoo>

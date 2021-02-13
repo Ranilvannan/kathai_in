@@ -1,8 +1,8 @@
 from odoo import models, fields
 
 
-class KathaiAduTags(models.Model):
-    _name = "kathai.adu.tags"
+class KathaiInTags(models.Model):
+    _name = "kathai.in.tags"
     _description = "Story Tags"
     _rec_name = "name"
 

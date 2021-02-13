@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
-    'name': 'kathai Adu',
+    'name': 'kathai IN',
     'version': '1.1',
     'summary': 'Kathai',
     'sequence': 15,
@@ -11,8 +11,8 @@
     'images': [],
     'depends': ['base', 'web', 'mail'],
     'data': [
-        'data/kathai_adu.xml',
-        'security/kathai_adu_security.xml',
+        'data/kathai_in.xml',
+        'security/kathai_in_security.xml',
         'security/ir.model.access.csv',
         'views/menu_view.xml',
         'views/story_view.xml',

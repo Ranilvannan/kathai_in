@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-kathai_adu_tags_admin,kathai.adu.tags.admin,model_kathai_adu_tags,kathai_adu_admin,1,1,1,1
-kathai_adu_story_admin,kathai.adu.story.admin,model_kathai_adu_story,kathai_adu_admin,1,1,1,1
-kathai_adu_content_admin,kathai.adu.content.admin,model_kathai_adu_content,kathai_adu_admin,1,1,1,1
-kathai_adu_export_admin,kathai.adu.export.admin,model_kathai_adu_export,kathai_adu_admin,1,1,1,1
+kathai_in_tags_admin,kathai.in.tags.admin,model_kathai_in_tags,kathai_in_admin,1,1,1,1
+kathai_in_story_admin,kathai.in.story.admin,model_kathai_in_story,kathai_in_admin,1,1,1,1
+kathai_in_content_admin,kathai.in.content.admin,model_kathai_in_content,kathai_in_admin,1,1,1,1
+kathai_in_export_admin,kathai.in.export.admin,model_kathai_in_export,kathai_in_admin,1,1,1,1

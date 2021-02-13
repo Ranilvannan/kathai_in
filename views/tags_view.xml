@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="kathai_adu_tags_form" model="ir.ui.view">
-        <field name="name">kathai.adu.tags.form</field>
-        <field name="model">kathai.adu.tags</field>
+    <record id="kathai_in_tags_form" model="ir.ui.view">
+        <field name="name">kathai.in.tags.form</field>
+        <field name="model">kathai.in.tags</field>
         <field name="arch" type="xml">
             <form string="Tags">
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="code"/>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <record id="kathai_adu_tags_tree" model="ir.ui.view">
-        <field name="name">kathai.adu.tags.tree</field>
-        <field name="model">kathai.adu.tags</field>
+    <record id="kathai_in_tags_tree" model="ir.ui.view">
+        <field name="name">kathai.in.tags.tree</field>
+        <field name="model">kathai.in.tags</field>
         <field name="arch" type="xml">
             <tree name="Tags">
                 <field name="name"/>
+                <field name="code"/>
             </tree>
         </field>
     </record>
 
-    <record id="kathai_adu_tags_action" model="ir.actions.act_window">
+    <record id="kathai_in_tags_action" model="ir.actions.act_window">
         <field name="name">Tags</field>
-        <field name="res_model">kathai.adu.tags</field>
+        <field name="res_model">kathai.in.tags</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="kathai_adu_tags_menu"
+    <menuitem id="kathai_in_tags_menu"
               name="Tags"
-              parent="kathai_adu_menu"
-              action="kathai_adu_tags_action"
+              parent="kathai_in_menu"
+              action="kathai_in_tags_action"
               sequence="20"/>
 
 </odoo>
