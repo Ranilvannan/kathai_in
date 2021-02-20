@@ -7,10 +7,10 @@ from datetime import datetime
 from paramiko import SSHClient, AutoAddPolicy
 import os
 
-HOST = config["kathai_adu_export_host"]
-USERNAME = config["kathai_adu_export_username"]
-PASSWORD = config["kathai_adu_export_password"]
-REMOTE_FILE = config["kathai_adu_export_path"]
+HOST = config["kathai_in_export_host"]
+USERNAME = config["kathai_in_export_username"]
+PASSWORD = config["kathai_in_export_password"]
+REMOTE_FILE = config["kathai_in_export_path"]
 
 
 class KathaiInExport(models.TransientModel):

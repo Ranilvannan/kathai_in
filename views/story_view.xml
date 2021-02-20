@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <form string="Story">
                 <header>
+                    <button class="oe_highlight" name="trigger_publish" string="Publish" type="object"/>
                     <field name="status" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -21,6 +22,8 @@
                         <field name="url"/>
                         <field name="parent_id"/>
                         <field name="is_exported"/>
+                        <field name="crawl_status"/>
+                        <field name="dop"/>
                     </group>
                     <notebook>
                         <page string="Content">
