@@ -12,6 +12,8 @@ USERNAME = config["kathai_in_export_username"]
 PASSWORD = config["kathai_in_export_password"]
 REMOTE_FILE = config["kathai_in_export_path"]
 
+CRAWL_URL_1 = config["kathai_in_crawl_1"]
+
 
 class KathaiInExport(models.TransientModel):
     _name = "kathai.in.export"
@@ -23,7 +25,10 @@ class KathaiInExport(models.TransientModel):
         # Todo: Add status in production deployment
         # recs = self.env["kathai.in.story"].search([("status", "=", "content_crawl"),
         #                                       ("is_exported", "=", False)])
-        recs = self.env["kathai.in.story"].search([("is_exported", "=", False)])
+        # recs = self.env["kathai.in.story"].search([("is_exported", "=", False)])
+
+        recs = self.env["kathai.in.story"].search([])
+        print(recs, "---")
 
         xml_data = self.construct_xml(recs)
         print(xml_data)
