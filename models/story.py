@@ -1,5 +1,6 @@
 from odoo import models, fields, api, exceptions
 from datetime import datetime
+from googletrans import Translator
 
 CRAWL_STATUS = [("url_crawl", "URL Crawl"), ("content_crawl", "Content Crawl")]
 STATUS = [("draft", "Draft"), ("publish", "Publish")]
@@ -12,6 +13,7 @@ class KathaiInStory(models.Model):
 
     sequence = fields.Char(string="Sequence", readonly=True)
 
+    english_title = fields.Text(string="English Title")
     title = fields.Text(string="Title")
     preview = fields.Text(string="Preview")
     content_ids = fields.One2many(comodel_name="kathai.in.content", inverse_name="story_id")
@@ -25,6 +27,17 @@ class KathaiInStory(models.Model):
     status = fields.Selection(selection=STATUS, default=STATUS[0][0])
     is_exported = fields.Boolean(string="Is Exported", default=False)
     dop = fields.Date(string="Date Of Publishing")
+
+    def trigger_english_title(self):
+        translator = Translator()
+        result = translator.translate(self.title)
+
+        result = result.text
+        new_result = result.replace(" ", "-")
+        new_result = new_result.replace("'", "")
+        new_result = new_result.replace(",", "")
+
+        self.english_title = new_result
 
     def trigger_publish(self):
         if self.crawl_status != "content_crawl":
