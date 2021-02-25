@@ -22,36 +22,40 @@ class FreeSexKahaniUrlCrawl(models.TransientModel):
 
         duplicate_count = 0
         for article in article_list:
-            title_tag = article.find("h2")
-            title = title_tag.text
+            try:
+                title_tag = article.find("h2")
+                title = title_tag.text
 
-            preview_tag = article.find("div", class_="entry-content")
-            preview = preview_tag.text
+                preview_tag = article.find("div", class_="entry-content")
+                preview = preview_tag.text
 
-            url_tag = preview_tag.find("a")
-            url = url_tag["href"]
+                url_tag = preview_tag.find("a")
+                url = url_tag["href"]
 
-            tags = article.find("span", class_="cat-links")
-            tags_link = tags.find("a")
-            tag = tags_link.text
+                tags = article.find("span", class_="cat-links")
+                tags_link = tags.find("a")
+                tag = tags_link.text
 
-            tag_id = self.check_tag(tag)
 
-            rec = self.env["kathai.in.story"].search([("url", "=", url)])
+                tag_id = self.check_tag(tag)
 
-            if rec:
-                duplicate_count = duplicate_count + 1
+                rec = self.env["kathai.in.story"].search([("url", "=", url)])
 
-            else:
-                self.env["kathai.in.story"].create({"title": title,
-                                                    "preview": preview,
-                                                    "domain": self.domain,
-                                                    "url": url,
-                                                    "tag_ids": [(6, 0, [tag_id])],
-                                                    "crawl_status": "url_crawl"})
+                if rec:
+                    duplicate_count = duplicate_count + 1
 
-            if duplicate_count >= 5:
-                self.is_active = False
+                else:
+                    self.env["kathai.in.story"].create({"title": title,
+                                                        "preview": preview,
+                                                        "domain": self.domain,
+                                                        "url": url,
+                                                        "tag_ids": [(6, 0, [tag_id])],
+                                                        "crawl_status": "url_crawl"})
+
+                if duplicate_count >= 5:
+                    self.is_active = False
+            except:
+                pass
 
     def check_tag(self, tag):
         tag_obj = self.env["kathai.in.tags"].search([("name", "=", tag)])

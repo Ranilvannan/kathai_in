@@ -16,9 +16,17 @@ class FreeSexKahaniContentCrawl(models.TransientModel):
         content = soup.find("div", class_="entry-content")
         recs = content.find_all("p")
 
-        for rec in recs:
-            print(rec)
+        obj = self.env["kathai.in.story"].search([("url", "=", self.url)])
 
+        content = []
+        count = 1
+        for rec in recs:
+            content.append((0, 0, {"order_seq": count,
+                                   "paragraph": rec.text}))
+            count = count + 1
+
+        obj.write({"crawl_status": "content_crawl",
+                   "content_ids": content})
 
 
 
