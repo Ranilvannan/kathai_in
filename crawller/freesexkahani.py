@@ -113,7 +113,6 @@ class FreeSexKahani(models.TransientModel):
         new_url = None
         if url:
             new_url = url.strip()
-            print(new_url, "=====")
             if new_url[-1] == "/":
                 new_url = new_url[:-1]
 
