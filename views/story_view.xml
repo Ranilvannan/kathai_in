@@ -16,7 +16,9 @@
                     <group>
                         <field name="title"/>
                         <field name="english_title"/>
+                        <field name="url_title"/>
                         <field name="preview"/>
+                        <field name="english_preview"/>
                         <field name="tag_ids" widget="many2many_tags"/>
                     </group>
                     <group string="Site Detail" col="4">

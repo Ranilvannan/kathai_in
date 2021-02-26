@@ -13,9 +13,13 @@ class KathaiInStory(models.Model):
 
     sequence = fields.Char(string="Sequence", readonly=True)
 
-    english_title = fields.Text(string="English Title")
     title = fields.Text(string="Title")
     preview = fields.Text(string="Preview")
+
+    english_title = fields.Text(string="English Title")
+    english_preview = fields.Text(string="English Preview")
+    url_title = fields.Text(string="URL Title")
+
     content_ids = fields.One2many(comodel_name="kathai.in.content", inverse_name="story_id")
 
     domain = fields.Char(string="Domain")
@@ -31,14 +35,18 @@ class KathaiInStory(models.Model):
 
     def trigger_english_title(self):
         translator = Translator()
-        result = translator.translate(self.title)
+        title = translator.translate(self.title)
 
-        result = result.text
+        result = title.text
+        self.english_title = title.text
+
         new_result = result.replace(" ", "-")
         new_result = new_result.replace("'", "")
         new_result = new_result.replace(",", "")
+        self.url_title = new_result
 
-        self.english_title = new_result
+        preview = translator.translate(self.preview)
+        self.english_preview = preview.text
 
     def trigger_publish(self):
         if self.crawl_status != "content_crawl":

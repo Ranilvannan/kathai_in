@@ -28,7 +28,10 @@ class FreeSexKahani(models.TransientModel):
             title = title_tag.text
 
         if preview_tag:
-            preview = preview_tag.text
+            paragraph_tag = preview_tag.find("p")
+            if paragraph_tag:
+                preview = paragraph_tag.text
+
             url_tag = preview_tag.find("a")
 
             if url_tag:
