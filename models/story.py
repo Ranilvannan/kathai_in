@@ -44,6 +44,23 @@ class KathaiInStory(models.Model):
         if self.crawl_status != "content_crawl":
             raise exceptions.ValidationError("Error! Story must be publish after CONTENT CRAWL")
 
+        if self.parent_url and (not self.parent_id):
+            obj = self.env["kathai.in.story"].search([("url", "=", self.parent_url)])
+            if obj:
+                self.parent_id = obj.id
+            else:
+                raise exceptions.ValidationError("Error! Parent not found")
+
+        parent_id_setup = True
+        rec = self
+        while parent_id_setup:
+            if rec.parent_id and rec.parent_url:
+                if rec.parent_id.status != "publish":
+                    rec.parent_id.status = "publish"
+                rec = rec.parent_id
+            else:
+                parent_id_setup = False
+
         self.dop = datetime.now()
         self.status = "publish"
 
