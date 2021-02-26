@@ -4,5 +4,4 @@ kathai_in_story_admin,kathai.in.story.admin,model_kathai_in_story,kathai_in_admi
 kathai_in_content_admin,kathai.in.content.admin,model_kathai_in_content,kathai_in_admin,1,1,1,1
 kathai_in_export_admin,kathai.in.export.admin,model_kathai_in_export,kathai_in_admin,1,1,1,1
 crawl_service_admin,crawl.service.admin,model_crawl_service,kathai_in_admin,1,1,1,1
-free_sex_kahani_url_crawl_admin,free.sex.kahani.url.crawl.admin,model_free_sex_kahani_url_crawl,kathai_in_admin,1,1,1,1
-free_sex_kahani_content_crawl_admin,free.sex.kahani.content.crawl.admin,model_free_sex_kahani_content_crawl,kathai_in_admin,1,1,1,1
+free_sex_kahani_admin,free.sex.kahani.admin,model_free_sex_kahani,kathai_in_admin,1,1,1,1
