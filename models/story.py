@@ -21,6 +21,7 @@ class KathaiInStory(models.Model):
     domain = fields.Char(string="Domain")
     url = fields.Text(string="URL")
     parent_id = fields.Many2one(comodel_name="kathai.in.story", string="Parent")
+    parent_url = fields.Text(string="Parent URL")
     crawl_status = fields.Selection(selection=CRAWL_STATUS, string="Crawl Status")
 
     tag_ids = fields.Many2many(comodel_name="kathai.in.tags")

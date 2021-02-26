@@ -60,7 +60,7 @@ class FreeSexKahani(models.TransientModel):
                 self.env["kathai.in.story"].create({"title": title,
                                                     "preview": preview,
                                                     "domain": self.domain,
-                                                    "url": url,
+                                                    "url": self.clean_url(url),
                                                     "tag_ids": [(6, 0, [tag_id])],
                                                     "crawl_status": "url_crawl"})
 
@@ -87,21 +87,39 @@ class FreeSexKahani(models.TransientModel):
             self.get_article(soup)
 
     def trigger_content_crawl(self):
+        obj = self.env["kathai.in.story"].search([("url", "=", self.url)])
         soup = self.get_content()
+        content_list = []
+        count = 1
+        parent_url = None
         content = soup.find("div", class_="entry-content")
+
         if content:
             recs = content.find_all("p")
 
-            obj = self.env["kathai.in.story"].search([("url", "=", self.url)])
+            parent_url_tag = content.find("a")
+            if parent_url_tag:
+                parent_url = parent_url_tag["href"]
 
-            content = []
-            count = 1
             for rec in recs:
-                content.append((0, 0, {"order_seq": count,
-                                       "paragraph": rec.text}))
+                content_list.append((0, 0, {"order_seq": count, "paragraph": rec.text}))
                 count = count + 1
 
             obj.write({"crawl_status": "content_crawl",
-                       "content_ids": content})
+                       "parent_url": self.clean_url(parent_url),
+                       "content_ids": content_list})
+
+    def clean_url(self, url):
+        new_url = None
+        if url:
+            new_url = url.strip()
+            print(new_url, "=====")
+            if new_url[-1] == "/":
+                new_url = new_url[:-1]
+
+        return new_url
+
+
+
 
 

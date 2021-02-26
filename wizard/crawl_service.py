@@ -17,7 +17,7 @@ class CrawlService(models.Model):
 
     def trigger_freesexkahani_content_crawl(self):
         recs = self.env["kathai.in.story"].search([("domain", "=", "https://www.freesexkahani.com"),
-                                                   ("crawl_status", "=", "url_crawl")])[:3]
+                                                   ("crawl_status", "=", "url_crawl")])[:2]
 
         for rec in recs:
             obj = self.env["free.sex.kahani"].create({"url": rec.url})

@@ -23,6 +23,7 @@
                         <field name="domain"/>
                         <field name="url"/>
                         <field name="parent_id"/>
+                        <field name="parent_url"/>
                         <field name="is_exported"/>
                         <field name="crawl_status"/>
                         <field name="dop"/>
