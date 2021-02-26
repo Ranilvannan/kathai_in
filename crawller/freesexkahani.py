@@ -113,6 +113,10 @@ class FreeSexKahani(models.TransientModel):
         new_url = None
         if url:
             new_url = url.strip()
+
+            if new_url.find("#") != -1:
+                new_url, hashed = new_url.split("#")
+
             if new_url[-1] == "/":
                 new_url = new_url[:-1]
 
