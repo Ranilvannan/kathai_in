@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="story_language_form" model="ir.ui.view">
+        <field name="name">story.language.form</field>
+        <field name="model">story.language</field>
+        <field name="arch" type="xml">
+            <form string="Language">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="story_language_tree" model="ir.ui.view">
+        <field name="name">story.language.tree</field>
+        <field name="model">story.language</field>
+        <field name="arch" type="xml">
+            <tree name="Language">
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="story_language_action" model="ir.actions.act_window">
+        <field name="name">Language</field>
+        <field name="res_model">story.tags</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="story_language_menu"
+              name="Language"
+              parent="kathai_in_menu"
+              action="story_language_action"
+              sequence="30"/>
+
+</odoo>

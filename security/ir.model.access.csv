@@ -1,7 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-kathai_in_tags_admin,kathai.in.tags.admin,model_kathai_in_tags,kathai_in_admin,1,1,1,1
-kathai_in_story_admin,kathai.in.story.admin,model_kathai_in_story,kathai_in_admin,1,1,1,1
-kathai_in_content_admin,kathai.in.content.admin,model_kathai_in_content,kathai_in_admin,1,1,1,1
-kathai_in_export_admin,kathai.in.export.admin,model_kathai_in_export,kathai_in_admin,1,1,1,1
+story_story_admin,story.story.admin,model_story_story,kathai_in_admin,1,1,1,1
+story_tags_admin,story.tags.admin,model_story_tags,kathai_in_admin,1,1,1,1
+story_content_admin,story.content.admin,model_story_content,kathai_in_admin,1,1,1,1
+story_export_admin,story.export.admin,model_story_export,kathai_in_admin,1,1,1,1
 crawl_service_admin,crawl.service.admin,model_crawl_service,kathai_in_admin,1,1,1,1
 free_sex_kahani_admin,free.sex.kahani.admin,model_free_sex_kahani,kathai_in_admin,1,1,1,1

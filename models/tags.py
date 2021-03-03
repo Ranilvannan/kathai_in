@@ -1,10 +1,10 @@
-from odoo import models, fields
+from odoo import models, fields, exceptions
 
 
-class KathaiInTags(models.Model):
-    _name = "kathai.in.tags"
+class StoryTags(models.Model):
+    _name = "story.tags"
     _description = "Story Tags"
     _rec_name = "name"
 
     name = fields.Char(string="Name")
-    code = fields.Char(string="Code")
+    url = fields.Char(string="URL")

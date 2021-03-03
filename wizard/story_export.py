@@ -15,8 +15,8 @@ REMOTE_FILE = config["kathai_in_export_path"]
 CRAWL_URL_1 = config["kathai_in_crawl_1"]
 
 
-class KathaiInExport(models.TransientModel):
-    _name = "kathai.in.export"
+class StoryExport(models.TransientModel):
+    _name = "story.export"
     _description = "Story Export"
 
     name = fields.Char(string="Name")

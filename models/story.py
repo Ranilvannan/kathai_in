@@ -6,54 +6,57 @@ CRAWL_STATUS = [("url_crawl", "URL Crawl"), ("content_crawl", "Content Crawl")]
 STATUS = [("draft", "Draft"), ("publish", "Publish")]
 
 
-class KathaiInStory(models.Model):
-    _name = "kathai.in.story"
-    _description = "Story Book"
+class Story(models.Model):
+    _name = "story.story"
+    _description = "Story"
     _rec_name = "sequence"
 
-    sequence = fields.Char(string="Sequence", readonly=True)
+    name = fields.Char(string="Sequence", readonly=True)
+    date = fields.Date(string="Date")
 
-    title = fields.Text(string="Title")
-    preview = fields.Text(string="Preview")
-
-    english_title = fields.Text(string="English Title")
-    english_preview = fields.Text(string="English Preview")
-    url_title = fields.Text(string="URL Title")
-
-    content_ids = fields.One2many(comodel_name="kathai.in.content", inverse_name="story_id")
-
-    domain = fields.Char(string="Domain")
-    url = fields.Text(string="URL")
-    parent_id = fields.Many2one(comodel_name="kathai.in.story", string="Parent")
+    # CRAWL INFO
+    crawl_domain = fields.Char(string="Domain")
+    crawl_url = fields.Text(string="URL")
     parent_url = fields.Text(string="Parent URL")
     crawl_status = fields.Selection(selection=CRAWL_STATUS, string="Crawl Status")
+    language = fields.Many2one(comodel_name="story.language")
 
-    tag_ids = fields.Many2many(comodel_name="kathai.in.tags")
-    status = fields.Selection(selection=STATUS, default=STATUS[0][0])
+    # SITE INFO
+    site_url = fields.Text(string="URL")
+    site_title = fields.Text(string="Title")
+    site_preview = fields.Text(string="Preview")
+    tag_ids = fields.Many2many(comodel_name="story.tags")
+    parent_id = fields.Many2one(comodel_name="story.story")
+    has_published = fields.Boolean(string="Has Published", default=False)
     is_exported = fields.Boolean(string="Is Exported", default=False)
-    dop = fields.Date(string="Date Of Publishing")
+    date_of_publish = fields.Date(string="Date Of Publish")
+
+    # CONTENT
+    title = fields.Text(string="Title")
+    preview = fields.Text(string="Preview")
+    content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
 
     def trigger_english_title(self):
         translator = Translator()
         title = translator.translate(self.title)
 
         result = title.text
-        self.english_title = title.text
+        self.site_title = title.text
 
         new_result = result.replace(" ", "-")
         new_result = new_result.replace("'", "")
         new_result = new_result.replace(",", "")
-        self.url_title = new_result
+        self.site_url = new_result
 
         preview = translator.translate(self.preview)
-        self.english_preview = preview.text
+        self.site_preview = preview.text
 
     def trigger_publish(self):
         if self.crawl_status != "content_crawl":
             raise exceptions.ValidationError("Error! Story must be publish after CONTENT CRAWL")
 
         if self.parent_url and (not self.parent_id):
-            obj = self.env["kathai.in.story"].search([("url", "=", self.parent_url)])
+            obj = self.env["story.story"].search([("crawl_url", "=", self.parent_url)])
             if obj:
                 self.parent_id = obj.id
             else:
@@ -63,26 +66,26 @@ class KathaiInStory(models.Model):
         rec = self
         while parent_id_setup:
             if rec.parent_id and rec.parent_url:
-                if rec.parent_id.status != "publish":
-                    rec.parent_id.status = "publish"
+                if not rec.parent_id.has_published:
+                    rec.parent_id.has_published = True
                 rec = rec.parent_id
             else:
                 parent_id_setup = False
 
-        self.dop = datetime.now()
-        self.status = "publish"
+        self.date_of_publish = datetime.now()
+        self.has_published = True
 
     @api.model
     def create(self, vals):
-        vals["sequence"] = self.env['ir.sequence'].next_by_code("kathai.in.story")
-        return super(KathaiInStory, self).create(vals)
+        vals["sequence"] = self.env['ir.sequence'].next_by_code("story.story")
+        return super(Story, self).create(vals)
 
 
-class KathaiInContent(models.Model):
-    _name = "kathai.in.content"
+class StoryContent(models.Model):
+    _name = "story.content"
     _description = "Story Content"
 
     order_seq = fields.Integer(string="Order Sequence")
-    paragraph = fields.Text(string="Paragraph")
-    story_id = fields.Many2one(comodel_name="kathai.in.story", string="Story")
+    content = fields.Text(string="Content")
+    story_id = fields.Many2one(comodel_name="story.story", string="Story")
 

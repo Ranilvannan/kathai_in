@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="kathai_in_story_form" model="ir.ui.view">
-        <field name="name">kathai.in.story.form</field>
-        <field name="model">kathai.in.story</field>
+    <record id="story_story_form" model="ir.ui.view">
+        <field name="name">story.story.form</field>
+        <field name="model">story.story</field>
         <field name="arch" type="xml">
             <form string="Story">
                 <header>
@@ -12,30 +12,45 @@
                     <field name="status" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <h1><field name="sequence"/></h1>
+                    <h1><field name="name"/></h1>
                     <group>
-                        <field name="title"/>
-                        <field name="english_title"/>
-                        <field name="url_title"/>
-                        <field name="preview"/>
-                        <field name="english_preview"/>
-                        <field name="tag_ids" widget="many2many_tags"/>
+                        <field name="date"/>
                     </group>
-                    <group string="Site Detail" col="4">
-                        <field name="domain"/>
-                        <field name="url"/>
-                        <field name="parent_id"/>
-                        <field name="parent_url"/>
-                        <field name="is_exported"/>
-                        <field name="crawl_status"/>
-                        <field name="dop"/>
+                    <group string="Crawl Info">
+                        <group>
+                            <field name="crawl_domain"/>
+                            <field name="crawl_url"/>
+                            <field name="parent_url"/>
+                        </group>
+                        <group>
+                            <field name="crawl_status"/>
+                            <field name="language"/>
+                        </group>
+                    </group>
+                    <group string="Site Info">
+                        <group>
+                            <field name="site_url"/>
+                            <field name="site_title"/>
+                            <field name="site_preview"/>
+                            <field name="tag_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="parent_id"/>
+                            <field name="has_published"/>
+                            <field name="is_exported"/>
+                            <field name="date_of_publish"/>
+                        </group>
+                    </group>
+                    <group string="Content">
+                        <field name="title"/>
+                        <field name="preview"/>
                     </group>
                     <notebook>
                         <page string="Content">
                             <field name="content_ids">
                                 <tree editable="bottom">
                                     <field name="order_seq"/>
-                                    <field name="paragraph"/>
+                                    <field name="content"/>
                                 </tree>
                             </field>
                         </page>
@@ -45,32 +60,26 @@
         </field>
     </record>
 
-    <record id="kathai_in_story_tree" model="ir.ui.view">
-        <field name="name">kathai.in.story.tree</field>
-        <field name="model">kathai.in.story</field>
+    <record id="story_story_tree" model="ir.ui.view">
+        <field name="name">story.story.tree</field>
+        <field name="model">story.story</field>
         <field name="arch" type="xml">
             <tree name="Story">
-                <field name="title"/>
-                <field name="preview"/>
-                <field name="tag_ids"/>
-                <field name="domain"/>
-                <field name="url"/>
-                <field name="parent_id"/>
-                <field name="is_exported"/>
+                <field name="name"/>
             </tree>
         </field>
     </record>
 
-    <record id="kathai_in_story_action" model="ir.actions.act_window">
+    <record id="story_story_action" model="ir.actions.act_window">
         <field name="name">Story</field>
-        <field name="res_model">kathai.in.story</field>
+        <field name="res_model">story.story</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="kathai_in_story_menu"
+    <menuitem id="story_story_menu"
               name="Story"
               parent="kathai_in_menu"
-              action="kathai_in_story_action"
+              action="story_story_action"
               sequence="10"/>
 
 </odoo>
