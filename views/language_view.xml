@@ -35,7 +35,7 @@
 
     <menuitem id="story_language_menu"
               name="Language"
-              parent="kathai_in_menu"
+              parent="story_book_menu"
               action="story_language_action"
               sequence="30"/>
 

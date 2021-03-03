@@ -78,7 +78,7 @@
 
     <menuitem id="story_story_menu"
               name="Story"
-              parent="kathai_in_menu"
+              parent="story_book_menu"
               action="story_story_action"
               sequence="10"/>
 
