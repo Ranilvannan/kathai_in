@@ -9,9 +9,9 @@ STATUS = [("draft", "Draft"), ("publish", "Publish")]
 class Story(models.Model):
     _name = "story.story"
     _description = "Story"
-    _rec_name = "sequence"
+    _rec_name = "name"
 
-    name = fields.Char(string="Sequence", readonly=True)
+    name = fields.Char(string="Name", readonly=True)
     date = fields.Date(string="Date")
 
     # CRAWL INFO

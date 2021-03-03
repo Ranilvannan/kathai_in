@@ -2,15 +2,15 @@
 <odoo>
     <data noupdate="0">
 
-        <record model="ir.module.category" id="kathai_in_category">
-            <field name="name">Kathai IN</field>
-            <field name="description">Kathai IN</field>
+        <record model="ir.module.category" id="story_book_category">
+            <field name="name">Story Book</field>
+            <field name="description">Story Book</field>
             <field name="sequence">1</field>
         </record>
 
-        <record id="kathai_in_admin" model="res.groups">
+        <record id="story_book_admin" model="res.groups">
             <field name="name">Admin</field>
-            <field name="category_id" ref="kathai_in_category"/>
+            <field name="category_id" ref="story_book_category"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
