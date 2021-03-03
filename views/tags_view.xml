@@ -35,7 +35,7 @@
 
     <menuitem id="story_tags_menu"
               name="Tags"
-              parent="story_book_menu"
+              parent="book_menu"
               action="story_tags_action"
               sequence="20"/>
 

@@ -6,9 +6,9 @@ CRAWL_STATUS = [("url_crawl", "URL Crawl"), ("content_crawl", "Content Crawl")]
 STATUS = [("draft", "Draft"), ("publish", "Publish")]
 
 
-class Story(models.Model):
-    _name = "story.story"
-    _description = "Story"
+class StoryBook(models.Model):
+    _name = "story.book"
+    _description = "Story Book"
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)
@@ -56,7 +56,7 @@ class Story(models.Model):
             raise exceptions.ValidationError("Error! Story must be publish after CONTENT CRAWL")
 
         if self.parent_url and (not self.parent_id):
-            obj = self.env["story.story"].search([("crawl_url", "=", self.parent_url)])
+            obj = self.env["story.book"].search([("crawl_url", "=", self.parent_url)])
             if obj:
                 self.parent_id = obj.id
             else:
@@ -78,7 +78,7 @@ class Story(models.Model):
     @api.model
     def create(self, vals):
         vals["sequence"] = self.env['ir.sequence'].next_by_code("story.story")
-        return super(Story, self).create(vals)
+        return super(StoryBook, self).create(vals)
 
 
 class StoryContent(models.Model):
@@ -87,5 +87,5 @@ class StoryContent(models.Model):
 
     order_seq = fields.Integer(string="Order Sequence")
     content = fields.Text(string="Content")
-    story_id = fields.Many2one(comodel_name="story.story", string="Story")
+    story_id = fields.Many2one(comodel_name="story.book", string="Story")
 

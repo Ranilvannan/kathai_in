@@ -27,7 +27,7 @@ class StoryExport(models.TransientModel):
         #                                       ("is_exported", "=", False)])
         # recs = self.env["kathai.in.story"].search([("is_exported", "=", False)])
 
-        recs = self.env["kathai.in.story"].search([])
+        recs = self.env["story.book"].search([])
         print(recs, "---")
 
         xml_data = self.construct_xml(recs)

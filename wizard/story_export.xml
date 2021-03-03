@@ -34,7 +34,7 @@
 
     <menuitem id="story_export_menu"
               name="Export"
-              parent="story_book_menu"
+              parent="book_menu"
               action="story_export_action"
               sequence="40"/>
 
