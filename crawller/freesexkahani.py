@@ -57,21 +57,29 @@ class FreeSexKahani(models.TransientModel):
             tag = self.get_tags_data(article)
 
             tag_id = self.check_tag(tag)
-            rec = self.env["kathai.in.story"].search([("url", "=", url)])
+            rec = self.env["story.book"].search([("crawl_url", "=", url)])
 
             if not rec:
-                self.env["kathai.in.story"].create({"title": title,
-                                                    "preview": preview,
-                                                    "domain": self.domain,
-                                                    "url": self.clean_url(url),
-                                                    "tag_ids": [(6, 0, [tag_id])],
-                                                    "crawl_status": "url_crawl"})
+                self.env["story.book"].create({"title": title,
+                                               "preview": preview,
+                                               "crawl_domain": self.domain,
+                                               "crawl_url": self.clean_url(url),
+                                               "tag_ids": [(6, 0, [tag_id])],
+                                               "language": self.get_language(),
+                                               "crawl_status": "url_crawl"})
+
+    def get_language(self):
+        language_id = None
+        obj = self.env["story.language"].search([("code", "=", "HINDI")])
+        if obj:
+            language_id = obj.id
+        return language_id
 
     def check_tag(self, tag):
-        tag_obj = self.env["kathai.in.tags"].search([("name", "=", tag)])
+        tag_obj = self.env["story.tags"].search([("name", "=", tag)])
 
         if not tag_obj:
-            new_tag_obj = self.env["kathai.in.tags"].create({"name": tag})
+            new_tag_obj = self.env["story.tags"].create({"name": tag})
             return new_tag_obj.id
 
         return tag_obj.id
@@ -90,7 +98,7 @@ class FreeSexKahani(models.TransientModel):
             self.get_article(soup)
 
     def trigger_content_crawl(self):
-        obj = self.env["kathai.in.story"].search([("url", "=", self.url)])
+        obj = self.env["story.book"].search([("crawl_url", "=", self.url)])
         soup = self.get_content()
         content_list = []
         count = 1
@@ -105,7 +113,7 @@ class FreeSexKahani(models.TransientModel):
                 parent_url = parent_url_tag["href"]
 
             for rec in recs:
-                content_list.append((0, 0, {"order_seq": count, "paragraph": rec.text}))
+                content_list.append((0, 0, {"order_seq": count, "content": rec.text}))
                 count = count + 1
 
             obj.write({"crawl_status": "content_crawl",

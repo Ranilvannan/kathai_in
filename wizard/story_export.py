@@ -30,9 +30,31 @@ class StoryExport(models.TransientModel):
         recs = self.env["story.book"].search([])
         print(recs, "---")
 
-        xml_data = self.construct_xml(recs)
+        xml_data = self.generate_json(recs)
         print(xml_data)
         # self.generate_tmp_file(xml_data)
+
+    def generate_json(self, recs):
+        book = []
+
+        for rec in recs:
+            story = {
+                "name": rec.name,
+
+                "site_url": rec.site_url,
+                "site_title": rec.site_title,
+                "site_preview": rec.site_preview,
+                "parent_url": rec.parent_id.site_url,
+
+                "title": rec.title,
+                "preview": rec.preview,
+                "content": [{"paragraph": item.paragraph,
+                             "order_seq": item.order_seq} for item in rec.content_ids]
+            }
+
+            book.append(story)
+
+        return book
 
     def construct_xml(self, recs):
         book = Element('book')

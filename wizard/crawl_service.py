@@ -16,22 +16,20 @@ class CrawlService(models.Model):
         obj.trigger_url_crawl()
 
     def trigger_freesexkahani_content_crawl(self):
-        recs = self.env["kathai.in.story"].search([("domain", "=", "https://www.freesexkahani.com"),
-                                                   ("crawl_status", "=", "url_crawl")])[:10]
+        recs = self.env["story.book"].search([("crawl_domain", "=", "https://www.freesexkahani.com"),
+                                              ("crawl_status", "=", "url_crawl")])[:10]
 
         for rec in recs:
-            obj = self.env["free.sex.kahani"].create({"url": rec.url})
+            obj = self.env["free.sex.kahani"].create({"url": rec.crawl_url})
             obj.trigger_content_crawl()
 
     def trigger_set_parent_id(self):
-        recs = self.env["kathai.in.story"].search([("crawl_status", "=", "content_crawl"),
-                                                   ("parent_url", "!=", False),
-                                                   ("parent_id", "=", False)])
-
-        print(recs, "====")
+        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
+                                              ("parent_url", "!=", False),
+                                              ("parent_id", "=", False)])
+        print(recs)
         for rec in recs:
-            obj = self.env["kathai.in.story"].search([("url", "=", rec.parent_url)])
+            obj = self.env["story.book"].search([("crawl_url", "=", rec.parent_url)])
             print(obj)
             if obj:
                 rec.parent_id = obj.id
-

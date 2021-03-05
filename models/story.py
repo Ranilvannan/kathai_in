@@ -12,7 +12,7 @@ class StoryBook(models.Model):
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)
-    date = fields.Date(string="Date")
+    date = fields.Date(string="Date", default=datetime.now())
 
     # CRAWL INFO
     crawl_domain = fields.Char(string="Domain")
@@ -26,7 +26,7 @@ class StoryBook(models.Model):
     site_title = fields.Text(string="Title")
     site_preview = fields.Text(string="Preview")
     tag_ids = fields.Many2many(comodel_name="story.tags")
-    parent_id = fields.Many2one(comodel_name="story.story")
+    parent_id = fields.Many2one(comodel_name="story.book")
     has_published = fields.Boolean(string="Has Published", default=False)
     is_exported = fields.Boolean(string="Is Exported", default=False)
     date_of_publish = fields.Date(string="Date Of Publish")
@@ -43,7 +43,8 @@ class StoryBook(models.Model):
         result = title.text
         self.site_title = title.text
 
-        new_result = result.replace(" ", "-")
+        new_result = result.lower()
+        new_result = new_result.replace(" ", "-")
         new_result = new_result.replace("'", "")
         new_result = new_result.replace(",", "")
         self.site_url = new_result
@@ -77,7 +78,7 @@ class StoryBook(models.Model):
 
     @api.model
     def create(self, vals):
-        vals["sequence"] = self.env['ir.sequence'].next_by_code("story.story")
+        vals["name"] = self.env['ir.sequence'].next_by_code("story.book")
         return super(StoryBook, self).create(vals)
 
 
