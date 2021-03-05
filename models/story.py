@@ -63,6 +63,9 @@ class StoryBook(models.Model):
             else:
                 raise exceptions.ValidationError("Error! Parent not found")
 
+        if not self.site_url:
+            raise exceptions.ValidationError("Error! Site URL not found")
+
         parent_id_setup = True
         rec = self
         while parent_id_setup:
