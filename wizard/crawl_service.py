@@ -27,9 +27,9 @@ class CrawlService(models.Model):
         recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
                                               ("parent_url", "!=", False),
                                               ("parent_id", "=", False)])
-        print(recs)
+
         for rec in recs:
             obj = self.env["story.book"].search([("crawl_url", "=", rec.parent_url)])
-            print(obj)
+
             if obj:
                 rec.parent_id = obj.id
