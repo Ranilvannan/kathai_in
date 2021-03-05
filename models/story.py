@@ -3,7 +3,6 @@ from datetime import datetime
 from googletrans import Translator
 
 CRAWL_STATUS = [("url_crawl", "URL Crawl"), ("content_crawl", "Content Crawl")]
-STATUS = [("draft", "Draft"), ("publish", "Publish")]
 
 
 class StoryBook(models.Model):
@@ -29,6 +28,7 @@ class StoryBook(models.Model):
     parent_id = fields.Many2one(comodel_name="story.book")
     has_published = fields.Boolean(string="Has Published", default=False)
     is_exported = fields.Boolean(string="Is Exported", default=False)
+    is_translated = fields.Boolean(string="Is Translated", default=False)
     date_of_publish = fields.Date(string="Date Of Publish")
 
     # CONTENT
@@ -36,26 +36,27 @@ class StoryBook(models.Model):
     preview = fields.Text(string="Preview")
     content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
 
-    def trigger_english_title(self):
+    def trigger_translate(self):
         translator = Translator()
         title = translator.translate(self.title)
-
-        result = title.text
-        self.site_title = title.text
-
-        new_result = result.lower()
-        new_result = new_result.replace(" ", "-")
-        new_result = new_result.replace("'", "")
-        new_result = new_result.replace(",", "")
-        self.site_url = new_result
-
         preview = translator.translate(self.preview)
+
+        self.site_title = title.text
         self.site_preview = preview.text
 
-    def trigger_publish(self):
+    def generate_site_url(self):
+        site_url = self.site_title
+        new_site_url = site_url.lower()
+        new_site_url = new_site_url.replace(" ", "-")
+        new_site_url = new_site_url.replace("'", "")
+        new_site_url = new_site_url.replace(",", "")
+        self.site_url = new_site_url
+
+    def check_content_crawl(self):
         if self.crawl_status != "content_crawl":
             raise exceptions.ValidationError("Error! Story must be publish after CONTENT CRAWL")
 
+    def check_parent_url(self):
         if self.parent_url and (not self.parent_id):
             obj = self.env["story.book"].search([("crawl_url", "=", self.parent_url)])
             if obj:
@@ -63,9 +64,11 @@ class StoryBook(models.Model):
             else:
                 raise exceptions.ValidationError("Error! Parent not found")
 
+    def check_site_url(self):
         if not self.site_url:
             raise exceptions.ValidationError("Error! Site URL not found")
 
+    def publish_parent_url_1(self):
         parent_id_setup = True
         rec = self
         while parent_id_setup:
@@ -76,8 +79,20 @@ class StoryBook(models.Model):
             else:
                 parent_id_setup = False
 
-        self.date_of_publish = datetime.now()
-        self.has_published = True
+    def trigger_publish(self):
+        self.check_content_crawl()
+        self.check_parent_url()
+        self.check_parent_url()
+        self.publish_parent_url()
+
+    def publish_parent_url(self):
+        recs = self.env["story.book"].search([("parent_id", "child_of", self.parent_id.id)])
+        for rec in recs:
+            if not self.site_url:
+                raise exceptions.ValidationError("Error! Site URL is not set for parent URL")
+
+            rec.write({"date_of_publish": datetime.now(),
+                       "has_published": True})
 
     @api.model
     def create(self, vals):

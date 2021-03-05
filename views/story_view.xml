@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <form string="Story">
                 <header>
-                    <button class="oe_highlight" name="trigger_english_title" string="Translated Title" type="object"/>
+                    <button class="oe_highlight" name="trigger_translate" string="Translated Title" type="object"/>
                     <button class="oe_highlight" name="trigger_publish" string="Publish" type="object"/>
                 </header>
                 <sheet>
@@ -35,6 +35,7 @@
                         </group>
                         <group>
                             <field name="parent_id"/>
+                            <field name="is_translated"/>
                             <field name="has_published"/>
                             <field name="is_exported"/>
                             <field name="date_of_publish"/>

@@ -48,8 +48,8 @@ class StoryExport(models.TransientModel):
 
                 "title": rec.title,
                 "preview": rec.preview,
-                "content": [{"paragraph": item.paragraph,
-                             "order_seq": item.order_seq} for item in rec.content_ids]
+                "content_ids": [{"content": item.content,
+                                 "order_seq": item.order_seq} for item in rec.content_ids]
             }
 
             book.append(story)
