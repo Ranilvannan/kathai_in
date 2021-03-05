@@ -33,3 +33,10 @@ class CrawlService(models.Model):
 
             if obj:
                 rec.parent_id = obj.id
+
+    def trigger_publish(self):
+        recs = self.env["story.book"].search([("site_url", "!=", False),
+                                              ("crawl_status", "=", "content_crawl")])[:10]
+
+        for rec in recs:
+            rec.trigger_publish()
