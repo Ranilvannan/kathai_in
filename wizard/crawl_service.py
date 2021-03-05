@@ -21,7 +21,7 @@ class CrawlService(models.Model):
 
         for rec in recs:
             obj = self.env["free.sex.kahani"].create({"url": rec.crawl_url})
-            obj.trigger_content_crawl()
+            obj.trigger_content_crawl(rec)
 
     def trigger_set_parent_id(self):
         recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),

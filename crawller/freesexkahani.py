@@ -97,8 +97,7 @@ class FreeSexKahani(models.TransientModel):
             self.get_next_page(soup)
             self.get_article(soup)
 
-    def trigger_content_crawl(self):
-        obj = self.env["story.book"].search([("crawl_url", "=", self.url)])
+    def trigger_content_crawl(self, obj):
         soup = self.get_content()
         content_list = []
         count = 1
