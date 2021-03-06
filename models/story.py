@@ -39,9 +39,6 @@ class StoryBook(models.Model):
     preview = fields.Text(string="Preview")
     content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
 
-    def trigger_deactive(self):
-        self.active = False
-
     def trigger_translate(self):
         translator = Translator()
         title = translator.translate(self.title)
