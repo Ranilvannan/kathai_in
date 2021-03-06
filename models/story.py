@@ -79,10 +79,12 @@ class StoryBook(models.Model):
         if self.parent_id:
             if self.parent_id.has_published:
                 parent_published = True
+        else:
+            parent_published = True
 
         if site_url and content and parent and parent_published:
             result = True
-
+        print(site_url, content, parent, parent_published)
         return result
 
     def trigger_publish(self):

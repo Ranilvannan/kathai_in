@@ -83,6 +83,9 @@ class StoryExport(models.TransientModel):
 
     def trigger_set_parent_id(self):
         recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
+                                              ("is_translated", "=", True),
+                                              ("parent_url", "!=", False),
+                                              ("parent_id", "=", False),
                                               ("has_published", "=", False)])
 
         for rec in recs:
@@ -94,7 +97,7 @@ class StoryExport(models.TransientModel):
 
     def trigger_publish(self):
         recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
-                                              ("has_published", "=", False)])[:50]
+                                              ("has_published", "=", False)])[:100]
 
         for rec in recs:
             rec.trigger_publish()
