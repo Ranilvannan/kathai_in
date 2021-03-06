@@ -57,7 +57,7 @@ class FreeSexKahani(models.TransientModel):
             tag = self.get_tags_data(article)
 
             tag_id = self.check_tag(tag)
-            rec = self.env["story.book"].search([("crawl_url", "=", url)])
+            rec = self.env["story.book"].search([("crawl_url", "=", self.clean_url(url))])
 
             if not rec:
                 self.env["story.book"].create({"title": title,
