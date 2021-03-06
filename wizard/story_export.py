@@ -21,6 +21,8 @@ class StoryExport(models.TransientModel):
 
     name = fields.Char(string="Name")
 
+
+
     def trigger_export(self):
         # Todo: Add status in production deployment
         # recs = self.env["kathai.in.story"].search([("status", "=", "content_crawl"),
@@ -103,3 +105,21 @@ class StoryExport(models.TransientModel):
             tmp.flush()
             self.move_tmp_file(tmp)
 
+    def trigger_set_parent_id(self):
+        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
+                                              ("is_translated", "=", True),
+                                              ("parent_url", "!=", False),
+                                              ("parent_id", "=", False)])
+
+        for rec in recs:
+            obj = self.env["story.book"].search([("crawl_url", "=", rec.parent_url)])
+
+            if obj:
+                rec.parent_id = obj.id
+
+    def trigger_publish(self):
+        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
+                                              ("is_translated", "=", True)])[:10]
+
+        for rec in recs:
+            rec.trigger_publish()

@@ -41,8 +41,9 @@ class StoryBook(models.Model):
         title = translator.translate(self.title)
         preview = translator.translate(self.preview)
 
-        self.site_title = title.text
-        self.site_preview = preview.text
+        self.write({"site_title": title.text,
+                    "site_preview": preview.text,
+                    "is_translated": True})
 
     def generate_site_url(self):
         site_url = self.site_title
@@ -83,16 +84,27 @@ class StoryBook(models.Model):
         self.check_content_crawl()
         self.check_parent_url()
         self.check_parent_url()
-        self.publish_parent_url()
+        parent_status = self.parent_url_status()
+
+        if parent_status:
+            self.publish_parent_url()
+
+    def parent_url_status(self):
+        recs = self.env["story.book"].search([("parent_id", "child_of", self.parent_id.id)])
+
+        result = True
+        for rec in recs:
+            if not rec.crawl_url == "content_crawl":
+                result = False
+
+        return result
 
     def publish_parent_url(self):
         recs = self.env["story.book"].search([("parent_id", "child_of", self.parent_id.id)])
         for rec in recs:
-            if not self.site_url:
-                raise exceptions.ValidationError("Error! Site URL is not set for parent URL")
-
-            rec.write({"date_of_publish": datetime.now(),
-                       "has_published": True})
+            if not rec.has_published:
+                rec.write({"date_of_publish": datetime.now(),
+                           "has_published": True})
 
     @api.model
     def create(self, vals):
