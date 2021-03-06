@@ -59,32 +59,6 @@ class StoryExport(models.TransientModel):
 
         return book
 
-    def construct_xml(self, recs):
-        book = Element('book')
-        for rec in recs:
-
-            if rec.content_ids:
-                story = SubElement(book, 'story')
-
-                sequence = SubElement(story, 'sequence')
-                sequence.text = rec.sequence
-
-                title = SubElement(story, 'title')
-                title.text = rec.title
-
-                preview = SubElement(story, 'preview')
-                preview.text = rec.preview
-
-                for line in rec.content_ids:
-                    content = SubElement(story, 'content', {"order_seq": str(line.order_seq)})
-                    content.text = line.paragraph
-
-        xml_string = tostring(book)
-        xml_page = minidom.parseString(xml_string)
-        data = xml_page.toprettyxml()
-
-        return data
-
     def move_tmp_file(self, tmp):
         ssh_client = SSHClient()
         ssh_client.set_missing_host_key_policy(AutoAddPolicy())
