@@ -21,19 +21,17 @@ class StoryExport(models.TransientModel):
 
     name = fields.Char(string="Name")
 
-
-
     def trigger_export(self):
         # Todo: Add status in production deployment
         # recs = self.env["kathai.in.story"].search([("status", "=", "content_crawl"),
         #                                       ("is_exported", "=", False)])
         # recs = self.env["kathai.in.story"].search([("is_exported", "=", False)])
 
-        recs = self.env["story.book"].search([])
+        recs = self.env["story.book"].search([("has_published", "=", True)])
         print(recs, "---")
 
-        xml_data = self.generate_json(recs)
-        print(xml_data)
+        json_data = self.generate_json(recs)
+        print(json_data)
         # self.generate_tmp_file(xml_data)
 
     def generate_json(self, recs):
@@ -47,6 +45,8 @@ class StoryExport(models.TransientModel):
                 "site_title": rec.site_title,
                 "site_preview": rec.site_preview,
                 "parent_url": rec.parent_id.site_url,
+                "tags": [{"name": item.name,
+                          "url": item.url} for item in rec.tag_ids],
 
                 "title": rec.title,
                 "preview": rec.preview,
@@ -113,14 +113,11 @@ class StoryExport(models.TransientModel):
 
         for rec in recs:
             obj = self.env["story.book"].search([("crawl_url", "=", rec.parent_url)])
-
             if obj:
                 rec.parent_id = obj.id
 
     def trigger_publish(self):
-        self.trigger_set_parent_id()
-        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
-                                              ("is_translated", "=", True)])[:10]
+        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl")])[:10]
 
         for rec in recs:
             rec.trigger_publish()

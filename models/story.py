@@ -57,38 +57,19 @@ class StoryBook(models.Model):
         res = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
         self.site_url = "{0}-{1}".format(new_site_url, res)
 
-    def check_content_crawl(self):
-        if self.crawl_status != "content_crawl":
-            raise exceptions.ValidationError("Error! Story must be publish after CONTENT CRAWL")
-
-    def check_parent_url(self):
-        if self.parent_url and (not self.parent_id):
-            obj = self.env["story.book"].search([("crawl_url", "=", self.parent_url)])
-            if obj:
-                self.parent_id = obj.id
-            else:
-                raise exceptions.ValidationError("Error! Parent not found")
-
-    def check_site_url(self):
-        if not self.site_url:
-            raise exceptions.ValidationError("Error! Site URL not found")
-
     def trigger_publish(self):
-        self.check_content_crawl()
-        self.check_parent_url()
-        self.check_parent_url()
-        parent_status = self.parent_url_status()
+        set_parent_url = self.set_parent_url()
 
-        if parent_status:
+        if set_parent_url:
             self.publish_parent_url()
 
-    def parent_url_status(self):
-        recs = self.env["story.book"].search([("parent_id", "child_of", self.parent_id.id)])
-
+    def set_parent_url(self):
         result = True
-        for rec in recs:
-            if not rec.crawl_url == "content_crawl":
-                result = False
+        if self.parent_id:
+            recs = self.env["story.book"].search([("parent_id", "child_of", self.parent_id.id)])
+            for rec in recs:
+                if not rec.crawl_status == "content_crawl":
+                    result = False
 
         return result
 
