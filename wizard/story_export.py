@@ -32,8 +32,8 @@ class StoryExport(models.TransientModel):
         print(recs, "---")
 
         json_data = self.generate_json(recs)
-        print(json_data)
-        self.generate_tmp_file(json_data)
+        tmp_file = self.generate_tmp_file(json_data)
+        # self.move_tmp_file(tmp_file)
 
     def generate_json(self, recs):
         book = []
@@ -79,6 +79,7 @@ class StoryExport(models.TransientModel):
         tmp.flush()
 
         print(tmp.name)
+        return tmp
 
     def trigger_set_parent_id(self):
         recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
