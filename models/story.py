@@ -1,6 +1,8 @@
 from odoo import models, fields, api, exceptions
 from datetime import datetime
 from googletrans import Translator
+import string
+import random
 
 CRAWL_STATUS = [("url_crawl", "URL Crawl"), ("content_crawl", "Content Crawl")]
 
@@ -51,7 +53,9 @@ class StoryBook(models.Model):
         new_site_url = new_site_url.replace(" ", "-")
         new_site_url = new_site_url.replace("'", "")
         new_site_url = new_site_url.replace(",", "")
-        self.site_url = new_site_url
+
+        res = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
+        self.site_url = "{0}-{1}".format(new_site_url, res)
 
     def check_content_crawl(self):
         if self.crawl_status != "content_crawl":
