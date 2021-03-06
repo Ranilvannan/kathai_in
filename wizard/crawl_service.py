@@ -11,7 +11,7 @@ class CrawlService(models.Model):
         obj = self.env["free.sex.kahani"].create({
             "domain": "https://www.freesexkahani.com",
             "url": "https://www.freesexkahani.com",
-            "page": 2})
+            "page": 30})
 
         obj.trigger_url_crawl()
 
