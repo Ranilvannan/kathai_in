@@ -34,6 +34,7 @@ class StoryExport(models.TransientModel):
         json_data = self.generate_json(recs)
         tmp_file = self.generate_tmp_file(json_data)
         # self.move_tmp_file(tmp_file)
+        tmp_file.close()
 
     def generate_json(self, recs):
         book = []
