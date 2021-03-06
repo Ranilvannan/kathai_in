@@ -32,11 +32,15 @@ class StoryBook(models.Model):
     is_exported = fields.Boolean(string="Is Exported", default=False)
     is_translated = fields.Boolean(string="Is Translated", default=False)
     date_of_publish = fields.Date(string="Date Of Publish")
+    active = fields.Boolean(string="Active", default=True)
 
     # CONTENT
     title = fields.Text(string="Title")
     preview = fields.Text(string="Preview")
     content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
+
+    def trigger_deactive(self):
+        self.active = False
 
     def trigger_translate(self):
         translator = Translator()
@@ -57,28 +61,33 @@ class StoryBook(models.Model):
         res = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
         self.site_url = "{0}-{1}".format(new_site_url, res)
 
-    def trigger_publish(self):
-        set_parent_url = self.set_parent_url()
+    def check_publish(self):
+        result = False
+        site_url = True
+        parent_url = True
+        parent_published = True
 
-        if set_parent_url:
-            self.publish_parent_url()
+        if not self.site_url:
+            site_url = False
 
-    def set_parent_url(self):
-        result = True
+        if self.parent_url and (not self.parent_id):
+            parent_url = False
+
         if self.parent_id:
-            recs = self.env["story.book"].search([("parent_id", "child_of", self.parent_id.id)])
-            for rec in recs:
-                if not rec.crawl_status == "content_crawl":
-                    result = False
+            if not self.parent_id.has_published:
+                parent_published = False
+
+        if site_url and parent_url and parent_published:
+            result = True
 
         return result
 
-    def publish_parent_url(self):
-        recs = self.env["story.book"].search([("parent_id", "child_of", self.parent_id.id)])
-        for rec in recs:
-            if not rec.has_published:
-                rec.write({"date_of_publish": datetime.now(),
-                           "has_published": True})
+    def trigger_publish(self):
+        publish = self.check_publish()
+
+        if publish:
+            self.write({"date_of_publish": datetime.now(),
+                        "has_published": True})
 
     @api.model
     def create(self, vals):

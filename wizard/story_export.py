@@ -114,7 +114,7 @@ class StoryExport(models.TransientModel):
         for rec in recs:
             obj = self.env["story.book"].search([("crawl_url", "=", rec.parent_url)])
             if obj:
-                rec.parent_id = obj.id
+                rec.parent_id = obj[0].id
 
     def trigger_publish(self):
         recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl")])[:10]
