@@ -6,6 +6,7 @@ import tempfile
 from datetime import datetime
 from paramiko import SSHClient, AutoAddPolicy
 import os
+import json
 
 HOST = config["kathai_in_export_host"]
 USERNAME = config["kathai_in_export_username"]
@@ -32,7 +33,7 @@ class StoryExport(models.TransientModel):
 
         json_data = self.generate_json(recs)
         print(json_data)
-        # self.generate_tmp_file(xml_data)
+        self.generate_tmp_file(json_data)
 
     def generate_json(self, recs):
         book = []
@@ -99,11 +100,11 @@ class StoryExport(models.TransientModel):
 
     def generate_tmp_file(self, file_data):
         prefix = datetime.now().strftime('%s')
-        with tempfile.NamedTemporaryFile(prefix=prefix, suffix=".xml") as tmp:
-            data = str.encode(file_data)
-            tmp.write(data)
-            tmp.flush()
-            self.move_tmp_file(tmp)
+        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=".json", delete=False, mode="w+")
+        json.dump(file_data, tmp)
+        tmp.flush()
+
+        print(tmp.name)
 
     def trigger_set_parent_id(self):
         recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
