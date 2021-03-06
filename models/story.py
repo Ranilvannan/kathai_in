@@ -63,21 +63,27 @@ class StoryBook(models.Model):
 
     def check_publish(self):
         result = False
-        site_url = True
-        parent_url = True
-        parent_published = True
+        site_url = False
+        content = False
+        parent = False
+        parent_published = False
 
-        if not self.site_url:
-            site_url = False
+        if self.site_url:
+            site_url = True
 
-        if self.parent_url and (not self.parent_id):
-            parent_url = False
+        if self.content_ids:
+            content = True
+
+        if self.parent_url and self.parent_id:
+            parent = True
+        elif (not self.parent_url) and (not self.parent_id):
+            parent = True
 
         if self.parent_id:
-            if not self.parent_id.has_published:
-                parent_published = False
+            if self.parent_id.has_published:
+                parent_published = True
 
-        if site_url and parent_url and parent_published:
+        if site_url and content and parent and parent_published:
             result = True
 
         return result
