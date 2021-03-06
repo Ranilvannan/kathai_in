@@ -5,6 +5,7 @@ from xml.dom import minidom
 import tempfile
 from datetime import datetime
 from paramiko import SSHClient, AutoAddPolicy
+import random
 import os
 
 HOST = config["kathai_in_export_host"]
@@ -117,7 +118,11 @@ class StoryExport(models.TransientModel):
                 rec.parent_id = obj[0].id
 
     def trigger_publish(self):
-        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl")])[:10]
+        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
+                                              ("has_published", "=", False)])
 
-        for rec in recs:
+        records = random.sample(recs, 10)
+
+        print(records, "====")
+        for rec in records:
             rec.trigger_publish()
