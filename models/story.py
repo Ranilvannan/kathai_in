@@ -69,17 +69,6 @@ class StoryBook(models.Model):
         if not self.site_url:
             raise exceptions.ValidationError("Error! Site URL not found")
 
-    def publish_parent_url_1(self):
-        parent_id_setup = True
-        rec = self
-        while parent_id_setup:
-            if rec.parent_id and rec.parent_url:
-                if not rec.parent_id.has_published:
-                    rec.parent_id.has_published = True
-                rec = rec.parent_id
-            else:
-                parent_id_setup = False
-
     def trigger_publish(self):
         self.check_content_crawl()
         self.check_parent_url()
