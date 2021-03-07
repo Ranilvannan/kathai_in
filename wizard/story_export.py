@@ -41,6 +41,7 @@ class StoryExport(models.TransientModel):
 
         for rec in recs:
             story = {
+                "story_id": rec.id,
                 "name": rec.name,
 
                 "site_url": rec.site_url,
