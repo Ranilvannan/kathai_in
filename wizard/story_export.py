@@ -8,12 +8,10 @@ from paramiko import SSHClient, AutoAddPolicy
 import os
 import json
 
-HOST = config["kathai_in_export_host"]
-USERNAME = config["kathai_in_export_username"]
-PASSWORD = config["kathai_in_export_password"]
-REMOTE_FILE = config["kathai_in_export_path"]
-
-CRAWL_URL_1 = config["kathai_in_crawl_1"]
+HOST = config["story_book_export_host"]
+USERNAME = config["story_book_export_username"]
+PASSWORD = config["story_book_export_password"]
+REMOTE_FILE = config["story_book_export_path"]
 
 
 class StoryExport(models.TransientModel):
