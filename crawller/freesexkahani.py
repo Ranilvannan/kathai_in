@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from .common import translate_text, clean_url, generate_url_path
 from bs4 import BeautifulSoup
 import requests
 

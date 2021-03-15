@@ -1,10 +1,8 @@
 from odoo import models, fields, api, exceptions
 from datetime import datetime
-from googletrans import Translator
+
 import string
 import random
-
-CRAWL_STATUS = [("url_crawl", "URL Crawl"), ("content_crawl", "Content Crawl")]
 
 
 class StoryBook(models.Model):
@@ -19,7 +17,6 @@ class StoryBook(models.Model):
     crawl_domain = fields.Char(string="Domain")
     crawl_url = fields.Text(string="URL")
     parent_url = fields.Text(string="Parent URL")
-    crawl_status = fields.Selection(selection=CRAWL_STATUS, string="Crawl Status")
     language = fields.Many2one(comodel_name="story.language")
 
     # SITE INFO
@@ -28,9 +25,6 @@ class StoryBook(models.Model):
     site_preview = fields.Text(string="Preview")
     tag_ids = fields.Many2many(comodel_name="story.tags")
     parent_id = fields.Many2one(comodel_name="story.book")
-    has_published = fields.Boolean(string="Has Published", default=False)
-    is_exported = fields.Boolean(string="Is Exported", default=False)
-    is_translated = fields.Boolean(string="Is Translated", default=False)
     date_of_publish = fields.Date(string="Date Of Publish")
     active = fields.Boolean(string="Active", default=True)
 
@@ -39,14 +33,12 @@ class StoryBook(models.Model):
     preview = fields.Text(string="Preview")
     content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
 
-    def trigger_translate(self):
-        translator = Translator()
-        title = translator.translate(self.title)
-        preview = translator.translate(self.preview)
-
-        self.write({"site_title": title.text,
-                    "site_preview": preview.text,
-                    "is_translated": True})
+    # Service
+    is_url_crawled = fields.Boolean(string="URL Crawl", default=False)
+    is_content_crawled = fields.Boolean(string="Content Crawl", default=False)
+    is_parent_mapped = fields.Boolean(string="Parent Mapped", default=False)
+    is_exported = fields.Boolean(string="Exported", default=False)
+    is_published = fields.Boolean(string="Published", default=False)
 
     def generate_site_url(self):
         site_url = self.site_title
