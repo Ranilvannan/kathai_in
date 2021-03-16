@@ -54,3 +54,13 @@ class OtherService(models.Model):
                 result = False
 
         return result
+
+    def trigger_reset(self):
+        recs = self.env["story.book"].search([])
+
+        for rec in recs:
+            rec.write({"is_valid": False,
+                       "last_validate_on": False,
+                       "is_exported": False,
+                       "date_of_publish": False,
+                       "has_published": False})
