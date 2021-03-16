@@ -16,7 +16,7 @@ class PublishService(models.Model):
             if len(story_list) < 10:
                 un_published_list = self.env["story.book"].search([("language", "=", rec.id),
                                                                    ("has_published", "=", False),
-                                                                   ("valid", "=", True)])[:10]
+                                                                   ("is_valid", "=", True)])[:10]
 
                 for article in un_published_list:
                     article.write({"has_published": True,
