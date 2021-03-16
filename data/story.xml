@@ -11,5 +11,10 @@
             <field eval="False" name="company_id"/>
         </record>
 
+        <record id="story_language_hindi" model="story.language">
+            <field name="name">Hindi</field>
+            <field name="code">HINDI</field>
+        </record>
+
     </data>
 </odoo>
