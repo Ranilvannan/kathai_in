@@ -33,23 +33,24 @@ class OtherService(models.Model):
 
     def check_valid_story(self, obj):
         result = False
-        status = False
 
         if obj.site_url \
                 and obj.site_title \
                 and obj.site_preview \
-                and obj.tag_ids \
                 and obj.crawl_domain \
                 and obj.crawl_url \
                 and obj.language \
                 and obj.title \
                 and obj.preview \
                 and obj.content_ids:
-            status = True
+            result = True
 
-        if obj.parent_url and obj.parent_id and status:
-            result = True
-        elif (not obj.parent_url) and (not obj.parent_id) and status:
-            result = True
+        if obj.parent_url:
+            if not obj.parent_id:
+                result = False
+
+        for tag in obj.tag_ids:
+            if (not tag.name) or (not tag.code):
+                result = False
 
         return result
