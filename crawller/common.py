@@ -1,5 +1,7 @@
+from bs4 import BeautifulSoup
 from googletrans import Translator
 from urllib.parse import urldefrag
+import requests
 import random
 import string
 
@@ -41,3 +43,9 @@ def generate_url(text):
     res = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
     site_path = "{0}-{1}".format(new_text, res)
     return site_path
+
+
+def get_url_content(url):
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text, 'html.parser')
+    return soup
