@@ -50,7 +50,7 @@ class OtherService(models.Model):
                 result = False
 
         for tag in obj.tag_ids:
-            if (not tag.name) or (not tag.code):
+            if (not tag.name) or (not tag.url):
                 result = False
 
         return result

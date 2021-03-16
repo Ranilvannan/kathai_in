@@ -21,18 +21,15 @@ class StoryExport(models.TransientModel):
     name = fields.Char(string="Name")
 
     def trigger_export(self):
-        # Todo: Add status in production deployment
-        # recs = self.env["kathai.in.story"].search([("status", "=", "content_crawl"),
-        #                                       ("is_exported", "=", False)])
-        # recs = self.env["kathai.in.story"].search([("is_exported", "=", False)])
-
-        recs = self.env["story.book"].search([("has_published", "=", True)])
+        recs = self.env["story.book"].search([("has_published", "=", True),
+                                              ("is_exported", "=", False),
+                                              ("date_of_publish", "=", datetime.now())])[:100]
         print(recs, "---")
-
-        json_data = self.generate_json(recs)
-        tmp_file = self.generate_tmp_file(json_data)
-        # self.move_tmp_file(tmp_file)
-        tmp_file.close()
+        if recs:
+            json_data = self.generate_json(recs)
+            tmp_file = self.generate_tmp_file(json_data)
+            # self.move_tmp_file(tmp_file)
+            tmp_file.close()
 
     def generate_json(self, recs):
         book = []
