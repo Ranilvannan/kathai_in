@@ -34,6 +34,7 @@ class StoryBook(models.Model):
     content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
 
     # Status
+    is_valid = fields.Boolean(string="Valid", default=False)
     is_exported = fields.Boolean(string="Exported", default=False)
     has_published = fields.Boolean(string="Published", default=False)
 
