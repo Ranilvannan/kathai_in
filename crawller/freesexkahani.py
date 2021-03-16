@@ -6,9 +6,9 @@ class FreeSexKahani(models.TransientModel):
     _name = "free.sex.kahani"
     _description = "Free Sex Kahani"
 
-    domain = 'https://www.freesexkahani.com'
-    url = 'https://www.freesexkahani.com'
-    page = 2
+    domain = fields.Char(string="Domain")
+    url = fields.Text(string="URL")
+    page = fields.Integer(string="Page Numbers")
 
     def article_title(self, article):
         result = None
@@ -102,7 +102,7 @@ class FreeSexKahani(models.TransientModel):
             next_page = next_page_list[0]
             self.url = next_page["href"]
 
-    def trigger_url_crawl(self):
+    def trigger_crawl(self):
         for i in range(self.page):
             article_html = get_url_content(self.url)
             self.get_next_page(article_html)
