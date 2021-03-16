@@ -6,13 +6,20 @@ class OtherService(models.Model):
     _name = "other.service"
     _description = "Other Service"
 
+    def trigger_refresh_validation(self):
+        recs = self.env["story.book"].search([("is_valid", "=", False),
+                                              ("last_validate_on", "!=", datetime.now())])[:100]
+
+        for rec in recs:
+            rec.write({"last_validate_on": False})
+
     def trigger_validate_story(self):
         recs = self.env["story.book"].search([("is_valid", "=", False),
-                                              ("last_validate_on", "=", False)])[10]
+                                              ("last_validate_on", "=", False)])[:10]
 
         for rec in recs:
             self.mapping_parent(rec)
-            valid = self.valid_story(rec)
+            valid = self.check_valid_story(rec)
             rec.write({"is_valid": True if valid else False,
                        "last_validate_on": datetime.now()})
 
@@ -24,7 +31,7 @@ class OtherService(models.Model):
                 if story_obj:
                     obj.parent_id = story_obj.id
 
-    def valid_story(self, obj):
+    def check_valid_story(self, obj):
         result = False
         status = False
 
