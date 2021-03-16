@@ -127,12 +127,14 @@ class FreeSexKahani(models.TransientModel):
 
     def article_parent(self, soup, current_url):
         url = None
-        current_page_previous_url = self.content_previous_url(soup)
-        previous_page_html = get_url_content(current_page_previous_url)
-        previous_page_next_url = self.content_next_url(previous_page_html)
+        prev_url = self.content_previous_url(soup)
 
-        if previous_page_next_url == current_url:
-            url = current_page_previous_url
+        if prev_url:
+            previous_page_html = get_url_content(prev_url)
+            next_url = self.content_next_url(previous_page_html)
+
+            if next_url and (next_url == current_url):
+                url = prev_url
 
         return url
 
@@ -144,6 +146,7 @@ class FreeSexKahani(models.TransientModel):
             parent_url_tag = content.find("a")
             if parent_url_tag:
                 parent_url = parent_url_tag["href"]
+                parent_url = clean_url(parent_url)
 
         return parent_url
 
@@ -154,7 +157,8 @@ class FreeSexKahani(models.TransientModel):
         if content:
             links = content.find_all("a")
             if links:
-                next_url = links[-1]
+                next_url = links[-1]["href"]
+                next_url = clean_url(next_url)
 
         return next_url
 

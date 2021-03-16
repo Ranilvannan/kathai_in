@@ -11,6 +11,7 @@ def translate_text(text):
     try:
         translator = Translator()
         result = translator.translate(text)
+        result = result.text
     except:
         pass
 
