@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from .common import translate_text, clean_url, generate_url_path
+from .common import translate_text, clean_url, generate_url, get_url_content
 from bs4 import BeautifulSoup
 import requests
 
@@ -8,66 +8,76 @@ class FreeSexKahani(models.TransientModel):
     _name = "free.sex.kahani"
     _description = "Free Sex Kahani"
 
-    domain = fields.Char(string="Domain")
-    url = fields.Text(string="URL")
-    page = fields.Integer(string="Page Numbers")
+    domain = 'https://www.freesexkahani.com'
+    url = 'https://www.freesexkahani.com'
+    page = 2
 
-    def get_content(self):
-        page = requests.get(self.url)
-        soup = BeautifulSoup(page.text, 'html.parser')
-        return soup
-
-    def get_article_data(self, article):
-        title = None
-        preview = None
-        url = None
-
+    def article_title(self, article):
+        result = None
         title_tag = article.find("h2")
-        preview_tag = article.find("div", class_="entry-content")
 
         if title_tag:
-            title = title_tag.text
+            result = title_tag.text
+
+        return result
+
+    def article_preview(self, article):
+        result = None
+        preview_tag = article.find("div", class_="entry-content")
 
         if preview_tag:
             paragraph_tag = preview_tag.find("p")
             if paragraph_tag:
-                preview = paragraph_tag.text
+                result = paragraph_tag.text
 
+        return result
+
+    def article_url(self, article):
+        result = None
+
+        preview_tag = article.find("div", class_="entry-content")
+        if preview_tag:
             url_tag = preview_tag.find("a")
 
             if url_tag:
-                url = url_tag["href"]
+                result = clean_url(url_tag["href"])
 
-        return title, preview, url
+        return result
 
-    def get_tags_data(self, article):
-        tag = "Others"
+    def article_tags(self, article):
+        result = "Others"
         tags = article.find("span", class_="cat-links")
         if tags:
             tags_link = tags.find("a")
             if tags_link:
-                tag = tags_link.text
+                result = tags_link.text
 
-        return tag
+        return result
 
-    def get_article(self, soup):
+    def create_article(self, soup):
         article_list = soup.find_all("div", class_="inside-article")
 
         for article in article_list:
-            title, preview, url = self.get_article_data(article)
-            tag = self.get_tags_data(article)
-
-            tag_id = self.check_tag(tag)
-            rec = self.env["story.book"].search([("crawl_url", "=", self.clean_url(url))])
+            url = self.article_url(article)
+            rec = self.env["story.book"].search([("crawl_url", "=", url)])
 
             if not rec:
-                self.env["story.book"].create({"title": title,
-                                               "preview": preview,
-                                               "crawl_domain": self.domain,
-                                               "crawl_url": self.clean_url(url),
-                                               "tag_ids": [(6, 0, [tag_id])],
-                                               "language": self.get_language(),
-                                               "crawl_status": "url_crawl"})
+                title = self.article_title(article)
+                preview = self.article_preview(article)
+                tag = self.article_tags(article)
+                tag_id = self.check_tag(tag)
+
+                data = {"title": title,
+                        "preview": preview,
+                        "site_title": translate_text(title),
+                        "site_preview": translate_text(preview),
+                        "crawl_domain": self.domain,
+                        "crawl_url": url,
+                        "tag_ids": [(6, 0, [tag_id])],
+                        "language": self.get_language(),
+                        "content_ids": self.content_crawl(url)}
+
+                self.env["story.book"].create(data)
 
     def get_language(self):
         language_id = None
@@ -94,44 +104,27 @@ class FreeSexKahani(models.TransientModel):
 
     def trigger_url_crawl(self):
         for i in range(self.page):
-            soup = self.get_content()
+            soup = get_url_content(self.url)
             self.get_next_page(soup)
-            self.get_article(soup)
+            self.create_article(soup)
 
-    def trigger_content_crawl(self, obj):
-        soup = self.get_content()
+    def content_crawl(self, url):
+        soup = get_url_content(url)
         content_list = []
         count = 1
-        parent_url = None
         content = soup.find("div", class_="entry-content")
 
         if content:
             recs = content.find_all("p")
 
-            parent_url_tag = content.find("a")
-            if parent_url_tag:
-                parent_url = parent_url_tag["href"]
-
             for rec in recs:
+                if recs[-1] == rec:
+                    if rec.find("a"):
+                        break
                 content_list.append((0, 0, {"order_seq": count, "content": rec.text}))
                 count = count + 1
 
-            obj.write({"crawl_status": "content_crawl",
-                       "parent_url": self.clean_url(parent_url),
-                       "content_ids": content_list})
-
-    def clean_url(self, url):
-        new_url = None
-        if url:
-            new_url = url.strip()
-
-            if new_url.find("#") != -1:
-                new_url, hashed = new_url.split("#")
-
-            if new_url[-1] == "/":
-                new_url = new_url[:-1]
-
-        return new_url
+        return content_list
 
 
 
