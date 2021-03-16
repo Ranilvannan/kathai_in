@@ -4,5 +4,4 @@ story_tags_admin,story.tags.admin,model_story_tags,story_book_admin,1,1,1,1
 story_language_admin,story.language.admin,model_story_language,story_book_admin,1,1,1,1
 story_content_admin,story.content.admin,model_story_content,story_book_admin,1,1,1,1
 story_export_admin,story.export.admin,model_story_export,story_book_admin,1,1,1,1
-crawl_service_admin,crawl.service.admin,model_crawl_service,story_book_admin,1,1,1,1
 free_sex_kahani_admin,free.sex.kahani.admin,model_free_sex_kahani,story_book_admin,1,1,1,1

@@ -33,58 +33,9 @@ class StoryBook(models.Model):
     preview = fields.Text(string="Preview")
     content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
 
-    # Service
-    is_url_crawled = fields.Boolean(string="URL Crawl", default=False)
-    is_content_crawled = fields.Boolean(string="Content Crawl", default=False)
-    is_parent_mapped = fields.Boolean(string="Parent Mapped", default=False)
+    # Status
     is_exported = fields.Boolean(string="Exported", default=False)
-    is_published = fields.Boolean(string="Published", default=False)
-
-    def generate_site_url(self):
-        site_url = self.site_title
-        new_site_url = site_url.lower()
-        new_site_url = new_site_url.replace(" ", "-")
-        new_site_url = new_site_url.replace("'", "")
-        new_site_url = new_site_url.replace(",", "")
-
-        res = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
-        self.site_url = "{0}-{1}".format(new_site_url, res)
-
-    def check_publish(self):
-        result = False
-        site_url = False
-        content = False
-        parent = False
-        parent_published = False
-
-        if self.site_url:
-            site_url = True
-
-        if self.content_ids:
-            content = True
-
-        if self.parent_url and self.parent_id:
-            parent = True
-        elif (not self.parent_url) and (not self.parent_id):
-            parent = True
-
-        if self.parent_id:
-            if self.parent_id.has_published:
-                parent_published = True
-        else:
-            parent_published = True
-
-        if site_url and content and parent and parent_published:
-            result = True
-        print(site_url, content, parent, parent_published)
-        return result
-
-    def trigger_publish(self):
-        publish = self.check_publish()
-
-        if publish:
-            self.write({"date_of_publish": datetime.now(),
-                        "has_published": True})
+    has_published = fields.Boolean(string="Published", default=False)
 
     @api.model
     def create(self, vals):

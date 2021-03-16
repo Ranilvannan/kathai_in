@@ -6,9 +6,6 @@
         <field name="model">story.book</field>
         <field name="arch" type="xml">
             <form string="Story">
-                <header>
-                    <button class="oe_highlight" name="trigger_translate" string="Translated Title" type="object"/>
-                </header>
                 <sheet>
                     <h1><field name="name"/></h1>
                     <group>
@@ -25,20 +22,12 @@
                             <field name="language"/>
                         </group>
                     </group>
-                    <group string="Site Info">
-                        <group>
-                            <field name="site_url"/>
-                            <field name="site_title"/>
-                            <field name="site_preview"/>
-                            <field name="tag_ids" widget="many2many_tags"/>
-                        </group>
-                        <group>
-                            <field name="parent_id"/>
-                            <field name="is_translated"/>
-                            <field name="has_published"/>
-                            <field name="is_exported"/>
-                            <field name="date_of_publish"/>
-                        </group>
+                    <group string="Site Info" col="4">
+                        <field name="site_url"/>
+                        <field name="site_title"/>
+                        <field name="site_preview"/>
+                        <field name="tag_ids" widget="many2many_tags"/>
+                        <field name="parent_id"/>
                     </group>
                     <group string="Content">
                         <field name="title"/>
