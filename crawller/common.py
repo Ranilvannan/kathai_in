@@ -1,17 +1,16 @@
 from googletrans import Translator
-from urllib.parse import urlparse, urldefrag, quote
+from urllib.parse import urldefrag
 import random
 import string
 
 
 def translate_text(text):
     result = ''
-    if string:
-        try:
-            translator = Translator()
-            result = translator.translate(text)
-        except:
-            pass
+    try:
+        translator = Translator()
+        result = translator.translate(text)
+    except:
+        pass
 
     return result
 
@@ -33,12 +32,12 @@ def clean_url(url):
     return new_url
 
 
-def generate_url_path(path):
-    new_path = path.lower()
-    new_path = new_path.replace(" ", "-")
-    new_path = new_path.replace("'", "")
-    new_path = new_path.replace(",", "")
+def generate_url(text):
+    new_text = text.lower()
+    new_text = new_text.replace(" ", "-")
+    new_text = new_text.replace("'", "")
+    new_text = new_text.replace(",", "")
 
     res = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
-    site_path = "{0}-{1}".format(new_path, res)
+    site_path = "{0}-{1}".format(new_text, res)
     return site_path
