@@ -1,7 +1,5 @@
 from odoo import models, fields, api
 from .common import translate_text, clean_url, generate_url, get_url_content
-from bs4 import BeautifulSoup
-import requests
 
 
 class FreeSexKahani(models.TransientModel):
@@ -66,25 +64,27 @@ class FreeSexKahani(models.TransientModel):
                 preview = self.article_preview(article)
                 tag = self.article_tags(article)
                 tag_id = self.check_tag(tag)
+                language = self.env["story.language"].search([("code", "=", "HINDI")])
+                site_title = translate_text(title)
+                site_preview = translate_text(preview)
+                site_url = generate_url(site_title)
+
+                content_html = get_url_content(url)
+                parent_url = self.article_parent(content_html, url)
 
                 data = {"title": title,
                         "preview": preview,
-                        "site_title": translate_text(title),
-                        "site_preview": translate_text(preview),
+                        "site_url": site_url,
+                        "site_title": site_title,
+                        "site_preview": site_preview,
                         "crawl_domain": self.domain,
                         "crawl_url": url,
+                        "parent_url": parent_url,
                         "tag_ids": [(6, 0, [tag_id])],
-                        "language": self.get_language(),
-                        "content_ids": self.content_crawl(url)}
+                        "language": language.id,
+                        "content_ids": self.content_crawl(content_html)}
 
                 self.env["story.book"].create(data)
-
-    def get_language(self):
-        language_id = None
-        obj = self.env["story.language"].search([("code", "=", "HINDI")])
-        if obj:
-            language_id = obj.id
-        return language_id
 
     def check_tag(self, tag):
         tag_obj = self.env["story.tags"].search([("name", "=", tag)])
@@ -104,12 +104,11 @@ class FreeSexKahani(models.TransientModel):
 
     def trigger_url_crawl(self):
         for i in range(self.page):
-            soup = get_url_content(self.url)
-            self.get_next_page(soup)
-            self.create_article(soup)
+            article_html = get_url_content(self.url)
+            self.get_next_page(article_html)
+            self.create_article(article_html)
 
-    def content_crawl(self, url):
-        soup = get_url_content(url)
+    def content_crawl(self, soup):
         content_list = []
         count = 1
         content = soup.find("div", class_="entry-content")
@@ -126,6 +125,38 @@ class FreeSexKahani(models.TransientModel):
 
         return content_list
 
+    def article_parent(self, soup, current_url):
+        url = None
+        current_page_previous_url = self.content_previous_url(soup)
+        previous_page_html = get_url_content(current_page_previous_url)
+        previous_page_next_url = self.content_next_url(previous_page_html)
+
+        if previous_page_next_url == current_url:
+            url = current_page_previous_url
+
+        return url
+
+    def content_previous_url(self, soup):
+        parent_url = None
+        content = soup.find("div", class_="entry-content")
+
+        if content:
+            parent_url_tag = content.find("a")
+            if parent_url_tag:
+                parent_url = parent_url_tag["href"]
+
+        return parent_url
+
+    def content_next_url(self, soup):
+        next_url = None
+        content = soup.find("div", class_="entry-content")
+
+        if content:
+            links = content.find_all("a")
+            if links:
+                next_url = links[-1]
+
+        return next_url
 
 
 
