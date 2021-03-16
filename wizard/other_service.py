@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from datetime import datetime
 
 
 class OtherService(models.Model):
@@ -6,13 +7,14 @@ class OtherService(models.Model):
     _description = "Other Service"
 
     def trigger_validate_story(self):
-        recs = self.env["story.book"].search([("is_valid", "=", False)])
+        recs = self.env["story.book"].search([("is_valid", "=", False),
+                                              ("last_validate_on", "=", False)])[10]
 
         for rec in recs:
             self.mapping_parent(rec)
             valid = self.valid_story(rec)
-            if valid:
-                rec.is_valid = True
+            rec.write({"is_valid": True if valid else False,
+                       "last_validate_on": datetime.now()})
 
     def mapping_parent(self, obj):
         if obj.parent_url:

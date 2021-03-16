@@ -35,6 +35,7 @@ class StoryBook(models.Model):
 
     # Status
     is_valid = fields.Boolean(string="Valid", default=False)
+    last_validate_on = fields.Date(string="Last Validate On")
     is_exported = fields.Boolean(string="Exported", default=False)
     has_published = fields.Boolean(string="Published", default=False)
 
