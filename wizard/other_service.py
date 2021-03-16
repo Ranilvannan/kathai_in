@@ -49,6 +49,10 @@ class OtherService(models.Model):
             if not obj.parent_id:
                 result = False
 
+        if obj.parent_id:
+            if not obj.parent_id.is_exported:
+                result = False
+
         for tag in obj.tag_ids:
             if (not tag.name) or (not tag.url):
                 result = False
