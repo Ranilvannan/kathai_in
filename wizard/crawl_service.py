@@ -15,3 +15,11 @@ class CrawlService(models.Model):
 
         obj.trigger_crawl()
 
+    def trigger_desitales2_url_crawl(self):
+        obj = self.env["desi.tales2"].create({
+            "domain": "https://www.desitales2.com",
+            "url": "https://www.desitales2.com",
+            "page": 2})
+
+        obj.trigger_crawl()
+
