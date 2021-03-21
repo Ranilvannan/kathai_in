@@ -1,9 +1,6 @@
 from odoo import models, fields, api, exceptions
 from datetime import datetime
 
-import string
-import random
-
 
 class StoryBook(models.Model):
     _name = "story.book"
