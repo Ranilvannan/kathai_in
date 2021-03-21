@@ -1,7 +1,5 @@
 from odoo import models, fields
 from odoo.tools import config
-from xml.etree.ElementTree import Element, SubElement, tostring
-from xml.dom import minidom
 import tempfile
 from datetime import datetime
 from paramiko import SSHClient, AutoAddPolicy
