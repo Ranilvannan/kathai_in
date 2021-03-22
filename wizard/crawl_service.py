@@ -7,7 +7,7 @@ class CrawlService(models.Model):
 
     name = fields.Char(string="Name")
 
-    def trigger_freesexkahani_url_crawl(self):
+    def trigger_freesexkahani_crawl(self):
         obj = self.env["free.sex.kahani"].create({
             "domain": "https://www.freesexkahani.com",
             "url": "https://www.freesexkahani.com",
@@ -15,7 +15,7 @@ class CrawlService(models.Model):
 
         obj.trigger_crawl()
 
-    def trigger_desitales2_url_crawl(self):
+    def trigger_desitales2_crawl(self):
         obj = self.env["desi.tales2"].create({
             "domain": "https://www.desitales2.com",
             "url": "https://www.desitales2.com",
