@@ -16,5 +16,10 @@
             <field name="code">HINDI</field>
         </record>
 
+        <record id="story_language_english" model="story.language">
+            <field name="name">English</field>
+            <field name="code">ENGLISH</field>
+        </record>
+
     </data>
 </odoo>

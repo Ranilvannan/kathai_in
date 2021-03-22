@@ -21,10 +21,10 @@ class StoryExport(models.TransientModel):
     def trigger_export(self):
         recs = self.env["story.language"].search([])
         for rec in recs:
-            # export_list = self.env["story.book"].search([("has_published", "=", True),
-            #                                              ("is_exported", "=", False),
-            #                                              ("date_of_publish", "=", datetime.now())])[:100]
-            export_list = self.env["story.book"].search([("has_published", "=", True)])
+            export_list = self.env["story.book"].search([("has_published", "=", True),
+                                                         ("is_exported", "=", False),
+                                                         ("date_of_publish", "=", datetime.now())])[:100]
+            # export_list = self.env["story.book"].search([("has_published", "=", True)])
 
             if export_list:
                 self.story_export(export_list, rec.name)
@@ -82,7 +82,6 @@ class StoryExport(models.TransientModel):
 
         return category
 
-
     def move_tmp_file(self, tmp):
         ssh_client = SSHClient()
         ssh_client.set_missing_host_key_policy(AutoAddPolicy())
@@ -104,24 +103,3 @@ class StoryExport(models.TransientModel):
         tmp.flush()
 
         return tmp
-
-    def trigger_set_parent_id(self):
-        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
-                                              ("is_translated", "=", True),
-                                              ("parent_url", "!=", False),
-                                              ("parent_id", "=", False),
-                                              ("has_published", "=", False)])
-
-        for rec in recs:
-            obj = self.env["story.book"].search([("crawl_url", "=", rec.parent_url)])
-            if len(obj) == 1:
-                rec.parent_id = obj.id
-            else:
-                rec.active = False
-
-    def trigger_publish(self):
-        recs = self.env["story.book"].search([("crawl_status", "=", "content_crawl"),
-                                              ("has_published", "=", False)])[:100]
-
-        for rec in recs:
-            rec.trigger_publish()
