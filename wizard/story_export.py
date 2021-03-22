@@ -23,6 +23,7 @@ class StoryExport(models.TransientModel):
         for rec in recs:
             export_list = self.env["story.book"].search([("has_published", "=", True),
                                                          ("is_exported", "=", False),
+                                                         ("language", "=", rec.id),
                                                          ("date_of_publish", "=", datetime.now())])[:100]
             # export_list = self.env["story.book"].search([("has_published", "=", True)])
 
@@ -50,7 +51,7 @@ class StoryExport(models.TransientModel):
         for rec in recs:
             story = {
                 "story_id": rec.id,
-                "published_on": rec.date_of_publish,
+                "published_on": self.date_formatting(rec.date_of_publish),
                 "name": rec.name,
 
                 "site_url": rec.site_url,
@@ -103,3 +104,10 @@ class StoryExport(models.TransientModel):
         tmp.flush()
 
         return tmp
+
+    def date_formatting(self, date):
+        formatted = False
+        if date:
+            formatted = date.strftime("%d-%m-%Y")
+
+        return formatted
