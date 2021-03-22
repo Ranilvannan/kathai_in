@@ -51,7 +51,6 @@ class StoryExport(models.TransientModel):
         for rec in recs:
             story = {
                 "story_id": rec.id,
-                "published_on": self.date_formatting(rec.date_of_publish),
                 "name": rec.name,
 
                 "site_url": rec.site_url,
@@ -65,7 +64,11 @@ class StoryExport(models.TransientModel):
                 "title": rec.title,
                 "preview": rec.preview,
                 "content_ids": [{"content": item.content,
-                                 "order_seq": item.order_seq} for item in rec.content_ids]
+                                 "order_seq": item.order_seq} for item in rec.content_ids],
+
+                "published_on": self.date_formatting(rec.date_of_publish),
+                "language": rec.language.name
+
             }
 
             book.append(story)
