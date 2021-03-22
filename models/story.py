@@ -16,25 +16,15 @@ class StoryBook(models.Model):
     parent_url = fields.Text(string="Parent URL")
     language = fields.Many2one(comodel_name="story.language")
 
-    # SITE INFO
-    site_url = fields.Text(string="URL")
-    site_title = fields.Text(string="Title")
-    site_preview = fields.Text(string="Preview")
-    tag_ids = fields.Many2many(comodel_name="story.tags")
-    parent_id = fields.Many2one(comodel_name="story.book")
-    date_of_publish = fields.Date(string="Date Of Publish")
-    active = fields.Boolean(string="Active", default=True)
-
     # CONTENT
     title = fields.Text(string="Title")
     preview = fields.Text(string="Preview")
     content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
+    category = fields.Char(string="Category")
 
     # Status
     is_valid = fields.Boolean(string="Valid", default=False)
-    last_validate_on = fields.Date(string="Last Validate On")
-    is_exported = fields.Boolean(string="Exported", default=False)
-    has_published = fields.Boolean(string="Published", default=False)
+    active = fields.Boolean(string="Active", default=True)
 
     @api.model
     def create(self, vals):

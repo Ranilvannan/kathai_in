@@ -1,8 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 story_book_admin,story.book.admin,model_story_book,story_book_admin,1,1,1,1
-story_tags_admin,story.tags.admin,model_story_tags,story_book_admin,1,1,1,1
+story_category_admin,story.category.admin,model_story_category,story_book_admin,1,1,1,1
 story_language_admin,story.language.admin,model_story_language,story_book_admin,1,1,1,1
 story_content_admin,story.content.admin,model_story_content,story_book_admin,1,1,1,1
+project_site1_admin,project.site1.admin,model_project_site1,story_book_admin,1,1,1,1
 story_export_admin,story.export.admin,model_story_export,story_book_admin,1,1,1,1
 crawl_service_admin,crawl.service.admin,model_crawl_service,story_book_admin,1,1,1,1
 other_service_admin,other.service.admin,model_other_service,story_book_admin,1,1,1,1

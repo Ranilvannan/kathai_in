@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="story_category_form" model="ir.ui.view">
+        <field name="name">story.category.form</field>
+        <field name="model">story.category</field>
+        <field name="arch" type="xml">
+            <form string="Category">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="url"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="story_category_tree" model="ir.ui.view">
+        <field name="name">story.category.tree</field>
+        <field name="model">story.category</field>
+        <field name="arch" type="xml">
+            <tree name="Category">
+                <field name="name"/>
+                <field name="url"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="story_category_action" model="ir.actions.act_window">
+        <field name="name">Category</field>
+        <field name="res_model">story.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="story_category_menu"
+              name="Category"
+              parent="book_menu"
+              action="story_category_action"
+              sequence="20"/>
+
+</odoo>
