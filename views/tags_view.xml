@@ -23,6 +23,7 @@
         <field name="arch" type="xml">
             <tree name="Tags">
                 <field name="name"/>
+                <field name="title"/>
                 <field name="url"/>
             </tree>
         </field>
