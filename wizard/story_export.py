@@ -59,6 +59,7 @@ class StoryExport(models.TransientModel):
                 "site_preview": rec.site_preview,
                 "parent_url": rec.parent_id.site_url,
                 "tags": [{"name": item.name,
+                          "title": item.title,
                           "url": item.url} for item in rec.tag_ids],
 
                 "title": rec.title,
@@ -78,6 +79,7 @@ class StoryExport(models.TransientModel):
             for item in rec.tag_ids:
                 if item.name and item.url and (item.id not in cat_id):
                     category.append({"name": item.name,
+                                     "title": item.title,
                                      "url": item.url})
                     cat_id.append(item.id)
 
