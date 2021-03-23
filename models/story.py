@@ -13,7 +13,7 @@ class StoryBook(models.Model):
     # CRAWL INFO
     crawl_domain = fields.Char(string="Domain")
     crawl_url = fields.Text(string="URL")
-    prev_url = fields.Text(string="Parent URL")
+    prev_url = fields.Text(string="Previous URL")
     language = fields.Many2one(comodel_name="story.language")
 
     # CONTENT

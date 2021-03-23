@@ -25,9 +25,9 @@ class ProjectSite1(models.Model):
     ref = fields.Char(string="Reference")
     date = fields.Date(string="Date", default=datetime.now())
 
-    site_url = fields.Text(string="URL")
-    site_title = fields.Text(string="Title")
-    site_preview = fields.Text(string="Preview")
+    site_url = fields.Text(string="Site URL")
+    site_title = fields.Text(string="Site Title")
+    site_preview = fields.Text(string="Site Preview")
 
     title = fields.Text(string="Title")
     preview = fields.Text(string="Preview")

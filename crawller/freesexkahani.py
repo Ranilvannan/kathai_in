@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-from .common import translate_text, clean_url, generate_url, get_url_content
+from .common import get_url_content, clean_url
 
 
 class FreeSexKahani(models.TransientModel):
