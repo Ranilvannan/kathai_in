@@ -19,3 +19,6 @@ class Service(models.Model):
 
     def trigger_site_validate(self):
         self.env["project.site1"].trigger_check_valid()
+
+    def trigger_export(self):
+        self.env["project.site1"].trigger_export()

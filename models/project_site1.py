@@ -166,7 +166,7 @@ class ProjectSite1(models.Model):
                                  "order_seq": item.order_seq} for item in rec.content_ids],
 
                 "published_on": self.date_formatting(rec.date),
-                "language": rec.language.name
+                "language": LANGUAGE
 
             }
 
