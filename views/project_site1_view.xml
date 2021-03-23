@@ -13,9 +13,9 @@
                         <field name="ref"/>
                     </group>
                     <group string="Site Info" col="4">
-                        <field name="site_url"/>
                         <field name="site_title"/>
                         <field name="site_preview"/>
+                        <field name="site_url"/>
                     </group>
                     <group string="Content" col="4">
                         <field name="title"/>
