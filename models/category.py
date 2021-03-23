@@ -26,5 +26,8 @@ class CategoryTag(models.Model):
         tags = self.env["category.tag"].search([])
         tag_list = [tag.name for tag in tags]
 
-        rec = self.env["story.book"].search([("category", "not in", tag_list)])[1]
-        self.env["category.tag"].create({"name": rec.category})
+        recs = self.env["story.book"].search([("category", "not in", tag_list)])[:10]
+        for rec in recs:
+            category_id = self.env["category.tag"].search([("name", "=", rec.category)])
+            if rec.category and (not category_id):
+                self.env["category.tag"].create({"name": rec.category})
