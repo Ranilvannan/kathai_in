@@ -13,7 +13,7 @@ class StoryBook(models.Model):
     # CRAWL INFO
     crawl_domain = fields.Char(string="Domain")
     crawl_url = fields.Text(string="URL")
-    parent_url = fields.Text(string="Parent URL")
+    prev_url = fields.Text(string="Parent URL")
     language = fields.Many2one(comodel_name="story.language")
 
     # CONTENT
@@ -25,6 +25,7 @@ class StoryBook(models.Model):
     # Status
     is_valid = fields.Boolean(string="Valid", default=False)
     active = fields.Boolean(string="Active", default=True)
+    project_site1 = fields.Char(string="Project Site 1")
 
     @api.model
     def create(self, vals):

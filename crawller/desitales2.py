@@ -65,7 +65,7 @@ class DesiTales2(models.TransientModel):
                 language = self.env["story.language"].search([("code", "=", "ENGLISH")])
 
                 content_html = get_url_content(url)
-                parent_url = self.article_parent(content_html)
+                prev_url = self.article_previous(content_html)
 
                 data = {
                     "title": title,
@@ -73,7 +73,7 @@ class DesiTales2(models.TransientModel):
                     "content_ids": self.content_crawl(content_html),
                     "crawl_domain": self.domain,
                     "crawl_url": url,
-                    "parent_url": parent_url,
+                    "prev_url": prev_url,
                     "language": language.id,
                     "category": category
                         }
@@ -107,7 +107,7 @@ class DesiTales2(models.TransientModel):
 
         return content_list
 
-    def article_parent(self, soup):
+    def article_previous(self, soup):
         url = None
         h4_tags = soup.find_all("h4")
         for h4_tag in h4_tags:

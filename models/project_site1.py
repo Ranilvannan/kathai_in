@@ -43,31 +43,57 @@ class ProjectSite1(models.Model):
     is_exported = fields.Boolean(string="Exported", default=False)
     url_verified = fields.Boolean(string="URL Verified", default=False)
 
-    def trigger_recs(self):
-        publish = self.env["project.site1"].search([("date", "=", datetime.now())]).count()
-        if publish <= MIN_PUBLISH:
-            recs = self.env["project.site1"].search([("last_validate_on", "=", datetime.now()),
-                                                     ("is_exported", "=", True),
-                                                     ("next_id", "=", False)])
-            for rec in recs:
-                story_id = self.env["story.book"].search([("name", "=", rec.ref)])
-                if story_id:
-                    story_obj = self.env["story.obj"].search([("parent_url", "=", story_id.crawl_url)])
-                    if story_obj:
-                        content_ids = [(0, 0, {"order_seq": item.order_seq,
-                                               "content": item.content}) for item in story_obj.content_ids]
+    def trigger_data_import(self):
+        self.next_record_import()
+        self.next_record_import()
 
-                        category_obj = self.env["category.tag"].search([("name", "=", story_obj.category),
-                                                                        ("category_id", "!=", False)])
-                        if category_obj:
-                            category_id = category_obj.category_id.id
-                            if category_id:
-                                record_id = self.env["project.site1"].create({"title": story_obj.title,
-                                                                              "preview": story_obj.preview,
-                                                                              "category_id": category_id,
-                                                                              "prev_id": rec.id,
-                                                                              "content_ids": content_ids})
-                                rec.write({"next_id": record_id.id})
+    def new_record_import(self):
+        recs = self.env["story.book"].search([("project_site1", "=", False),
+                                              ("prev_url", "=", False)])[:10]
+
+        for rec in recs:
+            publish = self.env["project.site1"].search([("date", "=", datetime.now())]).count()
+            category_obj = self.env["category.tag"].search([("name", "=", rec.category),
+                                                            ("category_id", "!=", False)])
+
+            if category_obj and (publish <= MIN_PUBLISH):
+                data = {"title": rec.title,
+                        "preview": rec.preview,
+                        "category_id": category_obj.category_id.id,
+                        "content_ids": [(0, 0, {"order_seq": item.order_seq,
+                                                "content": item.content})
+                                        for item in rec.content_ids]}
+
+                record_id = self.env["project.site1"].create(data)
+                rec.write({"project_site1": record_id.name})
+
+    def next_record_import(self):
+        recs = self.env["project.site1"].search([("last_validate_on", "!=", datetime.now()),
+                                                 ("is_exported", "=", True),
+                                                 ("next_id", "=", False)])[:10]
+        for rec in recs:
+            story_id = self.env["story.book"].search([("name", "=", rec.ref)])
+            if story_id:
+                story_obj = self.env["story.book"].search([("prev_url", "=", story_id.crawl_url),
+                                                           ("project_site1", "=", False)])
+                if story_obj:
+                    publish = self.env["project.site1"].search([("date", "=", datetime.now())]).count()
+                    category_obj = self.env["category.tag"].search([("name", "=", story_obj.category),
+                                                                    ("category_id", "!=", False)])
+                    if category_obj and (publish <= MIN_PUBLISH):
+                        data = {"title": story_obj.title,
+                                "preview": story_obj.preview,
+                                "category_id": category_obj.category_id.id,
+                                "prev_id": rec.id,
+                                "content_ids": [(0, 0, {"order_seq": item.order_seq,
+                                                        "content": item.content})
+                                                for item in story_obj.content_ids]}
+
+                        record_id = self.env["project.site1"].create(data)
+                        rec.write({"next_id": record_id.id})
+                        story_obj.write({"project_site1": record_id.name})
+
+            rec.write({"last_validate_on": datetime.now()})
 
     def trigger_export(self):
         recs = self.env["project.site1"].search([("is_exported", "=", False),
@@ -105,7 +131,8 @@ class ProjectSite1(models.Model):
                 "site_url": rec.site_url,
                 "site_title": rec.site_title,
                 "site_preview": rec.site_preview,
-                "parent_url": rec.parent_id.site_url,
+                "prev_url": rec.prev_id.site_url,
+                "next_url": rec.next_id.site_url,
                 "category": {"name": rec.category_id.name,
                              "url": rec.category_id.url},
 

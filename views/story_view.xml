@@ -14,7 +14,7 @@
                     <group string="Crawl Info" col="4">
                         <field name="crawl_domain"/>
                         <field name="crawl_url"/>
-                        <field name="parent_url"/>
+                        <field name="prev_url"/>
                         <field name="language"/>
                         <field name="is_valid"/>
                     </group>
