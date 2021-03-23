@@ -66,14 +66,14 @@ class ProjectSite1(models.Model):
 
     def trigger_data_import(self):
         self.next_record_import()
-        self.next_record_import()
+        self.new_record_import()
 
     def new_record_import(self):
         recs = self.env["story.book"].search([("project_site1", "=", False),
-                                              ("prev_url", "=", False)])[:10]
+                                              ("prev_url", "=", False)])[:2]
 
         for rec in recs:
-            publish = self.env["project.site1"].search([("date", "=", datetime.now())]).count()
+            publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])
             category_obj = self.env["category.tag"].search([("name", "=", rec.category),
                                                             ("category_id", "!=", False)])
 
@@ -91,14 +91,14 @@ class ProjectSite1(models.Model):
     def next_record_import(self):
         recs = self.env["project.site1"].search([("last_validate_on", "!=", datetime.now()),
                                                  ("is_exported", "=", True),
-                                                 ("next_id", "=", False)])[:10]
+                                                 ("next_id", "=", False)])[:2]
         for rec in recs:
             story_id = self.env["story.book"].search([("name", "=", rec.ref)])
             if story_id:
                 story_obj = self.env["story.book"].search([("prev_url", "=", story_id.crawl_url),
                                                            ("project_site1", "=", False)])
                 if story_obj:
-                    publish = self.env["project.site1"].search([("date", "=", datetime.now())]).count()
+                    publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])
                     category_obj = self.env["category.tag"].search([("name", "=", story_obj.category),
                                                                     ("category_id", "!=", False)])
                     if category_obj and (publish <= MIN_PUBLISH):

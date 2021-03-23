@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_site1_form" model="ir.ui.view">
+        <field name="name">project.site1.form</field>
+        <field name="model">project.site1</field>
+        <field name="arch" type="xml">
+            <form string="Project Site 1">
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <field name="date"/>
+                        <field name="ref"/>
+                    </group>
+                    <group string="Site Info" col="4">
+                        <field name="site_url"/>
+                        <field name="site_title"/>
+                        <field name="site_preview"/>
+                    </group>
+                    <group string="Content">
+                        <field name="title"/>
+                        <field name="preview"/>
+                        <field name="category_id"/>
+                        <field name="prev_id"/>
+                        <field name="next_id"/>
+                    </group>
+                    <group string="Status">
+                        <field name="is_valid"/>
+                        <field name="last_validate_on"/>
+                        <field name="is_exported"/>
+                        <field name="url_verified"/>
+                    </group>
+                    <notebook>
+                        <page string="Content">
+                            <field name="content_ids">
+                                <tree editable="bottom">
+                                    <field name="order_seq"/>
+                                    <field name="content"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_site1_tree" model="ir.ui.view">
+        <field name="name">project.site1.tree</field>
+        <field name="model">project.site1</field>
+        <field name="arch" type="xml">
+            <tree name="Project Site 1">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="ref"/>
+                <field name="is_valid"/>
+                <field name="last_validate_on"/>
+                <field name="is_exported"/>
+                <field name="url_verified"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="project_site1_action" model="ir.actions.act_window">
+        <field name="name">Project Site 1</field>
+        <field name="res_model">project.site1</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="project_site1_menu"
+              name="Project Site 1"
+              parent="book_menu"
+              action="project_site1_action"
+              sequence="10"/>
+
+</odoo>

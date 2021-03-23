@@ -22,6 +22,9 @@
                         <field name="preview"/>
                         <field name="category"/>
                     </group>
+                    <group string="Project Info">
+                        <field name="project_site1"/>
+                    </group>
                     <notebook>
                         <page string="Content">
                             <field name="content_ids">

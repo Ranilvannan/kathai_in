@@ -10,3 +10,6 @@ class Service(models.Model):
 
     def trigger_category_tag_update(self):
         self.env["category.tag"].trigger_generate_tag()
+
+    def trigger_site1_import(self):
+        self.env["project.site1"].trigger_data_import()

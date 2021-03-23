@@ -9,6 +9,7 @@
                 <sheet>
                     <button name="trigger_crawl" string="Crawl" type="object"/>
                     <button name="trigger_category_tag_update" string="Category Tag Update" type="object"/>
+                    <button name="trigger_site1_import" string="Site 1 Import" type="object"/>
                 </sheet>
             </form>
         </field>
