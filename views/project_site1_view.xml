@@ -8,7 +8,7 @@
             <form string="Project Site 1">
                 <sheet>
                     <h1><field name="name"/></h1>
-                    <group>
+                    <group col="4">
                         <field name="date"/>
                         <field name="ref"/>
                     </group>
@@ -17,16 +17,16 @@
                         <field name="site_title"/>
                         <field name="site_preview"/>
                     </group>
-                    <group string="Content">
+                    <group string="Content" col="4">
                         <field name="title"/>
                         <field name="preview"/>
                         <field name="category_id"/>
                         <field name="prev_id"/>
                         <field name="next_id"/>
                     </group>
-                    <group string="Status">
+                    <group string="Status" col="4">
                         <field name="is_valid"/>
-                        <field name="last_validate_on"/>
+                        <field name="last_checked_on"/>
                         <field name="is_exported"/>
                         <field name="url_verified"/>
                     </group>
@@ -54,7 +54,7 @@
                 <field name="date"/>
                 <field name="ref"/>
                 <field name="is_valid"/>
-                <field name="last_validate_on"/>
+                <field name="last_checked_on"/>
                 <field name="is_exported"/>
                 <field name="url_verified"/>
             </tree>

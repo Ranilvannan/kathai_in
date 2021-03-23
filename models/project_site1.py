@@ -39,7 +39,7 @@ class ProjectSite1(models.Model):
 
     # Status
     is_valid = fields.Boolean(string="Valid", default=False)
-    last_validate_on = fields.Date(string="Last Validate On")
+    last_checked_on = fields.Date(string="Last Validate On")
     is_exported = fields.Boolean(string="Exported", default=False)
     url_verified = fields.Boolean(string="URL Verified", default=False)
 
@@ -90,7 +90,7 @@ class ProjectSite1(models.Model):
                 rec.write({"project_site1": record_id.name})
 
     def next_record_import(self):
-        recs = self.env["project.site1"].search([("last_validate_on", "!=", datetime.now()),
+        recs = self.env["project.site1"].search([("last_checked_on", "!=", datetime.now()),
                                                  ("is_exported", "=", True),
                                                  ("next_id", "=", False)])[:2]
 
@@ -117,7 +117,7 @@ class ProjectSite1(models.Model):
                         rec.write({"next_id": record_id.id})
                         story_obj.write({"project_site1": record_id.name})
 
-            rec.write({"last_validate_on": datetime.now()})
+            rec.write({"last_checked_on": datetime.now()})
 
     def trigger_export(self):
         recs = self.env["project.site1"].search([("is_exported", "=", False),
