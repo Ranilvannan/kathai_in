@@ -43,6 +43,27 @@ class ProjectSite1(models.Model):
     is_exported = fields.Boolean(string="Exported", default=False)
     url_verified = fields.Boolean(string="URL Verified", default=False)
 
+    def trigger_check_valid(self):
+        recs = self.env["project.site1"].search([("is_valid", "=", False)])[:10]
+
+        for rec in recs:
+            if rec.title \
+                    and rec.preview \
+                    and rec.content_ids \
+                    and rec.category_id \
+                    and rec.site_title \
+                    and rec.site_preview \
+                    and rec.site_url:
+
+                rec.wite({"is_valid", "=", True})
+
+    def trigger_site_data(self):
+        recs = self.env["project.site1"].search([("is_valid", "=", False)])[:10]
+        for rec in recs:
+            rec.write({"site_title": rec.title,
+                       "site_preview": rec.preview,
+                       "site_url": self.env["other.service"].generate_url(rec.title)})
+
     def trigger_data_import(self):
         self.next_record_import()
         self.next_record_import()
