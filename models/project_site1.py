@@ -92,6 +92,7 @@ class ProjectSite1(models.Model):
         recs = self.env["project.site1"].search([("last_validate_on", "!=", datetime.now()),
                                                  ("is_exported", "=", True),
                                                  ("next_id", "=", False)])[:2]
+
         for rec in recs:
             story_id = self.env["story.book"].search([("name", "=", rec.ref)])
             if story_id:
