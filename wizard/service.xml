@@ -7,9 +7,8 @@
         <field name="arch" type="xml">
             <form string="Service">
                 <sheet>
-                    <group>
-                        <button name="trigger_crawl" string="Crawl" type="object"/>
-                    </group>
+                    <button name="trigger_crawl" string="Crawl" type="object"/>
+                    <button name="trigger_category_tag_update" string="Category Tag Update" type="object"/>
                 </sheet>
             </form>
         </field>

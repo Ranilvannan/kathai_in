@@ -23,7 +23,6 @@ class StoryBook(models.Model):
     category = fields.Char(string="Category")
 
     # Status
-    is_valid = fields.Boolean(string="Valid", default=False)
     active = fields.Boolean(string="Active", default=True)
     project_site1 = fields.Char(string="Project Site 1")
 

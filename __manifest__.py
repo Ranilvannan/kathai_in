@@ -17,6 +17,7 @@
         'views/menu_view.xml',
         'views/story_view.xml',
         'views/category_view.xml',
+        'views/tag_view.xml',
         'views/language_view.xml',
         'wizard/service.xml'
     ],

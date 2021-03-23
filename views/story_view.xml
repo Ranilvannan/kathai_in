@@ -16,7 +16,6 @@
                         <field name="crawl_url"/>
                         <field name="prev_url"/>
                         <field name="language"/>
-                        <field name="is_valid"/>
                     </group>
                     <group string="Content">
                         <field name="title"/>
@@ -47,7 +46,6 @@
                 <field name="date"/>
                 <field name="crawl_domain"/>
                 <field name="language"/>
-                <field name="is_valid"/>
             </tree>
         </field>
     </record>
