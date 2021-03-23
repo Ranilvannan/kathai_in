@@ -85,7 +85,14 @@ class DesiTales2(models.TransientModel):
 
         if next_page_list:
             next_page = next_page_list[0]
-            self.url = next_page["href"]
+            self.url = clean_url(next_page["href"])
+
+            # Removed If history not needed
+            history_obj = self.env["history.history"].search([("domain", "=", self.domain)])
+            if history_obj:
+                history_obj.url = self.url
+            else:
+                self.env["history.history"].create({"domain": self.domain, "url": self.url})
 
     def trigger_crawl(self):
         for i in range(self.page):

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="history_history_form" model="ir.ui.view">
+        <field name="name">history.history.form</field>
+        <field name="model">history.history</field>
+        <field name="arch" type="xml">
+            <form string="History">
+                <sheet>
+                    <group>
+                        <field name="domain"/>
+                        <field name="url"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="history_history_tree" model="ir.ui.view">
+        <field name="name">history.history.tree</field>
+        <field name="model">history.history</field>
+        <field name="arch" type="xml">
+            <tree name="History">
+                <field name="domain"/>
+                <field name="url"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="history_history_action" model="ir.actions.act_window">
+        <field name="name">History</field>
+        <field name="res_model">history.history</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="history_history_menu"
+              name="History"
+              parent="book_menu"
+              action="history_history_action"
+              sequence="70"/>
+
+</odoo>

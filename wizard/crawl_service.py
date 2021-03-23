@@ -23,3 +23,13 @@ class CrawlService(models.Model):
 
         obj.trigger_crawl()
 
+    def trigger_desitales2_history_crawl(self):
+        history_obj = self.env["history.history"].search([("domain", "=", "https://www.desitales2.com")])
+        if history_obj:
+            obj = self.env["desi.tales2"].create({
+                "domain": "https://www.desitales2.com",
+                "url": history_obj.url,
+                "page": 1})
+
+            obj.trigger_crawl()
+

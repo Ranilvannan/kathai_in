@@ -8,6 +8,9 @@ class Service(models.Model):
     def trigger_crawl(self):
         self.env["crawl.service"].trigger_desitales2_crawl()
 
+    def trigger_history_crawl(self):
+        self.env["crawl.service"].trigger_desitales2_history_crawl()
+
     def trigger_category_tag_update(self):
         self.env["category.tag"].trigger_generate_tag()
 

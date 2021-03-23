@@ -20,6 +20,7 @@
         'views/category_view.xml',
         'views/tag_view.xml',
         'views/language_view.xml',
+        'views/history_view.xml',
         'wizard/service.xml'
     ],
     'demo': [],
