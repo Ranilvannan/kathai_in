@@ -55,7 +55,7 @@ class ProjectSite1(models.Model):
                     and rec.site_preview \
                     and rec.site_url:
 
-                rec.wite({"is_valid", "=", True})
+                rec.write({"is_valid": True})
 
     def trigger_site_data(self):
         recs = self.env["project.site1"].search([("is_valid", "=", False)])[:10]
@@ -80,6 +80,7 @@ class ProjectSite1(models.Model):
             if category_obj and (publish <= MIN_PUBLISH):
                 data = {"title": rec.title,
                         "preview": rec.preview,
+                        "ref": rec.name,
                         "category_id": category_obj.category_id.id,
                         "content_ids": [(0, 0, {"order_seq": item.order_seq,
                                                 "content": item.content})
@@ -105,6 +106,7 @@ class ProjectSite1(models.Model):
                     if category_obj and (publish <= MIN_PUBLISH):
                         data = {"title": story_obj.title,
                                 "preview": story_obj.preview,
+                                "ref": story_obj.name,
                                 "category_id": category_obj.category_id.id,
                                 "prev_id": rec.id,
                                 "content_ids": [(0, 0, {"order_seq": item.order_seq,

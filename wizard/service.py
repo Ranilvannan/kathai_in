@@ -13,3 +13,9 @@ class Service(models.Model):
 
     def trigger_site1_import(self):
         self.env["project.site1"].trigger_data_import()
+
+    def trigger_site_data_update(self):
+        self.env["project.site1"].trigger_site_data()
+
+    def trigger_site_validate(self):
+        self.env["project.site1"].trigger_check_valid()

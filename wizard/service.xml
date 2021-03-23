@@ -10,6 +10,8 @@
                     <button name="trigger_crawl" string="Crawl" type="object"/>
                     <button name="trigger_category_tag_update" string="Category Tag Update" type="object"/>
                     <button name="trigger_site1_import" string="Site 1 Import" type="object"/>
+                    <button name="trigger_site_data_update" string="Site Data Update" type="object"/>
+                    <button name="trigger_site_validate" string="Check Site valid" type="object"/>
                 </sheet>
             </form>
         </field>
