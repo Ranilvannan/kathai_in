@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="service_service_form" model="ir.ui.view">
+        <field name="name">service.service.form</field>
+        <field name="model">service.service</field>
+        <field name="arch" type="xml">
+            <form string="Service">
+                <sheet>
+                    <group>
+                        <button name="trigger_crawl" string="Crawl" type="object"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="service_service_action" model="ir.actions.act_window">
+        <field name="name">Service</field>
+        <field name="res_model">service.service</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="service_service_menu"
+              name="Service"
+              parent="book_menu"
+              action="service_service_action"
+              sequence="40"/>
+
+</odoo>
