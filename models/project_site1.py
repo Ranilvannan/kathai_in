@@ -7,7 +7,7 @@ import tempfile
 import json
 from paramiko import SSHClient, AutoAddPolicy
 
-MIN_PUBLISH = 10
+MIN_PUBLISH = 30
 DOMAIN = "domain"
 LANGUAGE = "English"
 HOST = config["story_book_export_host"]
@@ -77,7 +77,7 @@ class ProjectSite1(models.Model):
             category_obj = self.env["category.tag"].search([("name", "=", rec.category),
                                                             ("category_id", "!=", False)])
 
-            if category_obj and (publish <= MIN_PUBLISH):
+            if category_obj and (publish < MIN_PUBLISH):
                 data = {"title": rec.title,
                         "preview": rec.preview,
                         "ref": rec.name,
@@ -103,7 +103,7 @@ class ProjectSite1(models.Model):
                     publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])
                     category_obj = self.env["category.tag"].search([("name", "=", story_obj.category),
                                                                     ("category_id", "!=", False)])
-                    if category_obj and (publish <= MIN_PUBLISH):
+                    if category_obj and (publish < MIN_PUBLISH):
                         data = {"title": story_obj.title,
                                 "preview": story_obj.preview,
                                 "ref": story_obj.name,
