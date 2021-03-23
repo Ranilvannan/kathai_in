@@ -39,7 +39,7 @@ class ProjectSite1(models.Model):
 
     # Status
     is_valid = fields.Boolean(string="Valid", default=False)
-    last_checked_on = fields.Date(string="Last Validate On")
+    last_checked_on = fields.Date(string="Last Checked On")
     is_exported = fields.Boolean(string="Exported", default=False)
     url_verified = fields.Boolean(string="URL Verified", default=False)
 
