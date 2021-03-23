@@ -155,8 +155,10 @@ class ProjectSite1(models.Model):
                 "site_url": rec.site_url,
                 "site_title": rec.site_title,
                 "site_preview": rec.site_preview,
-                "prev_url": rec.prev_id.site_url,
-                "next_url": rec.next_id.site_url,
+                "prev": {"name": rec.prev_id.title,
+                         "url": rec.prev_id.site_url},
+                "next": {"name": rec.next_id.title,
+                         "url": rec.next_id.site_url},
                 "category": {"name": rec.category_id.name,
                              "url": rec.category_id.url},
 
