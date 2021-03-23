@@ -17,8 +17,7 @@
         'views/menu_view.xml',
         'views/story_view.xml',
         'views/tags_view.xml',
-        'views/language_view.xml',
-        'wizard/service.xml',
+        'views/language_view.xml'
     ],
     'demo': [],
     'qweb': [],

@@ -35,17 +35,6 @@ def clean_url(url):
     return new_url
 
 
-def generate_url(text):
-    new_text = text.lower()
-    new_text = new_text.replace(" ", "-")
-    new_text = new_text.replace("'", "")
-    new_text = new_text.replace(",", "")
-
-    res = ''.join(random.choices(string.ascii_lowercase + string.digits, k=7))
-    site_path = "{0}-{1}".format(new_text, res)
-    return site_path
-
-
 def get_url_content(url):
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
