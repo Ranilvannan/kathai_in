@@ -12,7 +12,7 @@ DOMAIN = "domain"
 LANGUAGE = "English"
 HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
-PASSWORD = config["story_book_export_password"]
+KEY_FILENAME = config["story_book_export_public_key_filename"]
 REMOTE_FILE = config["story_book_export_path"]
 
 
@@ -134,14 +134,14 @@ class ProjectSite1(models.Model):
         json_data = self.generate_story_json(recs)
         file_name = "_{0}_story.json".format(LANGUAGE)
         tmp_file = self.generate_tmp_file(json_data, file_name)
-        # self.move_tmp_file(tmp_file)
+        self.move_tmp_file(tmp_file)
         tmp_file.close()
 
     def category_export(self, recs):
         json_data = self.generate_category_json(recs)
         file_name = "_{0}_category.json".format(LANGUAGE)
         tmp_file = self.generate_tmp_file(json_data, file_name)
-        # self.move_tmp_file(tmp_file)
+        self.move_tmp_file(tmp_file)
         tmp_file.close()
 
     def generate_story_json(self, recs):
@@ -202,7 +202,7 @@ class ProjectSite1(models.Model):
 
         ssh_client.connect(hostname=HOST,
                            username=USERNAME,
-                           password=PASSWORD)
+                           key_filename=KEY_FILENAME)
 
         sftp_client = ssh_client.open_sftp()
         file_name = os.path.basename(tmp.name)
