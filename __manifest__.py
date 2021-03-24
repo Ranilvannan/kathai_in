@@ -21,7 +21,8 @@
         'views/tag_view.xml',
         'views/language_view.xml',
         'views/history_view.xml',
-        'wizard/service.xml'
+        'wizard/service.xml',
+        'wizard/report.xml'
     ],
     'demo': [],
     'qweb': [],

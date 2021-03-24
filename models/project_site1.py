@@ -70,6 +70,7 @@ class ProjectSite1(models.Model):
 
     def new_record_import(self):
         recs = self.env["story.book"].search([("project_site1", "=", False),
+                                              ("language.name", "=", LANGUAGE),
                                               ("prev_url", "=", False)])[:2]
 
         for rec in recs:

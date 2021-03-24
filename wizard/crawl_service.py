@@ -1,11 +1,9 @@
 from odoo import models, fields, api
 
 
-class CrawlService(models.Model):
+class CrawlService(models.TransientModel):
     _name = "crawl.service"
     _description = "Crawl Service"
-
-    name = fields.Char(string="Name")
 
     def trigger_freesexkahani_crawl(self):
         obj = self.env["free.sex.kahani"].create({

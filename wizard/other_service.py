@@ -6,7 +6,7 @@ from itertools import groupby
 from operator import itemgetter
 
 
-class OtherService(models.Model):
+class OtherService(models.TransientModel):
     _name = "other.service"
     _description = "Other Service"
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_service_form" model="ir.ui.view">
+        <field name="name">report.service.form</field>
+        <field name="model">report.service</field>
+        <field name="arch" type="xml">
+            <form string="Report">
+                <header>
+                    <button name="trigger_download_report" string="Download Report" type="object" class="oe_highlight"/>
+                    <button name="trigger_view_report" string="View Report" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <group col="4">
+                        <field name="from_date"/>
+                        <field name="till_date"/>
+                    </group>
+                    <notebook>
+                        <page string="Details">
+                            <field name="item_ids">
+                                <tree editable="bottom">
+                                    <field name="s_no"/>
+                                    <field name="site_url"/>
+                                    <field name="site_title"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="report_service_action" model="ir.actions.act_window">
+        <field name="name">Report</field>
+        <field name="res_model">report.service</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="report_service_menu"
+              name="Report"
+              parent="book_menu"
+              action="report_service_action"
+              sequence="90"/>
+
+</odoo>

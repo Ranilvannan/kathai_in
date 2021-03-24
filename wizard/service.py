@@ -1,7 +1,7 @@
 from odoo import models, fields
 
 
-class Service(models.Model):
+class Service(models.TransientModel):
     _name = "service.service"
     _description = "Service Service"
 
