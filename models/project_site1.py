@@ -8,7 +8,7 @@ import json
 from paramiko import SSHClient, AutoAddPolicy
 
 MIN_PUBLISH = 30
-DOMAIN = "domain"
+DOMAIN = config["story_book_export_project_site1_domain"]
 LANGUAGE = "English"
 HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
@@ -18,7 +18,7 @@ REMOTE_FILE = config["story_book_export_path"]
 
 class ProjectSite1(models.Model):
     _name = "project.site1"
-    _description = "Project Site 1"
+    _description = "Project Site 1 osholikes"
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)
@@ -168,7 +168,8 @@ class ProjectSite1(models.Model):
                 "content_ids": [{"content": item.content,
                                  "order_seq": item.order_seq} for item in rec.content_ids],
 
-                "published_on": self.date_formatting(rec.date),
+                "published_on": rec.get_published_on_in_format(),
+                "published_on_us": rec.get_published_on_us_format(),
                 "language": LANGUAGE
 
             }
@@ -210,21 +211,29 @@ class ProjectSite1(models.Model):
         sftp_client.put(tmp.name, REMOTE_FILE.format(file_name=file_name))
         sftp_client.close()
 
-    def date_formatting(self, date):
-        formatted = False
-        if date:
-            formatted = date.strftime("%d-%m-%Y")
-
-        return formatted
-
     def trigger_url_verification(self):
         recs = self.env["project.site1"].search([("url_verified", "=", False),
                                                  ("is_exported", "=", True)])
         for rec in recs:
-            url = "https://{0}/story/{1}".format(DOMAIN, rec.site_url)
+            url = "https://{0}story/{1}".format(DOMAIN, rec.site_url)
             site = requests.get(url)
             if site.status_code == 200:
                 rec.url_verified = True
+
+    def get_real_url(self):
+        return "https://{0}story/{1}".format(DOMAIN, self.site_url)
+
+    def get_published_on_us_format(self):
+        result = None
+        if self.date:
+            result = self.date.strftime("%Y-%m-%d")
+        return result
+
+    def get_published_on_in_format(self):
+        result = None
+        if self.date:
+            result = self.date.strftime("%d-%m-%Y")
+        return result
 
     @api.model
     def create(self, vals):
