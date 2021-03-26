@@ -1,13 +1,9 @@
-import os
 from odoo import models, fields, api, exceptions
 from odoo.tools import config
 from datetime import datetime
 import requests
-import tempfile
-import json
-from paramiko import SSHClient, AutoAddPolicy
 
-MIN_PUBLISH = 30
+MIN_PUBLISH = 300
 PER_PAGE = 9
 DOMAIN = config["story_book_export_project_site1_domain"]
 LANGUAGE = "English"
@@ -41,7 +37,7 @@ class ProjectSite1(models.Model):
     url_verified = fields.Boolean(string="URL Verified", default=False)
 
     def trigger_check_valid(self):
-        recs = self.env["project.site1"].search([("is_valid", "=", False)])[:10]
+        recs = self.env["project.site1"].search([("is_valid", "=", False)])[:100]
 
         for rec in recs:
             if rec.title \
@@ -55,7 +51,7 @@ class ProjectSite1(models.Model):
                 rec.write({"is_valid": True})
 
     def trigger_site_data(self):
-        recs = self.env["project.site1"].search([("is_valid", "=", False)])[:10]
+        recs = self.env["project.site1"].search([("is_valid", "=", False)])[:100]
         for rec in recs:
             rec.write({"site_title": rec.title,
                        "site_preview": rec.preview,
@@ -68,7 +64,7 @@ class ProjectSite1(models.Model):
     def new_record_import(self):
         recs = self.env["story.book"].search([("project_site1", "=", False),
                                               ("language.name", "=", LANGUAGE),
-                                              ("prev_url", "=", False)])[:2]
+                                              ("prev_url", "=", False)])[:100]
 
         for rec in recs:
             publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])
@@ -90,7 +86,7 @@ class ProjectSite1(models.Model):
     def next_record_import(self):
         recs = self.env["project.site1"].search([("last_checked_on", "!=", datetime.now()),
                                                  ("is_exported", "=", True),
-                                                 ("next_id", "=", False)])[:2]
+                                                 ("next_id", "=", False)])[:100]
 
         for rec in recs:
             story_id = self.env["story.book"].search([("name", "=", rec.ref)])
