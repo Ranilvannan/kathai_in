@@ -9,8 +9,7 @@ site1_content_admin,site1.content.admin,model_site1_content,story_book_admin,1,1
 crawl_service_admin,crawl.service.admin,model_crawl_service,story_book_admin,1,1,1,1
 other_service_admin,other.service.admin,model_other_service,story_book_admin,1,1,1,1
 service_service_admin,service.service.admin,model_service_service,story_book_admin,1,1,1,1
-report_service_admin,report.service.admin,model_report_service,story_book_admin,1,1,1,1
-report_service_item_admin,report.service.item.admin,model_report_service_item,story_book_admin,1,1,1,1
+sitemap_service_admin,sitemap.service.admin,model_sitemap_service,story_book_admin,1,1,1,1
 free_sex_kahani_admin,free.sex.kahani.admin,model_free_sex_kahani,story_book_admin,1,1,1,1
 desi_tales2_admin,desi.tales2.admin,model_desi_tales2,story_book_admin,1,1,1,1
 history_history_admin,history.history.admin,model_history_history,story_book_admin,1,1,1,1

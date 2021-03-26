@@ -22,7 +22,7 @@
         'views/language_view.xml',
         'views/history_view.xml',
         'wizard/service.xml',
-        'wizard/report.xml'
+        'wizard/sitemap_service.xml'
     ],
     'demo': [],
     'qweb': [],
