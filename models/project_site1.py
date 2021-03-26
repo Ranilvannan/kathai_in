@@ -221,7 +221,7 @@ class ProjectSite1(models.Model):
                 rec.url_verified = True
 
     def get_real_url(self):
-        return "https://{0}story/{1}".format(DOMAIN, self.site_url)
+        return "https://{0}story/{1}/".format(DOMAIN, self.site_url)
 
     def get_published_on_us_format(self):
         result = None
