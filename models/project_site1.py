@@ -12,11 +12,6 @@ PER_PAGE = 9
 DOMAIN = config["story_book_export_project_site1_domain"]
 LANGUAGE = "English"
 
-HOST = config["story_book_export_host"]
-USERNAME = config["story_book_export_username"]
-KEY_FILENAME = config["story_book_export_public_key_filename"]
-REMOTE_FILE = config["story_book_export_path"]
-
 
 class ProjectSite1(models.Model):
     _name = "project.site1"
@@ -136,15 +131,15 @@ class ProjectSite1(models.Model):
     def story_export(self, recs):
         json_data = self.generate_story_json(recs)
         file_name = "_{0}_story.json".format(LANGUAGE)
-        tmp_file = self.generate_tmp_file(json_data, file_name)
-        self.move_tmp_file(tmp_file)
+        tmp_file = self.env["other.service"].generate_tmp_file(json_data, file_name)
+        self.env["other.service"].move_tmp_file(tmp_file)
         tmp_file.close()
 
     def category_export(self, recs):
         json_data = self.generate_category_json(recs)
         file_name = "_{0}_category.json".format(LANGUAGE)
-        tmp_file = self.generate_tmp_file(json_data, file_name)
-        self.move_tmp_file(tmp_file)
+        tmp_file = self.env["other.service"].generate_tmp_file(json_data, file_name)
+        self.env["other.service"].move_tmp_file(tmp_file)
         tmp_file.close()
 
     def generate_story_json(self, recs):
@@ -191,27 +186,6 @@ class ProjectSite1(models.Model):
 
         return category
 
-    def generate_tmp_file(self, file_data, suffix):
-        prefix = datetime.now().strftime('%s')
-        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, delete=False, mode="w+")
-        json.dump(file_data, tmp)
-        tmp.flush()
-
-        return tmp
-
-    def move_tmp_file(self, tmp):
-        ssh_client = SSHClient()
-        ssh_client.set_missing_host_key_policy(AutoAddPolicy())
-
-        ssh_client.connect(hostname=HOST,
-                           username=USERNAME,
-                           key_filename=KEY_FILENAME)
-
-        sftp_client = ssh_client.open_sftp()
-        file_name = os.path.basename(tmp.name)
-        sftp_client.put(tmp.name, REMOTE_FILE.format(file_name=file_name))
-        sftp_client.close()
-
     def trigger_url_verification(self):
         recs = self.env["project.site1"].search([("url_verified", "=", False),
                                                  ("is_exported", "=", True)])
@@ -240,7 +214,7 @@ class ProjectSite1(models.Model):
         if count:
             total_page = int(count / PER_PAGE) + 1
             for page in range(1, total_page):
-                loc = "{0}turn/{1}".format(DOMAIN, page)
+                loc = "{0}turn/{1}/".format(DOMAIN, page)
                 lastmod = datetime.now().strftime("%Y-%m-%d")
                 result.append({"loc": loc, "lastmod": lastmod})
 
@@ -257,10 +231,9 @@ class ProjectSite1(models.Model):
             if count:
                 total_page = int(count/PER_PAGE) + 1
                 for page in range(1, total_page):
-                    loc = "{0}category/{1}/turn/{2}".format(DOMAIN, category_id.url, page)
+                    loc = "{0}category/{1}/turn/{2}/".format(DOMAIN, category_id.url, page)
                     lastmod = datetime.now().strftime("%Y-%m-%d")
-                    result.append((0, 0, {"loc": loc,
-                                          "lastmod": lastmod}))
+                    result.append({"loc": loc, "lastmod": lastmod})
 
         return result
 
@@ -271,7 +244,8 @@ class ProjectSite1(models.Model):
                                                  ("is_exported", "=", True)])
 
         for rec in recs:
-            result.append({"loc": rec.get_real_url(),
+            loc = "{0}story/{1}/".format(DOMAIN, rec.site_url)
+            result.append({"loc": loc,
                            "lastmod": rec.get_published_on_us_format()})
 
         return result

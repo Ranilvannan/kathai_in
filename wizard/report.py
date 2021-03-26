@@ -15,40 +15,6 @@ class ReportService(models.TransientModel):
     till_date = fields.Date(string="Till date", required=1)
     item_ids = fields.One2many(comodel_name="report.service.item", inverse_name="report_id")
 
-    def home_page_urls(self):
-        result = []
-        count = self.env["project.site1"].search_count([("is_exported", ">=", True)])
-
-        if count:
-            total_page = int(count / PER_PAGE) + 1
-            url = self.env["project.site1"].get_domain_url()
-            for page in range(1, total_page):
-                loc = "{0}turn/{1}".format(url, page)
-                lastmod = datetime.now().strftime("%Y-%m-%d")
-                result.append((0, 0, {"loc": loc,
-                                      "lastmod": lastmod}))
-
-        return result
-
-    def category_page_urls(self):
-        result = []
-        category_ids = self.env["story.category"].search([])
-
-        for category_id in category_ids:
-            count = self.env["project.site1"].search_count([("is_exported", ">=", True),
-                                                            ("category_id", "=", category_id.id)])
-            print(category_id.name, count, "---")
-            if count:
-                total_page = int(count/PER_PAGE) + 1
-                category_url = self.env["project.site1"].get_category_url(category_id)
-                for page in range(1, total_page):
-                    loc = "{0}turn/{1}".format(category_url, page)
-                    lastmod = datetime.now().strftime("%Y-%m-%d")
-                    result.append((0, 0, {"loc": loc,
-                                          "lastmod": lastmod}))
-
-        return result
-
     def trigger_view_report(self):
         data = []
 
@@ -56,18 +22,6 @@ class ReportService(models.TransientModel):
                                                  ("date", ">=", self.from_date),
                                                  ("is_exported", "=", True)])
 
-        count = 0
-        for rec in recs:
-            count = count + 1
-            data.append((0, 0, {"s_no": count,
-                                "loc": rec.get_real_url(),
-                                "lastmod": rec.get_published_on_us_format()}))
-
-        category_page_list = self.category_page_urls()
-        data.extend(category_page_list)
-
-        home_page_list = self.home_page_urls()
-        data.extend(home_page_list)
 
         self.item_ids.unlink()
         self.item_ids = data
