@@ -14,7 +14,6 @@ from paramiko import SSHClient, AutoAddPolicy
 HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
 KEY_FILENAME = config["story_book_export_public_key_filename"]
-REMOTE_FILE = config["story_book_export_path"]
 
 
 class OtherService(models.TransientModel):
@@ -36,7 +35,7 @@ class OtherService(models.TransientModel):
 
         return tmp
 
-    def move_tmp_file(self, tmp):
+    def move_tmp_file(self, tmp, file_path):
         ssh_client = SSHClient()
         ssh_client.set_missing_host_key_policy(AutoAddPolicy())
 
@@ -46,7 +45,7 @@ class OtherService(models.TransientModel):
 
         sftp_client = ssh_client.open_sftp()
         file_name = os.path.basename(tmp.name)
-        sftp_client.put(tmp.name, REMOTE_FILE.format(file_name=file_name))
+        sftp_client.put(tmp.name, file_path.format(file_name=file_name))
         sftp_client.close()
 
         return True

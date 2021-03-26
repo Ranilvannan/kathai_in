@@ -6,6 +6,7 @@ import requests
 MIN_PUBLISH = 300
 PER_PAGE = 9
 DOMAIN = config["story_book_export_project_site1_domain"]
+REMOTE_FILE = config["story_book_export_path"]
 LANGUAGE = "English"
 
 
@@ -128,14 +129,14 @@ class ProjectSite1(models.Model):
         json_data = self.generate_story_json(recs)
         file_name = "_{0}_story.json".format(LANGUAGE)
         tmp_file = self.env["other.service"].generate_tmp_file(json_data, file_name)
-        self.env["other.service"].move_tmp_file(tmp_file)
+        self.env["other.service"].move_tmp_file(tmp_file, REMOTE_FILE)
         tmp_file.close()
 
     def category_export(self, recs):
         json_data = self.generate_category_json(recs)
         file_name = "_{0}_category.json".format(LANGUAGE)
         tmp_file = self.env["other.service"].generate_tmp_file(json_data, file_name)
-        self.env["other.service"].move_tmp_file(tmp_file)
+        self.env["other.service"].move_tmp_file(tmp_file, REMOTE_FILE)
         tmp_file.close()
 
     def generate_story_json(self, recs):
