@@ -220,8 +220,18 @@ class ProjectSite1(models.Model):
             if site.status_code == 200:
                 rec.url_verified = True
 
+    def get_domain_url(self):
+        return DOMAIN
+
     def get_real_url(self):
-        return "https://{0}story/{1}/".format(DOMAIN, self.site_url)
+        return "{0}story/{1}/".format(DOMAIN, self.site_url)
+
+    def get_real_category_url(self):
+        return "{0}category/{1}/".format(DOMAIN, self.category_id.url)
+
+    def get_category_url(self, category_id):
+        cat_id = self.env["story.category"].search([("id", "=", category_id.id)])
+        return "{0}category/{1}/".format(DOMAIN, cat_id.url)
 
     def get_published_on_us_format(self):
         result = None
