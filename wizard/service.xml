@@ -30,6 +30,6 @@
               name="Service"
               parent="book_menu"
               action="service_service_action"
-              sequence="40"/>
+              sequence="70"/>
 
 </odoo>

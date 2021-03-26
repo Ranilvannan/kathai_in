@@ -71,6 +71,6 @@
               name="Project Site 1"
               parent="book_menu"
               action="project_site1_action"
-              sequence="10"/>
+              sequence="20"/>
 
 </odoo>

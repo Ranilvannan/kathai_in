@@ -37,6 +37,6 @@
               name="Category"
               parent="book_menu"
               action="story_category_action"
-              sequence="20"/>
+              sequence="30"/>
 
 </odoo>

@@ -37,6 +37,6 @@
               name="Language"
               parent="book_menu"
               action="story_language_action"
-              sequence="30"/>
+              sequence="50"/>
 
 </odoo>

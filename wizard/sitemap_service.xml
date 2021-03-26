@@ -30,6 +30,6 @@
               name="Sitemap"
               parent="book_menu"
               action="sitemap_service_action"
-              sequence="90"/>
+              sequence="60"/>
 
 </odoo>

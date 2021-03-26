@@ -37,6 +37,6 @@
               name="Tag"
               parent="book_menu"
               action="category_tag_action"
-              sequence="20"/>
+              sequence="40"/>
 
 </odoo>
