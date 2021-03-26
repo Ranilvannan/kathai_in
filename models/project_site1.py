@@ -8,8 +8,10 @@ import json
 from paramiko import SSHClient, AutoAddPolicy
 
 MIN_PUBLISH = 30
+PER_PAGE = 9
 DOMAIN = config["story_book_export_project_site1_domain"]
 LANGUAGE = "English"
+
 HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
 KEY_FILENAME = config["story_book_export_public_key_filename"]
@@ -169,7 +171,6 @@ class ProjectSite1(models.Model):
                                  "order_seq": item.order_seq} for item in rec.content_ids],
 
                 "published_on": rec.get_published_on_in_format(),
-                "published_on_us": rec.get_published_on_us_format(),
                 "language": LANGUAGE
 
             }
@@ -220,19 +221,6 @@ class ProjectSite1(models.Model):
             if site.status_code == 200:
                 rec.url_verified = True
 
-    def get_domain_url(self):
-        return DOMAIN
-
-    def get_real_url(self):
-        return "{0}story/{1}/".format(DOMAIN, self.site_url)
-
-    def get_real_category_url(self):
-        return "{0}category/{1}/".format(DOMAIN, self.category_id.url)
-
-    def get_category_url(self, category_id):
-        cat_id = self.env["story.category"].search([("id", "=", category_id.id)])
-        return "{0}category/{1}/".format(DOMAIN, cat_id.url)
-
     def get_published_on_us_format(self):
         result = None
         if self.date:
@@ -243,6 +231,49 @@ class ProjectSite1(models.Model):
         result = None
         if self.date:
             result = self.date.strftime("%d-%m-%Y")
+        return result
+
+    def home_page_urls(self):
+        result = []
+        count = self.env["project.site1"].search_count([("is_exported", ">=", True)])
+
+        if count:
+            total_page = int(count / PER_PAGE) + 1
+            for page in range(1, total_page):
+                loc = "{0}turn/{1}".format(DOMAIN, page)
+                lastmod = datetime.now().strftime("%Y-%m-%d")
+                result.append({"loc": loc, "lastmod": lastmod})
+
+        return result
+
+    def category_page_urls(self):
+        result = []
+        category_ids = self.env["story.category"].search([])
+
+        for category_id in category_ids:
+            count = self.env["project.site1"].search_count([("is_exported", ">=", True),
+                                                            ("category_id", "=", category_id.id)])
+
+            if count:
+                total_page = int(count/PER_PAGE) + 1
+                for page in range(1, total_page):
+                    loc = "{0}category/{1}/turn/{2}".format(DOMAIN, category_id.url, page)
+                    lastmod = datetime.now().strftime("%Y-%m-%d")
+                    result.append((0, 0, {"loc": loc,
+                                          "lastmod": lastmod}))
+
+        return result
+
+    def story_page_urls(self, from_date, till_date):
+        result = []
+        recs = self.env["project.site1"].search([("date", ">=", from_date),
+                                                 ("date", "<=", till_date),
+                                                 ("is_exported", "=", True)])
+
+        for rec in recs:
+            result.append({"loc": rec.get_real_url(),
+                           "lastmod": rec.get_published_on_us_format()})
+
         return result
 
     @api.model
