@@ -2,6 +2,7 @@ from odoo import models, fields, api, exceptions
 from odoo.tools import config
 from datetime import datetime
 import requests
+import random
 
 MIN_PUBLISH = 300
 PER_PAGE = 9
@@ -64,9 +65,13 @@ class ProjectSite1(models.Model):
     def new_record_import(self):
         recs = self.env["story.book"].search([("project_site1", "=", False),
                                               ("language.name", "=", LANGUAGE),
-                                              ("prev_url", "=", False)])[:100]
+                                              ("prev_url", "=", False)])[:300]
+        list_of_random_items = None
+        num_to_select = 5
+        if len(recs) > num_to_select:
+            list_of_random_items = random.sample(recs, num_to_select)
 
-        for rec in recs:
+        for rec in list_of_random_items:
             publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])
             category_obj = self.env["category.tag"].search([("name", "=", rec.category),
                                                             ("category_id", "!=", False)])
