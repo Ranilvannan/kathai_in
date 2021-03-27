@@ -45,7 +45,7 @@ class SitemapService(models.TransientModel):
         recs = self.env[site_model].home_page_urls()
         category_page_list = self.env[site_model].category_page_urls()
         recs.extend(category_page_list)
-        data = self.generate_sitemap_xml_data(recs)
+        data = self.generate_sitemap_xml_data(recs, "daily")
         self.generate_tmp_file(data, filepath, filename)
 
     def project_site1(self, site_model, from_date, till_date):
@@ -54,16 +54,16 @@ class SitemapService(models.TransientModel):
         filename = "{0}_sitemap.xml".format(month_name)
 
         recs = self.env[site_model].story_page_urls(from_date, till_date)
-        data = self.generate_sitemap_xml_data(recs)
+        data = self.generate_sitemap_xml_data(recs, "weekly")
         self.generate_tmp_file(data, filepath, filename)
 
-    def generate_sitemap_xml_data(self, recs):
+    def generate_sitemap_xml_data(self, recs, change_freq):
         urlset = Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
 
         for rec in recs:
             url = SubElement(urlset, "url")
             SubElement(url, "loc").text = rec["loc"]
-            SubElement(url, "lastmod").text = rec["lastmod"]
+            SubElement(url, "lastmod").text = change_freq
             SubElement(url, "changefreq").text = "monthly"
             SubElement(url, "priority").text = "0.5"
 
