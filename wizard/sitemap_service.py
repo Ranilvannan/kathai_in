@@ -63,8 +63,8 @@ class SitemapService(models.TransientModel):
         for rec in recs:
             url = SubElement(urlset, "url")
             SubElement(url, "loc").text = rec["loc"]
-            SubElement(url, "lastmod").text = change_freq
-            SubElement(url, "changefreq").text = "monthly"
+            SubElement(url, "lastmod").text = rec["lastmod"]
+            SubElement(url, "changefreq").text = change_freq
             SubElement(url, "priority").text = "0.5"
 
         xml_string = tostring(urlset)
