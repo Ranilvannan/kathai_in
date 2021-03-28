@@ -13,7 +13,18 @@ HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
 KEY_FILENAME = config["story_book_export_public_key_filename"]
 
-MONTH = [("1", "January")]
+MONTH = [("01", "January"),
+         ("02", "February"),
+         ("03", "March"),
+         ("04", "April"),
+         ("05", "May"),
+         ("06", "June"),
+         ("07", "July"),
+         ("08", "August"),
+         ("09", "September"),
+         ("10", "October"),
+         ("11", "November"),
+         ("12", "December")]
 YEAR = [("2021", "2021"), ("2022", "2022")]
 SITE = [("project_site1", "Project Site 1")]
 
@@ -93,9 +104,3 @@ class SitemapService(models.TransientModel):
             tmp.write(data)
             tmp.flush()
             self.move_tmp_file(tmp, filepath, filename)
-
-    def trigger_monthly_sitemap(self):
-        pass
-
-    def trigger_page_wise_sitemap(self):
-        pass

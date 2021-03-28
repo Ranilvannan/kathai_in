@@ -14,8 +14,6 @@
                     </group>
                     <group>
                         <button name="trigger_this_month_sitemap" string="This Monthly Sitemap" type="object" class="oe_highlight"/>
-                        <button name="trigger_monthly_sitemap" string="Monthly Sitemap" type="object" class="oe_highlight"/>
-                        <button name="trigger_page_wise_sitemap" string="Page-wise Sitemap" type="object" class="oe_highlight"/>
                     </group>
                 </sheet>
             </form>
