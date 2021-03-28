@@ -50,8 +50,9 @@ class SitemapService(models.TransientModel):
 
     def project_site1(self, site_model, from_date, till_date):
         month_name = datetime.now().strftime("%B").lower()
+        year = datetime.now().strftime("%Y").lower()
         filepath = "/home/vetrivel/english/sitemap/{filename}"
-        filename = "{0}_sitemap.xml".format(month_name)
+        filename = "{0}_{1}_sitemap.xml".format(year, month_name)
 
         recs = self.env[site_model].story_page_urls(from_date, till_date)
         data = self.generate_sitemap_xml_data(recs, "weekly")
