@@ -38,7 +38,7 @@ class ProjectSite2(models.Model):
     url_verified = fields.Boolean(string="URL Verified", default=False)
 
     def trigger_check_valid(self):
-        recs = self.env["project.site1"].search([("is_valid", "=", False)])[:100]
+        recs = self.env["project.site2"].search([("is_valid", "=", False)])[:100]
 
         for rec in recs:
             if rec.title \
@@ -52,7 +52,7 @@ class ProjectSite2(models.Model):
                 rec.write({"is_valid": True})
 
     def trigger_site_data(self):
-        recs = self.env["project.site1"].search([("is_valid", "=", False)])[:100]
+        recs = self.env["project.site2"].search([("is_valid", "=", False)])[:100]
         for rec in recs:
             rec.write({"site_title": rec.title,
                        "site_preview": rec.preview,
@@ -63,7 +63,7 @@ class ProjectSite2(models.Model):
         self.new_record_import()
 
     def new_record_import(self):
-        recs = self.env["story.book"].search([("project_site1", "=", False),
+        recs = self.env["story.book"].search([("project_site2", "=", False),
                                               ("language.name", "=", LANGUAGE),
                                               ("prev_url", "=", False)])[:300]
         list_of_random_items = None
@@ -72,7 +72,7 @@ class ProjectSite2(models.Model):
             list_of_random_items = random.sample(recs, num_to_select)
 
         for rec in list_of_random_items:
-            publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])
+            publish = self.env["project.site2"].search_count([("date", "=", datetime.now())])
             category_obj = self.env["category.tag"].search([("name", "=", rec.category),
                                                             ("category_id", "!=", False)])
 
@@ -85,11 +85,11 @@ class ProjectSite2(models.Model):
                                                 "content": item.content})
                                         for item in rec.content_ids]}
 
-                record_id = self.env["project.site1"].create(data)
-                rec.write({"project_site1": record_id.name})
+                record_id = self.env["project.site2"].create(data)
+                rec.write({"project_site2": record_id.name})
 
     def next_record_import(self):
-        recs = self.env["project.site1"].search([("last_checked_on", "!=", datetime.now()),
+        recs = self.env["project.site2"].search([("last_checked_on", "!=", datetime.now()),
                                                  ("is_exported", "=", True),
                                                  ("next_id", "=", False)])[:100]
 
@@ -97,9 +97,9 @@ class ProjectSite2(models.Model):
             story_id = self.env["story.book"].search([("name", "=", rec.ref)])
             if story_id:
                 story_obj = self.env["story.book"].search([("prev_url", "=", story_id.crawl_url),
-                                                           ("project_site1", "=", False)])
+                                                           ("project_site2", "=", False)])
                 if story_obj:
-                    publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])
+                    publish = self.env["project.site2"].search_count([("date", "=", datetime.now())])
                     category_obj = self.env["category.tag"].search([("name", "=", story_obj.category),
                                                                     ("category_id", "!=", False)])
                     if category_obj and (publish < MIN_PUBLISH):
@@ -112,14 +112,14 @@ class ProjectSite2(models.Model):
                                                         "content": item.content})
                                                 for item in story_obj.content_ids]}
 
-                        record_id = self.env["project.site1"].create(data)
+                        record_id = self.env["project.site2"].create(data)
                         rec.write({"next_id": record_id.id})
-                        story_obj.write({"project_site1": record_id.name})
+                        story_obj.write({"project_site2": record_id.name})
 
             rec.write({"last_checked_on": datetime.now()})
 
     def trigger_export(self):
-        recs = self.env["project.site1"].search([("is_exported", "=", False),
+        recs = self.env["project.site2"].search([("is_exported", "=", False),
                                                  ("is_valid", "=", True)])
 
         if recs:
@@ -188,7 +188,7 @@ class ProjectSite2(models.Model):
         return category
 
     def trigger_url_verification(self):
-        recs = self.env["project.site1"].search([("url_verified", "=", False),
+        recs = self.env["project.site2"].search([("url_verified", "=", False),
                                                  ("is_exported", "=", True)])
         for rec in recs:
             url = "https://{0}story/{1}".format(DOMAIN, rec.site_url)
@@ -210,7 +210,7 @@ class ProjectSite2(models.Model):
 
     def home_page_urls(self):
         result = []
-        count = self.env["project.site1"].search_count([("is_exported", ">=", True)])
+        count = self.env["project.site2"].search_count([("is_exported", ">=", True)])
 
         if count:
             total_page = int(count / PER_PAGE) + 1
@@ -226,7 +226,7 @@ class ProjectSite2(models.Model):
         category_ids = self.env["story.category"].search([])
 
         for category_id in category_ids:
-            count = self.env["project.site1"].search_count([("is_exported", ">=", True),
+            count = self.env["project.site2"].search_count([("is_exported", ">=", True),
                                                             ("category_id", "=", category_id.id)])
 
             if count:
@@ -240,7 +240,7 @@ class ProjectSite2(models.Model):
 
     def story_page_urls(self, from_date, till_date):
         result = []
-        recs = self.env["project.site1"].search([("date", ">=", from_date),
+        recs = self.env["project.site2"].search([("date", ">=", from_date),
                                                  ("date", "<=", till_date),
                                                  ("is_exported", "=", True)])
 
