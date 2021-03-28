@@ -7,7 +7,7 @@ import random
 MIN_PUBLISH = 300
 PER_PAGE = 9
 DOMAIN = config["story_book_export_project_site2_domain"]
-LANGUAGE = "English"
+LANGUAGE = "Tamil"
 
 
 class ProjectSite2(models.Model):
