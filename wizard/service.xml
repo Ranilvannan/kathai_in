@@ -23,17 +23,6 @@
                         </page>
                     </notebook>
                 </sheet>
-                <sheet>
-                    <h2>Crawling Service</h2>
-                    <notebook>
-                        <page string="Desitales2">
-                            <group>
-                                <button name="trigger_desitales2_crawl" string="Desitales2 Crawl" type="object" class="oe_highlight"/>
-                                <button name="trigger_desitales2_history_crawl" string="Desitales2 History Crawl" type="object" class="oe_highlight"/>
-                            </group>
-                        </page>
-                    </notebook>
-                </sheet>
             </form>
         </field>
     </record>
@@ -49,6 +38,6 @@
               name="Service"
               parent="book_menu"
               action="service_service_action"
-              sequence="80"/>
+              sequence="90"/>
 
 </odoo>

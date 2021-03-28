@@ -22,6 +22,7 @@
         'views/language_view.xml',
         'views/history_view.xml',
         'wizard/service.xml',
+        'wizard/crawl_service.xml',
         'wizard/sitemap_service.xml'
     ],
     'demo': [],

@@ -31,3 +31,10 @@ class CrawlService(models.TransientModel):
 
             obj.trigger_crawl()
 
+    def trigger_tamilkamaveri_crawl(self):
+        obj = self.env["tamil.kamaveri"].create({
+            "domain": "https://www.tamilkamaveri.com",
+            "url": "https://www.tamilkamaveri.com",
+            "page": 2})
+
+        obj.trigger_crawl()

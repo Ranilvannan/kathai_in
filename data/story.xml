@@ -30,5 +30,10 @@
             <field name="code">ENGLISH</field>
         </record>
 
+        <record id="story_language_tamil" model="story.language">
+            <field name="name">Tamil</field>
+            <field name="code">TAMIL</field>
+        </record>
+
     </data>
 </odoo>

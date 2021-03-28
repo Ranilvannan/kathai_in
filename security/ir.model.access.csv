@@ -12,5 +12,6 @@ service_service_admin,service.service.admin,model_service_service,story_book_adm
 sitemap_service_admin,sitemap.service.admin,model_sitemap_service,story_book_admin,1,1,1,1
 free_sex_kahani_admin,free.sex.kahani.admin,model_free_sex_kahani,story_book_admin,1,1,1,1
 desi_tales2_admin,desi.tales2.admin,model_desi_tales2,story_book_admin,1,1,1,1
+tamil_kamaveri_admin,tamil.kamaveri.admin,model_tamil_kamaveri,story_book_admin,1,1,1,1
 history_history_admin,history.history.admin,model_history_history,story_book_admin,1,1,1,1
 book_attachment_admin,book.attachment.admin,model_book_attachment,story_book_admin,1,1,1,1
