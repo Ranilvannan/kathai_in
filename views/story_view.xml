@@ -24,6 +24,7 @@
                     </group>
                     <group string="Project Info">
                         <field name="project_site1"/>
+                        <field name="project_site2"/>
                     </group>
                     <notebook>
                         <page string="Content">

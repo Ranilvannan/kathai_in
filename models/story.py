@@ -25,6 +25,7 @@ class StoryBook(models.Model):
     # Status
     active = fields.Boolean(string="Active", default=True)
     project_site1 = fields.Char(string="Project Site 1")
+    project_site2 = fields.Char(string="Project Site 2")
 
     @api.model
     def create(self, vals):
