@@ -31,7 +31,7 @@
         <field name="act_window_id" ref="crawl_service_tamilkamaveri_action"/>
     </record>
 
-    <menuitem id="crawl_service_menu"
+    <menuitem id="crawl_service_tamilkamaveri_menu"
               name="Crawl Service"
               parent="tamil_menu"
               action="crawl_service_tamilkamaveri_action"

@@ -32,7 +32,7 @@
         <field name="act_window_id" ref="crawl_service_desitales2_action"/>
     </record>
 
-    <menuitem id="crawl_service_menu"
+    <menuitem id="crawl_service_desitales2_menu"
               name="Crawl Service"
               parent="english_menu"
               action="crawl_service_desitales2_action"
