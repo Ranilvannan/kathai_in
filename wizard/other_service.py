@@ -23,7 +23,7 @@ class OtherService(models.TransientModel):
 
     def generate_json_tmp_file(self, file_data, suffix):
         prefix = datetime.now().strftime('%s')
-        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, delete=False, mode="w+")
+        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, mode="w+")
         json.dump(file_data, tmp)
         tmp.flush()
 
@@ -31,7 +31,7 @@ class OtherService(models.TransientModel):
 
     def generate_tmp_xml_file(self, file_data, suffix):
         prefix = datetime.now().strftime('%s')
-        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, delete=False, mode="wb+")
+        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, mode="wb+")
         tmp.write(file_data)
         tmp.flush()
 
