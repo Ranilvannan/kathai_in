@@ -6,6 +6,7 @@ import requests
 import random
 
 MIN_PUBLISH = 300
+NUM_SELECT = 3
 PER_PAGE = 9
 LANGUAGE = "English"
 
@@ -73,9 +74,8 @@ class ProjectSite1(models.Model):
                                               ("language.name", "=", LANGUAGE),
                                               ("prev_url", "=", False)])[:300]
         list_of_random_items = None
-        num_to_select = 5
-        if len(recs) > num_to_select:
-            list_of_random_items = random.sample(recs, num_to_select)
+        if len(recs) > NUM_SELECT:
+            list_of_random_items = random.sample(recs, NUM_SELECT)
 
         for rec in list_of_random_items:
             publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])

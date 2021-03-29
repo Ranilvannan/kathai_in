@@ -1,18 +1,25 @@
 from odoo import models, fields, api, exceptions
 from odoo.tools import config
+import os
 from datetime import datetime
 import requests
 import random
 
-MIN_PUBLISH = 300
+MIN_PUBLISH = 6
+NUM_SELECT = 3
 PER_PAGE = 9
-DOMAIN = config["story_book_export_project_site2_domain"]
 LANGUAGE = "Tamil"
+
+DOMAIN = config["project_site2_domain"]
+HOST = config["story_book_export_host"]
+USERNAME = config["story_book_export_username"]
+KEY_FILENAME = config["story_book_export_public_key_filename"]
+REMOTE_FILE = config["project_site2_path"]
 
 
 class ProjectSite2(models.Model):
     _name = "project.site2"
-    _description = "Project Site 2 tamilsexstories.osholikes"
+    _description = "Project Site 2 osholikes"
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)
@@ -67,9 +74,8 @@ class ProjectSite2(models.Model):
                                               ("language.name", "=", LANGUAGE),
                                               ("prev_url", "=", False)])[:300]
         list_of_random_items = None
-        num_to_select = 5
-        if len(recs) > num_to_select:
-            list_of_random_items = random.sample(recs, num_to_select)
+        if len(recs) > NUM_SELECT:
+            list_of_random_items = random.sample(recs, NUM_SELECT)
 
         for rec in list_of_random_items:
             publish = self.env["project.site2"].search_count([("date", "=", datetime.now())])
@@ -123,24 +129,24 @@ class ProjectSite2(models.Model):
                                                  ("is_valid", "=", True)])
 
         if recs:
-            self.story_export(recs)
-            self.category_export(recs)
+            # Story export
+            story_json = self.generate_story_json(recs)
+            story_filename = "_{0}_story.json".format(LANGUAGE)
+            self.generate_and_export(story_json, story_filename)
+
+            # Category export
+            category_json = self.generate_category_json(recs)
+            category_filename = "_{0}_category.json".format(LANGUAGE)
+            self.generate_and_export(category_json, category_filename)
 
         for rec in recs:
             rec.is_exported = True
 
-    def story_export(self, recs):
-        json_data = self.generate_story_json(recs)
-        file_name = "_{0}_story.json".format(LANGUAGE)
-        tmp_file = self.env["other.service"].generate_tmp_file(json_data, file_name)
-        self.env["other.service"].move_tmp_file(tmp_file)
-        tmp_file.close()
-
-    def category_export(self, recs):
-        json_data = self.generate_category_json(recs)
-        file_name = "_{0}_category.json".format(LANGUAGE)
-        tmp_file = self.env["other.service"].generate_tmp_file(json_data, file_name)
-        self.env["other.service"].move_tmp_file(tmp_file)
+    def generate_and_export(self, json_data, file_name):
+        tmp_file = self.env["other.service"].generate_json_tmp_file(json_data, file_name)
+        to_file = os.path.basename(tmp_file.name)
+        remote_path = os.path.join(REMOTE_FILE, to_file)
+        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, remote_path)
         tmp_file.close()
 
     def generate_story_json(self, recs):

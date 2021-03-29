@@ -2,5 +2,7 @@
 <odoo>
 
     <menuitem id="book_menu" name="Book" sequence="10"/>
+    <menuitem id="english_menu" name="English Book" sequence="20"/>
+    <menuitem id="tamil_menu" name="Tamil Book" sequence="30"/>
 
 </odoo>

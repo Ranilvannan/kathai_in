@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="project_site1_form" model="ir.ui.view">
-        <field name="name">project.site1.form</field>
-        <field name="model">project.site1</field>
+    <record id="project_site2_form" model="ir.ui.view">
+        <field name="name">project.site2.form</field>
+        <field name="model">project.site2</field>
         <field name="arch" type="xml">
-            <form string="Project Site 1">
+            <form string="Project Site 2">
                 <sheet>
                     <h1><field name="name"/></h1>
                     <group col="4">
@@ -45,11 +45,11 @@
         </field>
     </record>
 
-    <record id="project_site1_tree" model="ir.ui.view">
-        <field name="name">project.site1.tree</field>
-        <field name="model">project.site1</field>
+    <record id="project_site2_tree" model="ir.ui.view">
+        <field name="name">project.site2.tree</field>
+        <field name="model">project.site2</field>
         <field name="arch" type="xml">
-            <tree name="Project Site 1">
+            <tree name="Project Site 2">
                 <field name="name"/>
                 <field name="date"/>
                 <field name="ref"/>
@@ -61,16 +61,16 @@
         </field>
     </record>
 
-    <record id="project_site1_action" model="ir.actions.act_window">
-        <field name="name">Project Site 1</field>
-        <field name="res_model">project.site1</field>
+    <record id="project_site2_action" model="ir.actions.act_window">
+        <field name="name">Project Site 2</field>
+        <field name="res_model">project.site2</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="project_site1_menu"
-              name="Project Site 1"
-              parent="english_menu"
-              action="project_site1_action"
+    <menuitem id="project_site2_menu"
+              name="Project Site 2"
+              parent="tamil_menu"
+              action="project_site2_action"
               sequence="10"/>
 
 </odoo>

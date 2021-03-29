@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crawl_service_desitales2_form" model="ir.ui.view">
+        <field name="name">crawl.service.form</field>
+        <field name="model">crawl.service</field>
+        <field name="arch" type="xml">
+            <form string="Crawl Service">
+                <sheet>
+                    <h2>Desitales2</h2>
+                    <group>
+                        <button name="trigger_desitales2_crawl" string="Desitales2 Crawl" type="object" class="oe_highlight"/>
+                        <button name="trigger_desitales2_history_crawl" string="Desitales2 History Crawl" type="object" class="oe_highlight"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="crawl_service_desitales2_action" model="ir.actions.act_window">
+        <field name="name">Crawl Service</field>
+        <field name="res_model">crawl.service</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="crawl_service_desitales2_form"/>
+    </record>
+
+    <record id="crawl_service_desitales2_form_act" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="crawl_service_desitales2_form"/>
+        <field name="act_window_id" ref="crawl_service_desitales2_action"/>
+    </record>
+
+    <menuitem id="crawl_service_menu"
+              name="Crawl Service"
+              parent="english_menu"
+              action="crawl_service_desitales2_action"
+              sequence="20"/>
+
+</odoo>
