@@ -4,14 +4,12 @@ import os
 from datetime import datetime
 import calendar
 from lxml import etree
-from xml.etree.ElementTree import Element, SubElement, tostring
-import tempfile
-from paramiko import SSHClient, AutoAddPolicy
-from xml.dom import minidom
+
 
 HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
 KEY_FILENAME = config["story_book_export_public_key_filename"]
+
 
 MONTH = [("01", "January"),
          ("02", "February"),
@@ -46,61 +44,46 @@ class SitemapService(models.TransientModel):
         till_date = "{0}-{1}-{2}".format(year_now, month_now, day[1])
 
         if self.site == "project_site1":
-            self.project_site1("project.site1", from_date, till_date)
-            self.project_site1_index("project.site1")
+            remote_path = config["project_site1_path"]
+            self.article_sitemap("project.site1", remote_path, from_date, till_date, "monthly")
+            self.index_sitemap("project.site1", remote_path, "daily")
 
-    def project_site1_index(self, site_model):
-        filepath = "/home/vetrivel/english/sitemap/{filename}"
+    def index_sitemap(self, site_model, remote_path, frequency):
         filename = "sitemap.xml"
+        filepath = os.path.join(remote_path, "sitemap", filename)
 
         recs = self.env[site_model].home_page_urls()
         category_page_list = self.env[site_model].category_page_urls()
         recs.extend(category_page_list)
-        data = self.generate_sitemap_xml_data(recs, "daily")
-        self.generate_tmp_file(data, filepath, filename)
+        file_data = self.generate_sitemap_xml_data(recs, frequency)
+        tmp_file = self.env["other.service"].generate_tmp_xml_file(file_data, filename)
 
-    def project_site1(self, site_model, from_date, till_date):
+        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, filepath)
+        tmp_file.close()
+
+    def article_sitemap(self, site_model, remote_path, from_date, till_date, frequency):
         month_name = datetime.now().strftime("%B").lower()
         year = datetime.now().strftime("%Y").lower()
-        filepath = "/home/vetrivel/english/sitemap/{filename}"
         filename = "{0}_{1}_sitemap.xml".format(month_name, year)
+        filepath = os.path.join(remote_path, "sitemap", filename)
 
         recs = self.env[site_model].story_page_urls(from_date, till_date)
-        data = self.generate_sitemap_xml_data(recs, "weekly")
-        self.generate_tmp_file(data, filepath, filename)
+        file_data = self.generate_sitemap_xml_data(recs, frequency)
+        tmp_file = self.env["other.service"].generate_tmp_xml_file(file_data, filename)
+
+        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, filepath)
+        tmp_file.close()
 
     def generate_sitemap_xml_data(self, recs, change_freq):
-        urlset = Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
+        urlset = etree.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
 
         for rec in recs:
-            url = SubElement(urlset, "url")
-            SubElement(url, "loc").text = rec["loc"]
-            SubElement(url, "lastmod").text = rec["lastmod"]
-            SubElement(url, "changefreq").text = change_freq
-            SubElement(url, "priority").text = "0.5"
+            url = etree.SubElement(urlset, "url")
+            etree.SubElement(url, "loc").text = rec["loc"]
+            etree.SubElement(url, "lastmod").text = rec["lastmod"]
+            etree.SubElement(url, "changefreq").text = change_freq
+            etree.SubElement(url, "priority").text = "0.5"
 
-        xml_string = tostring(urlset)
-        xml_page = minidom.parseString(xml_string)
-        data = xml_page.toprettyxml()
+        data = etree.tostring(urlset, pretty_print=True, xml_declaration=True, encoding="utf-8")
 
         return data
-
-    def move_tmp_file(self, tmp, filepath, filename):
-        ssh_client = SSHClient()
-        ssh_client.set_missing_host_key_policy(AutoAddPolicy())
-
-        ssh_client.connect(hostname=HOST,
-                           username=USERNAME,
-                           key_filename=KEY_FILENAME)
-
-        sftp_client = ssh_client.open_sftp()
-        sftp_client.put(tmp.name, filepath.format(filename=filename))
-        sftp_client.close()
-
-    def generate_tmp_file(self, file_data, filepath, filename):
-        prefix = datetime.now().strftime('%s')
-        with tempfile.NamedTemporaryFile(prefix=prefix, suffix=".xml") as tmp:
-            data = str.encode(file_data)
-            tmp.write(data)
-            tmp.flush()
-            self.move_tmp_file(tmp, filepath, filename)

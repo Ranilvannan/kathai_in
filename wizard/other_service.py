@@ -1,5 +1,4 @@
 from odoo import models, fields, api
-from odoo.tools import config
 import os
 from datetime import datetime
 import string
@@ -33,12 +32,12 @@ class OtherService(models.TransientModel):
     def generate_tmp_xml_file(self, file_data, suffix):
         prefix = datetime.now().strftime('%s')
         tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, delete=False, mode="wb+")
-        file_data.write(tmp, pretty_print=True, xml_declaration=True,   encoding="utf-8")
+        tmp.write(file_data)
         tmp.flush()
 
         return tmp
 
-    def move_tmp_file(self, host, username, key_filename, remote_path, from_file):
+    def move_tmp_file(self, host, username, key_filename, local_path, remote_path):
         ssh_client = SSHClient()
         ssh_client.set_missing_host_key_policy(AutoAddPolicy())
 
@@ -47,9 +46,7 @@ class OtherService(models.TransientModel):
                            key_filename=key_filename)
 
         sftp_client = ssh_client.open_sftp()
-        file_name = os.path.basename(from_file.name)
-        to_file = os.path.join(remote_path, file_name)
-        sftp_client.put(from_file.name, to_file)
+        sftp_client.put(local_path, remote_path)
         sftp_client.close()
 
         return True
