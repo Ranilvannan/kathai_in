@@ -9,6 +9,11 @@ PER_PAGE = 9
 DOMAIN = config["story_book_export_project_site1_domain"]
 LANGUAGE = "English"
 
+HOST = config["story_book_export_host"]
+USERNAME = config["story_book_export_username"]
+KEY_FILENAME = config["story_book_export_public_key_filename"]
+REMOTE_FILE = config["story_book_export_path"]
+
 
 class ProjectSite1(models.Model):
     _name = "project.site1"
@@ -132,15 +137,15 @@ class ProjectSite1(models.Model):
     def story_export(self, recs):
         json_data = self.generate_story_json(recs)
         file_name = "_{0}_story.json".format(LANGUAGE)
-        tmp_file = self.env["other.service"].generate_tmp_file(json_data, file_name)
-        self.env["other.service"].move_tmp_file(tmp_file)
+        tmp_file = self.env["other.service"].generate_json_tmp_file(json_data, file_name)
+        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, REMOTE_FILE, tmp_file)
         tmp_file.close()
 
     def category_export(self, recs):
         json_data = self.generate_category_json(recs)
         file_name = "_{0}_category.json".format(LANGUAGE)
-        tmp_file = self.env["other.service"].generate_tmp_file(json_data, file_name)
-        self.env["other.service"].move_tmp_file(tmp_file)
+        tmp_file = self.env["other.service"].generate_json_tmp_file(json_data, file_name)
+        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, REMOTE_FILE, tmp_file)
         tmp_file.close()
 
     def generate_story_json(self, recs):

@@ -11,12 +11,6 @@ import json
 from paramiko import SSHClient, AutoAddPolicy
 
 
-HOST = config["story_book_export_host"]
-USERNAME = config["story_book_export_username"]
-KEY_FILENAME = config["story_book_export_public_key_filename"]
-REMOTE_FILE = config["story_book_export_path"]
-
-
 class OtherService(models.TransientModel):
     _name = "other.service"
     _description = "Other Service"
@@ -28,7 +22,7 @@ class OtherService(models.TransientModel):
         site_path = "{0}-{1}".format(new_text, res)
         return site_path
 
-    def generate_tmp_file(self, file_data, suffix):
+    def generate_json_tmp_file(self, file_data, suffix):
         prefix = datetime.now().strftime('%s')
         tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, delete=False, mode="w+")
         json.dump(file_data, tmp)
@@ -36,17 +30,26 @@ class OtherService(models.TransientModel):
 
         return tmp
 
-    def move_tmp_file(self, tmp):
+    def generate_tmp_xml_file(self, file_data, suffix):
+        prefix = datetime.now().strftime('%s')
+        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, delete=False, mode="wb+")
+        file_data.write(tmp, pretty_print=True, xml_declaration=True,   encoding="utf-8")
+        tmp.flush()
+
+        return tmp
+
+    def move_tmp_file(self, host, username, key_filename, remote_path, from_file):
         ssh_client = SSHClient()
         ssh_client.set_missing_host_key_policy(AutoAddPolicy())
 
-        ssh_client.connect(hostname=HOST,
-                           username=USERNAME,
-                           key_filename=KEY_FILENAME)
+        ssh_client.connect(hostname=host,
+                           username=username,
+                           key_filename=key_filename)
 
         sftp_client = ssh_client.open_sftp()
-        file_name = os.path.basename(tmp.name)
-        sftp_client.put(tmp.name, REMOTE_FILE.format(file_name=file_name))
+        file_name = os.path.basename(from_file.name)
+        to_file = os.path.join(remote_path, file_name)
+        sftp_client.put(from_file.name, to_file)
         sftp_client.close()
 
         return True
