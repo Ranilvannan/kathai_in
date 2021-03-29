@@ -1,18 +1,19 @@
 from odoo import models, fields, api, exceptions
 from odoo.tools import config
+import os
 from datetime import datetime
 import requests
 import random
 
 MIN_PUBLISH = 300
 PER_PAGE = 9
-DOMAIN = config["story_book_export_project_site1_domain"]
 LANGUAGE = "English"
 
+DOMAIN = config["project_site1_domain"]
 HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
 KEY_FILENAME = config["story_book_export_public_key_filename"]
-REMOTE_FILE = config["story_book_export_path"]
+REMOTE_FILE = config["project_site1_path"]
 
 
 class ProjectSite1(models.Model):
@@ -128,24 +129,24 @@ class ProjectSite1(models.Model):
                                                  ("is_valid", "=", True)])
 
         if recs:
-            self.story_export(recs)
-            self.category_export(recs)
+            # Story export
+            story_json = self.generate_story_json(recs)
+            story_filename = "_{0}_story.json".format(LANGUAGE)
+            self.generate_and_export(story_json, story_filename)
+
+            # Category export
+            category_json = self.generate_category_json(recs)
+            category_filename = "_{0}_category.json".format(LANGUAGE)
+            self.generate_and_export(category_json, category_filename)
 
         for rec in recs:
             rec.is_exported = True
 
-    def story_export(self, recs):
-        json_data = self.generate_story_json(recs)
-        file_name = "_{0}_story.json".format(LANGUAGE)
+    def generate_and_export(self, json_data, file_name):
         tmp_file = self.env["other.service"].generate_json_tmp_file(json_data, file_name)
-        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, REMOTE_FILE, tmp_file)
-        tmp_file.close()
-
-    def category_export(self, recs):
-        json_data = self.generate_category_json(recs)
-        file_name = "_{0}_category.json".format(LANGUAGE)
-        tmp_file = self.env["other.service"].generate_json_tmp_file(json_data, file_name)
-        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, REMOTE_FILE, tmp_file)
+        to_file = os.path.basename(tmp_file.name)
+        remote_path = os.path.join(REMOTE_FILE, to_file)
+        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, remote_path)
         tmp_file.close()
 
     def generate_story_json(self, recs):
