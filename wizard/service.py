@@ -33,3 +33,9 @@ class Service(models.TransientModel):
 
     def trigger_project_site2_data_update(self):
         self.env["project.site2"].trigger_site_data()
+
+    def trigger_project_site2_validate(self):
+        self.env["project.site2"].trigger_check_valid()
+
+    def trigger_project_site2_export(self):
+        self.env["project.site2"].trigger_export()

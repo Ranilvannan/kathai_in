@@ -73,7 +73,7 @@ class ProjectSite1(models.Model):
         recs = self.env["story.book"].search([("project_site1", "=", False),
                                               ("language.name", "=", LANGUAGE),
                                               ("prev_url", "=", False)])[:300]
-        list_of_random_items = None
+        list_of_random_items = []
         if len(recs) > NUM_SELECT:
             list_of_random_items = random.sample(recs, NUM_SELECT)
 
