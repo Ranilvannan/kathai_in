@@ -8,6 +8,7 @@ class StoryCategory(models.Model):
 
     name = fields.Char(string="Name")
     url = fields.Char(string="URL")
+    description = fields.Text(string="Description")
 
 
 class CategoryTag(models.Model):

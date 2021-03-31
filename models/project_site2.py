@@ -190,7 +190,8 @@ class ProjectSite2(models.Model):
             for item in rec.category_id:
                 if item.name and item.url and (item.id not in cat_id):
                     category.append({"name": item.name,
-                                     "url": item.url})
+                                     "url": item.url,
+                                     "description": item.description})
                     cat_id.append(item.id)
 
         return category
