@@ -33,7 +33,7 @@
     </record>
 
     <menuitem id="project_site2_service_menu"
-              name="Service 2"
+              name="Service"
               parent="tamil_menu"
               action="project_site2_service_action"
               sequence="30"/>

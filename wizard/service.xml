@@ -12,16 +12,6 @@
                             <button name="trigger_book_category_tag_update" string="Book Category Tag Update" type="object" class="oe_highlight"/>
                         </page>
                     </notebook>
-                    <notebook>
-                        <page string="Project Site 1">
-                            <group>
-                                <button name="trigger_project_site1_import" string="Site 1 Import" type="object" class="oe_highlight"/>
-                                <button name="trigger_project_site1_data_update" string="Site1 Data Update" type="object" class="oe_highlight"/>
-                                <button name="trigger_project_site1_validate" string="Check Site1 valid" type="object" class="oe_highlight"/>
-                                <button name="trigger_project_site1_export" string="Site 1 Export" type="object" class="oe_highlight"/>
-                            </group>
-                        </page>
-                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -33,6 +23,14 @@
         <field name="res_model">service.service</field>
         <field name="view_mode">form</field>
     </record>
+
+    <record id="service_service_form_act" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="service_service_form"/>
+        <field name="act_window_id" ref="service_service_action"/>
+    </record>
+
 
     <menuitem id="service_service_menu"
               name="Service"
