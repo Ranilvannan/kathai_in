@@ -24,7 +24,8 @@ MONTH = [("01", "January"),
          ("11", "November"),
          ("12", "December")]
 YEAR = [("2021", "2021"), ("2022", "2022")]
-SITE = [("project_site1", "Project Site 1")]
+SITE = [("project_site1", "Project Site 1"),
+        ("project_site2", "Project Site 2")]
 
 
 class SitemapService(models.TransientModel):
@@ -47,6 +48,10 @@ class SitemapService(models.TransientModel):
             remote_path = config["project_site1_path"]
             self.article_sitemap("project.site1", remote_path, from_date, till_date, "monthly")
             self.index_sitemap("project.site1", remote_path, "daily")
+        elif self.site == "project_site2":
+            remote_path = config["project_site2_path"]
+            self.article_sitemap("project.site2", remote_path, from_date, till_date, "monthly")
+            self.index_sitemap("project.site2", remote_path, "daily")
 
     def index_sitemap(self, site_model, remote_path, frequency):
         filename = "sitemap.xml"
