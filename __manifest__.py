@@ -23,8 +23,10 @@
         'views/language_view.xml',
         'views/history_view.xml',
         'wizard/service.xml',
-        'wizard/desitales2.xml',
-        'wizard/tamilkamaveri.xml',
+        'wizard/project_site1_service.xml',
+        'wizard/project_site2_service.xml',
+        'wizard/project_site1_crawl.xml',
+        'wizard/project_site2_crawl.xml',
         'wizard/sitemap_service.xml'
     ],
     'demo': [],

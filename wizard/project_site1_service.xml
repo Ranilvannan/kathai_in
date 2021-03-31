@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_site1_service_form" model="ir.ui.view">
+        <field name="name">project.site1.service.form</field>
+        <field name="model">service.service</field>
+        <field name="arch" type="xml">
+            <form string="Service">
+                <sheet>
+                    <group string="Project Site 1" col="1">
+                        <button name="trigger_project_site1_import" string="Site 1 Import" type="object" class="oe_highlight"/>
+                        <button name="trigger_project_site1_data_update" string="Site1 Data Update" type="object" class="oe_highlight"/>
+                        <button name="trigger_project_site1_validate" string="Check Site1 valid" type="object" class="oe_highlight"/>
+                        <button name="trigger_project_site1_export" string="Site 1 Export" type="object" class="oe_highlight"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="project_site1_service_action" model="ir.actions.act_window">
+        <field name="name">Service</field>
+        <field name="res_model">service.service</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <record id="project_site1_service_form_act" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="project_site1_service_form"/>
+        <field name="act_window_id" ref="project_site1_service_action"/>
+    </record>
+
+    <menuitem id="project_site1_service_menu"
+              name="Service"
+              parent="english_menu"
+              action="project_site1_service_action"
+              sequence="30"/>
+
+</odoo>

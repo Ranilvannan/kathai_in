@@ -6,7 +6,7 @@ import requests
 import random
 
 MIN_PUBLISH = 6
-NUM_SELECT = 3
+NUM_SELECT = 2
 PER_PAGE = 9
 LANGUAGE = "Tamil"
 
@@ -19,7 +19,7 @@ REMOTE_FILE = config["project_site2_path"]
 
 class ProjectSite2(models.Model):
     _name = "project.site2"
-    _description = "Project Site 2 osholikes"
+    _description = "Project Site 2 tamilsexstory.osholikes"
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)

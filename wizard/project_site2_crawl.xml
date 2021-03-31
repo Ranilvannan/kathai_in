@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="crawl_service_tamilkamaveri_form" model="ir.ui.view">
-        <field name="name">crawl.service.form</field>
+    <record id="project_site2_service_form" model="ir.ui.view">
+        <field name="name">project.site2.service.form</field>
         <field name="model">crawl.service</field>
         <field name="arch" type="xml">
             <form string="Crawl Service">
                 <sheet>
-                    <h2>tamilkamaveri</h2>
-                    <group>
+                    <group string="Tamilkamaveri">
                         <button name="trigger_tamilkamaveri_crawl" string="Tamilkamaveri Crawl" type="object" class="oe_highlight"/>
                     </group>
                 </sheet>
@@ -17,24 +16,24 @@
     </record>
 
 
-    <record id="crawl_service_tamilkamaveri_action" model="ir.actions.act_window">
+    <record id="project_site2_service_action" model="ir.actions.act_window">
         <field name="name">Crawl Service</field>
         <field name="res_model">crawl.service</field>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="crawl_service_tamilkamaveri_form"/>
+        <field name="view_id" ref="project_site2_service_form"/>
     </record>
 
-    <record id="crawl_service_tamilkamaveri_form_act" model="ir.actions.act_window.view">
+    <record id="project_site2_service_form_act" model="ir.actions.act_window.view">
         <field name="sequence" eval="2"/>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="crawl_service_tamilkamaveri_form"/>
-        <field name="act_window_id" ref="crawl_service_tamilkamaveri_action"/>
+        <field name="view_id" ref="project_site2_service_form"/>
+        <field name="act_window_id" ref="project_site2_service_action"/>
     </record>
 
-    <menuitem id="crawl_service_tamilkamaveri_menu"
+    <menuitem id="project_site2_service_menu"
               name="Crawl Service"
               parent="tamil_menu"
-              action="crawl_service_tamilkamaveri_action"
+              action="project_site2_service_action"
               sequence="20"/>
 
 </odoo>

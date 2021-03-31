@@ -25,3 +25,6 @@ class Service(models.TransientModel):
 
     def trigger_project_site1_export(self):
         self.env["project.site1"].trigger_export()
+
+    def trigger_project_site2_import(self):
+        self.env["project.site2"].trigger_data_import()
