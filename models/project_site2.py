@@ -5,7 +5,7 @@ from datetime import datetime
 import requests
 import random
 
-MIN_PUBLISH = 6
+MIN_PUBLISH = 20
 NUM_SELECT = 2
 PER_PAGE = 9
 LANGUAGE = "Tamil"
@@ -61,9 +61,11 @@ class ProjectSite2(models.Model):
     def trigger_site_data(self):
         recs = self.env["project.site2"].search([("is_valid", "=", False)])[:100]
         for rec in recs:
-            rec.write({"site_title": rec.title,
-                       "site_preview": rec.preview,
-                       "site_url": self.env["other.service"].generate_url(rec.title)})
+            site_title = self.env["other.service"].get_translated_text(rec.title)
+            site_preview = self.env["other.service"].get_translated_text(rec.preview)
+            rec.write({"site_title": site_title,
+                       "site_preview": site_preview,
+                       "site_url": self.env["other.service"].generate_url(site_title)})
 
     def trigger_data_import(self):
         self.next_record_import()

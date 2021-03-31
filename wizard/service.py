@@ -14,6 +14,7 @@ class Service(models.TransientModel):
     def trigger_book_category_tag_update(self):
         self.env["category.tag"].trigger_generate_tag()
 
+    # Project Site 1
     def trigger_project_site1_import(self):
         self.env["project.site1"].trigger_data_import()
 
@@ -26,5 +27,9 @@ class Service(models.TransientModel):
     def trigger_project_site1_export(self):
         self.env["project.site1"].trigger_export()
 
+    # Project Site 2
     def trigger_project_site2_import(self):
         self.env["project.site2"].trigger_data_import()
+
+    def trigger_project_site2_data_update(self):
+        self.env["project.site2"].trigger_site_data()
