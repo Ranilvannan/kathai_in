@@ -9,6 +9,7 @@
                 <sheet>
                     <group string="Tamilkamaveri">
                         <button name="trigger_tamilkamaveri_crawl" string="Tamilkamaveri Crawl" type="object" class="oe_highlight"/>
+                        <button name="trigger_tamilkamaveri_history_crawl" string="Tamilkamaveri History Crawl" type="object" class="oe_highlight"/>
                     </group>
                 </sheet>
             </form>

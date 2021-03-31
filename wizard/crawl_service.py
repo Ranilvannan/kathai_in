@@ -38,3 +38,13 @@ class CrawlService(models.TransientModel):
             "page": 2})
 
         obj.trigger_crawl()
+
+    def trigger_tamilkamaveri_history_crawl(self):
+        history_obj = self.env["history.history"].search([("domain", "=", "https://www.tamilkamaveri.com")])
+        if history_obj:
+            obj = self.env["tamil.kamaveri"].create({
+                "domain": "https://www.tamilkamaveri.com",
+                "url": history_obj.url,
+                "page": 1})
+
+            obj.trigger_crawl()
