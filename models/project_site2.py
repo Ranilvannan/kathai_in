@@ -78,8 +78,7 @@ class ProjectSite2(models.Model):
         list_of_random_items = []
         if len(recs) > NUM_SELECT:
             list_of_random_items = random.sample(recs, NUM_SELECT)
-        print(recs)
-        print(list_of_random_items)
+
         for rec in list_of_random_items:
             publish = self.env["project.site2"].search_count([("date", "=", datetime.now())])
             category_obj = self.env["category.tag"].search([("name", "=", rec.category),
