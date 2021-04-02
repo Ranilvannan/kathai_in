@@ -184,17 +184,21 @@ class ProjectSite2(models.Model):
         return book
 
     def generate_category_json(self, recs):
-        category = []
+        book = []
         cat_id = []
         for rec in recs:
             for item in rec.category_id:
                 if item.name and item.url and (item.id not in cat_id):
-                    category.append({"name": item.name,
-                                     "url": item.url,
-                                     "description": item.description})
+                    category = {
+                        "category_id": item.id,
+                        "name": item.name,
+                        "url": item.url,
+                        "description": item.description
+                    }
+                    book.append(category)
                     cat_id.append(item.id)
 
-        return category
+        return book
 
     def trigger_url_verification(self):
         recs = self.env["project.site2"].search([("url_verified", "=", False),
