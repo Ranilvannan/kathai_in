@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, exceptions
 from odoo.tools import config
 import os
 from datetime import datetime
@@ -26,6 +26,8 @@ MONTH = [("01", "January"),
 YEAR = [("2021", "2021"), ("2022", "2022")]
 SITE = [("project_site1", "Project Site 1"),
         ("project_site2", "Project Site 2")]
+INDEX_FILENAME = "sitemap.xml"
+ARTICLE_FILENAME = "{0}_{1}_sitemap.xml"
 
 
 class SitemapService(models.TransientModel):
@@ -45,35 +47,43 @@ class SitemapService(models.TransientModel):
         till_date = "{0}-{1}-{2}".format(year_now, month_now, day[1])
 
         if self.site == "project_site1":
-            remote_path = config["project_site1_path"]
-            self.article_sitemap("project.site1", remote_path, from_date, till_date, "monthly")
-            self.index_sitemap("project.site1", remote_path, "daily")
+            self.get_project_site1(from_date, till_date)
         elif self.site == "project_site2":
-            remote_path = config["project_site2_path"]
-            self.article_sitemap("project.site2", remote_path, from_date, till_date, "monthly")
-            self.index_sitemap("project.site2", remote_path, "daily")
+            self.get_project_site2(from_date, till_date)
 
-    def index_sitemap(self, site_model, remote_path, frequency):
-        filename = "sitemap.xml"
+    def get_project_site1(self, from_date, till_date):
+        path = config["project_site1_path"]
+        domain = config["project_site1_domain"]
+        self.article_sitemap("project.site1", path, from_date, till_date, domain)
+        self.index_sitemap("project.site1", path)
+
+    def get_project_site2(self, from_date, till_date):
+        path = config["project_site2_path"]
+        domain = config["project_site2_domain"]
+        self.article_sitemap("project.site2", path, from_date, till_date, domain)
+        self.index_sitemap("project.site2", path)
+
+    def index_sitemap(self, site_model, remote_path):
+        filename = INDEX_FILENAME
         filepath = os.path.join(remote_path, "sitemap", filename)
 
         recs = self.env[site_model].home_page_urls()
         category_page_list = self.env[site_model].category_page_urls()
         recs.extend(category_page_list)
-        file_data = self.generate_sitemap_xml_data(recs, frequency)
+        file_data = self.generate_sitemap_xml_data(recs, "daily")
         tmp_file = self.env["other.service"].generate_tmp_xml_file(file_data, filename)
 
         self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, filepath)
         tmp_file.close()
 
-    def article_sitemap(self, site_model, remote_path, from_date, till_date, frequency):
+    def article_sitemap(self, site_model, remote_path, from_date, till_date, domain):
         month_name = datetime.now().strftime("%B").lower()
         year = datetime.now().strftime("%Y").lower()
-        filename = "{0}_{1}_sitemap.xml".format(month_name, year)
+        filename = ARTICLE_FILENAME.format(month_name, year)
         filepath = os.path.join(remote_path, "sitemap", filename)
 
         recs = self.env[site_model].story_page_urls(from_date, till_date)
-        file_data = self.generate_sitemap_xml_data(recs, frequency)
+        file_data = self.generate_sitemap_xml_data(recs, "monthly")
         tmp_file = self.env["other.service"].generate_tmp_xml_file(file_data, filename)
 
         self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, filepath)
@@ -92,3 +102,14 @@ class SitemapService(models.TransientModel):
         data = etree.tostring(urlset, pretty_print=True, xml_declaration=True, encoding="utf-8")
 
         return data
+
+    def export_reset(self, site_model):
+        obj = self.env[site_model]
+        un_exported = obj.search_count([("is_exported", "=", False)])
+        if un_exported:
+            raise exceptions.ValidationError("Error! Reset needs all records to be exported")
+
+        recs = obj.search([])
+
+        for rec in recs:
+            rec.is_exported = False
