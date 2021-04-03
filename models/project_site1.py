@@ -14,7 +14,7 @@ DOMAIN = config["project_site1_domain"]
 HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
 KEY_FILENAME = config["story_book_export_public_key_filename"]
-REMOTE_FILE = config["project_site1_path"]
+REMOTE_FILE = config["project_site_path"]
 
 
 class ProjectSite1(models.Model):
@@ -145,7 +145,7 @@ class ProjectSite1(models.Model):
     def generate_and_export(self, json_data, file_name):
         tmp_file = self.env["other.service"].generate_json_tmp_file(json_data, file_name)
         to_file = os.path.basename(tmp_file.name)
-        remote_path = os.path.join(REMOTE_FILE, to_file)
+        remote_path = os.path.join(REMOTE_FILE, LANGUAGE, to_file)
         self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, remote_path)
         tmp_file.close()
 
@@ -261,6 +261,16 @@ class ProjectSite1(models.Model):
                            "lastmod": rec.get_published_on_us_format()})
 
         return result
+
+    def export_reset(self):
+        un_exported = self.env["project.site1"].search_count([("is_exported", "=", False)])
+        if un_exported:
+            raise exceptions.ValidationError("Error! Reset needs all records to be exported")
+
+        recs = self.env["project.site1"].search([])
+
+        for rec in recs:
+            rec.is_exported = False
 
     @api.model
     def create(self, vals):
