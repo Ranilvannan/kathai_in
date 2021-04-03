@@ -12,6 +12,7 @@
                         <button name="trigger_project_site1_data_update" string="Site1 Data Update" type="object" class="oe_highlight"/>
                         <button name="trigger_project_site1_validate" string="Check Site1 valid" type="object" class="oe_highlight"/>
                         <button name="trigger_project_site1_export" string="Site 1 Export" type="object" class="oe_highlight"/>
+                        <button name="trigger_project_site1_reset_export" string="Site 1 Reset Export" type="object" class="oe_highlight"/>
                     </group>
                 </sheet>
             </form>
