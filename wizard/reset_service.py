@@ -1,14 +1,6 @@
 from odoo import models, fields, api, exceptions
-import os
-from datetime import datetime
-import string
-import random
-from itertools import groupby
-from operator import itemgetter
-import tempfile
-import json
-import unicodedata
-from .translator import translate
+
+
 PROJECT = [("project.site1", "Project Site 1"),
            ("project.site2", "Project Site 2")]
 

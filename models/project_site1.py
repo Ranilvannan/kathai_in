@@ -126,9 +126,6 @@ class ProjectSite1(models.Model):
 
             rec.write({"last_checked_on": datetime.now()})
 
-
-
-
     @api.model
     def create(self, vals):
         vals["name"] = self.env['ir.sequence'].next_by_code("project.site1")
