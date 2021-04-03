@@ -9,7 +9,7 @@ import tempfile
 import json
 import unicodedata
 from .translator import translate
-from paramiko import SSHClient, AutoAddPolicy
+
 
 
 class OtherService(models.TransientModel):
@@ -39,27 +39,7 @@ class OtherService(models.TransientModel):
         site_path = "{0}-{1}".format(new_text, res)
         return site_path
 
-    def generate_json_tmp_file(self, file_data, suffix):
-        prefix = datetime.now().strftime('%s')
-        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, mode="w+")
-        json.dump(file_data, tmp)
-        tmp.flush()
 
-        return tmp
-
-    def move_tmp_file(self, host, username, key_filename, local_path, remote_path):
-        ssh_client = SSHClient()
-        ssh_client.set_missing_host_key_policy(AutoAddPolicy())
-
-        ssh_client.connect(hostname=host,
-                           username=username,
-                           key_filename=key_filename)
-
-        sftp_client = ssh_client.open_sftp()
-        sftp_client.put(local_path, remote_path)
-        sftp_client.close()
-
-        return True
 
     def export_reset(self, site_model):
         obj = self.env[site_model]

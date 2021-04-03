@@ -1,9 +1,7 @@
-from odoo import models, fields, api, exceptions
+from odoo import models, fields, api
 from odoo.tools import config
 import os
-from urllib.parse import urlparse
 from datetime import datetime
-import requests
 import random
 
 MIN_PUBLISH = 50
@@ -15,7 +13,7 @@ DOMAIN = config["project_site1_domain"]
 HOST = config["story_book_export_host"]
 USERNAME = config["story_book_export_username"]
 KEY_FILENAME = config["story_book_export_public_key_filename"]
-REMOTE_FILE = config["project_site_path"]
+REMOTE_FILE = config["project_site1_path"]
 
 
 class ProjectSite1(models.Model):
@@ -128,79 +126,8 @@ class ProjectSite1(models.Model):
 
             rec.write({"last_checked_on": datetime.now()})
 
-    def trigger_export(self):
-        recs = self.env["project.site1"].search([("is_exported", "=", False),
-                                                 ("is_valid", "=", True)])
 
-        if recs:
-            # Story export
-            story_json = self.generate_story_json(recs)
-            story_filename = "_{0}_story.json".format(LANGUAGE)
-            self.generate_and_export(story_json, story_filename)
 
-            # Category export
-            category_json = self.generate_category_json(recs)
-            category_filename = "_{0}_category.json".format(LANGUAGE)
-            self.generate_and_export(category_json, category_filename)
-
-        for rec in recs:
-            rec.is_exported = True
-
-    def generate_and_export(self, json_data, file_name):
-        tmp_file = self.env["other.service"].generate_json_tmp_file(json_data, file_name)
-        to_file = os.path.basename(tmp_file.name)
-        remote_path = os.path.join(REMOTE_FILE, to_file)
-        self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, remote_path)
-        tmp_file.close()
-
-    def generate_story_json(self, recs):
-        book = []
-
-        for rec in recs:
-            story = {
-                "story_id": rec.id,
-                "name": rec.name,
-
-                "site_url": rec.site_url,
-                "site_title": rec.site_title,
-                "site_preview": rec.site_preview,
-                "prev": {"name": rec.prev_id.title,
-                         "url": rec.prev_id.site_url},
-                "next": {"name": rec.next_id.title,
-                         "url": rec.next_id.site_url},
-                "category": {"name": rec.category_id.name,
-                             "url": rec.category_id.url},
-
-                "title": rec.title,
-                "preview": rec.preview,
-                "content_ids": [{"content": item.content,
-                                 "order_seq": item.order_seq} for item in rec.content_ids],
-
-                "published_on": self.env["other.service"].in_format(rec.date),
-                "language": LANGUAGE
-
-            }
-
-            book.append(story)
-
-        return book
-
-    def generate_category_json(self, recs):
-        book = []
-        cat_id = []
-        for rec in recs:
-            for item in rec.category_id:
-                if item.name and item.url and (item.id not in cat_id):
-                    category = {
-                        "category_id": item.id,
-                        "name": item.name,
-                        "url": item.url,
-                        "description": item.description
-                    }
-                    book.append(category)
-                    cat_id.append(item.id)
-
-        return book
 
     @api.model
     def create(self, vals):
