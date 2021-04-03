@@ -16,6 +16,12 @@ class OtherService(models.TransientModel):
     _name = "other.service"
     _description = "Other Service"
 
+    def in_format(self, date):
+        result = None
+        if date and isinstance(date, datetime):
+            result = self.date.strftime("%d-%m-%Y")
+        return result
+
     def get_translated_text(self, text):
         result = translate(text)
         return self.strip_accents(result)

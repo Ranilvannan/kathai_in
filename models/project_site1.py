@@ -43,7 +43,6 @@ class ProjectSite1(models.Model):
     is_valid = fields.Boolean(string="Valid", default=False)
     last_checked_on = fields.Date(string="Last Checked On")
     is_exported = fields.Boolean(string="Exported", default=False)
-    url_verified = fields.Boolean(string="URL Verified", default=False)
 
     def trigger_check_valid(self):
         recs = self.env["project.site1"].search([("is_valid", "=", False)])[:100]
@@ -177,7 +176,7 @@ class ProjectSite1(models.Model):
                 "content_ids": [{"content": item.content,
                                  "order_seq": item.order_seq} for item in rec.content_ids],
 
-                "published_on": rec.get_published_on_in_format(),
+                "published_on": self.env["other.service"].in_format(rec.date),
                 "language": LANGUAGE
 
             }
@@ -202,70 +201,6 @@ class ProjectSite1(models.Model):
                     cat_id.append(item.id)
 
         return book
-
-    def trigger_url_verification(self):
-        recs = self.env["project.site1"].search([("url_verified", "=", False),
-                                                 ("is_exported", "=", True)])
-        for rec in recs:
-            url = "https://{0}story/{1}".format(DOMAIN, rec.site_url)
-            site = requests.get(url)
-            if site.status_code == 200:
-                rec.url_verified = True
-
-    def get_published_on_us_format(self):
-        result = None
-        if self.date:
-            result = self.date.strftime("%Y-%m-%d")
-        return result
-
-    def get_published_on_in_format(self):
-        result = None
-        if self.date:
-            result = self.date.strftime("%d-%m-%Y")
-        return result
-
-    def home_page_urls(self):
-        result = []
-        count = self.env["project.site1"].search_count([("is_exported", ">=", True)])
-
-        if count:
-            total_page = int(count / PER_PAGE) + 1
-            for page in range(1, total_page):
-                loc = "{0}turn/{1}/".format(DOMAIN, page)
-                lastmod = datetime.now().strftime("%Y-%m-%d")
-                result.append({"loc": loc, "lastmod": lastmod})
-
-        return result
-
-    def category_page_urls(self):
-        result = []
-        category_ids = self.env["story.category"].search([])
-
-        for category_id in category_ids:
-            count = self.env["project.site1"].search_count([("is_exported", ">=", True),
-                                                            ("category_id", "=", category_id.id)])
-
-            if count:
-                total_page = int(count/PER_PAGE) + 1
-                for page in range(1, total_page):
-                    loc = "{0}category/{1}/turn/{2}/".format(DOMAIN, category_id.url, page)
-                    lastmod = datetime.now().strftime("%Y-%m-%d")
-                    result.append({"loc": loc, "lastmod": lastmod})
-
-        return result
-
-    def story_page_urls(self, from_date, till_date):
-        result = []
-        recs = self.env["project.site1"].search([("date", ">=", from_date),
-                                                 ("date", "<=", till_date),
-                                                 ("is_exported", "=", True)])
-
-        for rec in recs:
-            loc = "{0}story/{1}/".format(DOMAIN, rec.site_url)
-            result.append({"loc": loc,
-                           "lastmod": rec.get_published_on_us_format()})
-
-        return result
 
     @api.model
     def create(self, vals):
