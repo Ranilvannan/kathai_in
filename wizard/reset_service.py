@@ -9,25 +9,18 @@ import tempfile
 import json
 import unicodedata
 from .translator import translate
+PROJECT = [("project.site1", "Project Site 1"),
+           ("project.site2", "Project Site 2")]
 
 
+class ResetService(models.TransientModel):
+    _name = "reset.service"
+    _description = "Reset Service"
 
-class OtherService(models.TransientModel):
-    _name = "other.service"
-    _description = "Other Service"
+    project = fields.Selection(selection=PROJECT, string="Project", required=1)
 
-    def in_format(self, date):
-        result = None
-        if date and isinstance(date, datetime):
-            result = self.date.strftime("%d-%m-%Y")
-        return result
-
-
-
-
-
-    def export_reset(self, site_model):
-        obj = self.env[site_model]
+    def export_reset(self):
+        obj = self.env[self.project]
         un_exported = obj.search_count([("is_exported", "=", False)])
         if un_exported:
             raise exceptions.ValidationError("Error! Reset needs all records to be exported")
