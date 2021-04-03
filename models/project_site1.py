@@ -70,12 +70,16 @@ class ProjectSite1(models.Model):
         self.new_record_import()
 
     def new_record_import(self):
-        recs = self.env["story.book"].search([("project_site1", "=", False),
-                                              ("language.name", "=", LANGUAGE),
-                                              ("prev_url", "=", False)])[:300]
         list_of_random_items = []
-        if len(recs) > NUM_SELECT:
-            list_of_random_items = random.sample(recs, NUM_SELECT)
+        for i in range(5):
+            start = i * 200
+            end = start + 200
+            recs = self.env["story.book"].search([("project_site1", "=", False),
+                                                  ("language.name", "=", LANGUAGE),
+                                                  ("prev_url", "=", False)])[start:end]
+
+            if len(recs) > NUM_SELECT:
+                list_of_random_items = random.sample(recs, NUM_SELECT)
 
         for rec in list_of_random_items:
             publish = self.env["project.site1"].search_count([("date", "=", datetime.now())])
