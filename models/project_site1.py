@@ -1,12 +1,13 @@
 from odoo import models, fields, api, exceptions
 from odoo.tools import config
 import os
+from urllib.parse import urlparse
 from datetime import datetime
 import requests
 import random
 
-MIN_PUBLISH = 300
-NUM_SELECT = 3
+MIN_PUBLISH = 50
+NUM_SELECT = 2
 PER_PAGE = 9
 LANGUAGE = "English"
 
@@ -19,7 +20,7 @@ REMOTE_FILE = config["project_site_path"]
 
 class ProjectSite1(models.Model):
     _name = "project.site1"
-    _description = "Project Site 1 osholikes"
+    _description = "Project Site 1 sexstory.osholikes"
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)
@@ -149,7 +150,7 @@ class ProjectSite1(models.Model):
     def generate_and_export(self, json_data, file_name):
         tmp_file = self.env["other.service"].generate_json_tmp_file(json_data, file_name)
         to_file = os.path.basename(tmp_file.name)
-        remote_path = os.path.join(REMOTE_FILE, LANGUAGE, to_file)
+        remote_path = os.path.join(REMOTE_FILE, to_file)
         self.env["other.service"].move_tmp_file(HOST, USERNAME, KEY_FILENAME, tmp_file.name, remote_path)
         tmp_file.close()
 
@@ -265,16 +266,6 @@ class ProjectSite1(models.Model):
                            "lastmod": rec.get_published_on_us_format()})
 
         return result
-
-    def export_reset(self):
-        un_exported = self.env["project.site1"].search_count([("is_exported", "=", False)])
-        if un_exported:
-            raise exceptions.ValidationError("Error! Reset needs all records to be exported")
-
-        recs = self.env["project.site1"].search([])
-
-        for rec in recs:
-            rec.is_exported = False
 
     @api.model
     def create(self, vals):
