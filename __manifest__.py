@@ -26,8 +26,7 @@
         'wizard/project_site1_service.xml',
         'wizard/project_site2_service.xml',
         'wizard/project_site1_crawl.xml',
-        'wizard/project_site2_crawl.xml',
-        'wizard/sitemap_service.xml'
+        'wizard/project_site2_crawl.xml'
     ],
     'demo': [],
     'qweb': [],

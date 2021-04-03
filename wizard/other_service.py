@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, exceptions
 import os
 from datetime import datetime
 import string
@@ -47,14 +47,6 @@ class OtherService(models.TransientModel):
 
         return tmp
 
-    def generate_tmp_xml_file(self, file_data, suffix):
-        prefix = datetime.now().strftime('%s')
-        tmp = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, mode="wb+")
-        tmp.write(file_data)
-        tmp.flush()
-
-        return tmp
-
     def move_tmp_file(self, host, username, key_filename, local_path, remote_path):
         ssh_client = SSHClient()
         ssh_client.set_missing_host_key_policy(AutoAddPolicy())
@@ -68,3 +60,14 @@ class OtherService(models.TransientModel):
         sftp_client.close()
 
         return True
+
+    def export_reset(self, site_model):
+        obj = self.env[site_model]
+        un_exported = obj.search_count([("is_exported", "=", False)])
+        if un_exported:
+            raise exceptions.ValidationError("Error! Reset needs all records to be exported")
+
+        recs = obj.search([])
+
+        for rec in recs:
+            rec.is_exported = False
