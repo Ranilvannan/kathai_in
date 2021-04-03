@@ -12,7 +12,6 @@
     'depends': ['base', 'web', 'mail'],
     'data': [
         'data/story.xml',
-        'data/category_data.xml',
         'security/story_security.xml',
         'security/ir.model.access.csv',
         'views/menu_view.xml',
