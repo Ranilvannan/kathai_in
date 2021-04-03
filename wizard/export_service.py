@@ -28,16 +28,17 @@ class ExportService(models.TransientModel):
         key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site1_path"]
         lang = config["project_site1_language"]
+        story_filename = "_{0}_story.json".format(lang)
+        category_filename = "_{0}_category.json".format(lang)
+
         if recs:
             data = self.generate_json(recs)
 
             # Story export
-            story_filename = "_{0}_story.json".format(lang)
             tmp_file = self.generate_tmp_json_file(data["story"])
             self.move_tmp_file(host, username, key_filename, tmp_file, remote_path, story_filename)
 
             # Category export
-            category_filename = "_{0}_category.json".format(lang)
             tmp_file = self.generate_tmp_json_file(data["category"])
             self.move_tmp_file(host, username, key_filename, tmp_file, remote_path, category_filename)
 
