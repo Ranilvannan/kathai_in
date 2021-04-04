@@ -11,7 +11,21 @@ class ControlService(models.TransientModel):
 
     project = fields.Selection(selection=PROJECT, string="Project", required=1)
 
+    def trigger_generate_tag(self):
+        self.env["category.tag"].trigger_generate_tag()
+
     def trigger_transfer_service(self):
         rec = self.env["transfer.service"].create({"project": self.project})
         rec.trigger_transfer()
 
+    def trigger_site_update_service(self):
+        rec = self.env["site.update.service"].create({"project": self.project})
+        rec.trigger_site_update()
+
+    def trigger_validation_service(self):
+        rec = self.env["validation.service"].create({"project": self.project})
+        rec.trigger_validation()
+
+    def trigger_export_service(self):
+        rec = self.env["export.service"].create({"project": self.project})
+        rec.trigger_export()

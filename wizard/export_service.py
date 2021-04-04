@@ -17,7 +17,7 @@ class ExportService(models.TransientModel):
     project = fields.Selection(selection=PROJECT, string="Project", required=1)
 
     def trigger_export(self):
-        if self.project == "project.site1":
+        if self.project == "project_site1":
             self.project_site1_export()
 
     def project_site1_export(self):
@@ -64,7 +64,7 @@ class ExportService(models.TransientModel):
                 "next": {"name": rec.next_id.title, "url": rec.next_id.site_url},
                 "category": {"name": rec.category_id.name, "url": rec.category_id.url},
                 "content_ids": [{"content": item.content, "order_seq": item.order_seq} for item in rec.content_ids],
-                "published_on": self.env["other.service"].in_format(rec.date)
+                "published_on": self.in_format(rec.date)
             }
 
             category_data = {
@@ -101,3 +101,9 @@ class ExportService(models.TransientModel):
         tmp_file.close()
 
         return True
+
+    def in_format(self, date):
+        result = None
+        if date and isinstance(date, datetime):
+            result = date.strftime("%d-%m-%Y")
+        return result

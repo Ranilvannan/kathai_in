@@ -11,7 +11,11 @@
                         <field name="project"/>
                     </group>
                     <group col="1">
+                        <button name="trigger_generate_tag" string="Generate Tag" type="object"/>
                         <button name="trigger_transfer_service" string="Transfer Service" type="object"/>
+                        <button name="trigger_site_update_service" string="Site Update Service" type="object"/>
+                        <button name="trigger_validation_service" string="Validation Service" type="object"/>
+                        <button name="trigger_export_service" string="Export Service" type="object"/>
                     </group>
                 </sheet>
             </form>

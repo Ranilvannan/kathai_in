@@ -11,6 +11,7 @@ site2_content_admin,site2.content.admin,model_site2_content,story_book_admin,1,1
 crawl_service_admin,crawl.service.admin,model_crawl_service,story_book_admin,1,1,1,1
 transfer_service_admin,transfer.service.admin,model_transfer_service,story_book_admin,1,1,1,1
 site_update_service_admin,site.update.service.admin,model_site_update_service,story_book_admin,1,1,1,1
+validation_service_admin,validation.service.admin,model_validation_service,story_book_admin,1,1,1,1
 export_service_admin,export.service.admin,model_export_service,story_book_admin,1,1,1,1
 reset_service_admin,reset.service.admin,model_reset_service,story_book_admin,1,1,1,1
 sitemap_service_admin,sitemap.service.admin,model_sitemap_service,story_book_admin,1,1,1,1
