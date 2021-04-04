@@ -9,8 +9,12 @@ site1_content_admin,site1.content.admin,model_site1_content,story_book_admin,1,1
 project_site2_admin,project.site2.admin,model_project_site2,story_book_admin,1,1,1,1
 site2_content_admin,site2.content.admin,model_site2_content,story_book_admin,1,1,1,1
 crawl_service_admin,crawl.service.admin,model_crawl_service,story_book_admin,1,1,1,1
-other_service_admin,other.service.admin,model_other_service,story_book_admin,1,1,1,1
-free_sex_kahani_admin,free.sex.kahani.admin,model_free_sex_kahani,story_book_admin,1,1,1,1
+transfer_service_admin,transfer.service.admin,model_transfer_service,story_book_admin,1,1,1,1
+site_update_service_admin,site.update.service.admin,model_site_update_service,story_book_admin,1,1,1,1
+export_service_admin,export.service.admin,model_export_service,story_book_admin,1,1,1,1
+reset_service_admin,reset.service.admin,model_reset_service,story_book_admin,1,1,1,1
+sitemap_service_admin,sitemap.service.admin,model_sitemap_service,story_book_admin,1,1,1,1
+control_service_admin,control.service.admin,model_control_service,story_book_admin,1,1,1,1
 desi_tales2_admin,desi.tales2.admin,model_desi_tales2,story_book_admin,1,1,1,1
 tamil_kamaveri_admin,tamil.kamaveri.admin,model_tamil_kamaveri,story_book_admin,1,1,1,1
 history_history_admin,history.history.admin,model_history_history,story_book_admin,1,1,1,1
