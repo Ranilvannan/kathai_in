@@ -29,3 +29,7 @@ class ControlService(models.TransientModel):
     def trigger_export_service(self):
         rec = self.env["export.service"].create({"project": self.project})
         rec.trigger_export()
+
+    def trigger_reset_service(self):
+        rec = self.env["reset.service"].create({"project": self.project})
+        rec.trigger_export_reset()
