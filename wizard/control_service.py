@@ -12,6 +12,6 @@ class ControlService(models.TransientModel):
     project = fields.Selection(selection=PROJECT, string="Project", required=1)
 
     def trigger_transfer_service(self):
-        rec = self.env["transfer.service"].create({"name": self.project})
+        rec = self.env["transfer.service"].create({"project": self.project})
         rec.trigger_transfer()
 

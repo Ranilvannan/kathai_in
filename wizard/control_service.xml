@@ -8,7 +8,7 @@
             <form string="Control Service">
                 <sheet>
                     <group>
-                        <field name="name"/>
+                        <field name="project"/>
                     </group>
                     <group col="1">
                         <button name="trigger_transfer_service" string="Transfer Service" type="object"/>
@@ -28,6 +28,6 @@
               name="Control Service"
               parent="book_menu"
               action="control_service_action"
-              sequence="60"/>
+              sequence="70"/>
 
 </odoo>

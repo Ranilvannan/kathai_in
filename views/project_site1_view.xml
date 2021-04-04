@@ -28,7 +28,6 @@
                         <field name="is_valid"/>
                         <field name="last_checked_on"/>
                         <field name="is_exported"/>
-                        <field name="url_verified"/>
                     </group>
                     <notebook>
                         <page string="Content">
@@ -56,7 +55,6 @@
                 <field name="is_valid"/>
                 <field name="last_checked_on"/>
                 <field name="is_exported"/>
-                <field name="url_verified"/>
             </tree>
         </field>
     </record>
