@@ -6,8 +6,8 @@ from datetime import datetime
 import tempfile
 from paramiko import SSHClient, AutoAddPolicy
 
-PROJECT = [("project.site1", "Project Site 1"),
-           ("project.site2", "Project Site 2")]
+PROJECT = [("project_site1", "Project Site 1"),
+           ("project_site2", "Project Site 2")]
 
 
 class ExportService(models.TransientModel):
@@ -18,11 +18,10 @@ class ExportService(models.TransientModel):
 
     def trigger_export(self):
         if self.project == "project.site1":
-            self.project_site1_export(site_model="project.site1")
+            self.project_site1_export()
 
-    def project_site1_export(self, site_model):
-        recs = self.env[site_model].search([("is_exported", "=", False), ("is_valid", "=", True)])
-
+    def project_site1_export(self):
+        site_model = "project.site1"
         host = config["story_book_export_host"]
         username = config["story_book_export_username"]
         key_filename = config["story_book_export_public_key_filename"]
@@ -30,6 +29,8 @@ class ExportService(models.TransientModel):
         lang = config["project_site1_language"]
         story_filename = "_{0}_story.json".format(lang)
         category_filename = "_{0}_category.json".format(lang)
+
+        recs = self.env[site_model].search([("is_exported", "=", False), ("is_valid", "=", True)])
 
         if recs:
             data = self.generate_json(recs)

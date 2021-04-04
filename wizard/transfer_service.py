@@ -5,8 +5,8 @@ import random
 
 MIN_PUBLISH = 50
 NUM_SELECT = 2
-PROJECT = [("project.site1", "Project Site 1"),
-           ("project.site2", "Project Site 2")]
+PROJECT = [("project_site1", "Project Site 1"),
+           ("project_site2", "Project Site 2")]
 
 
 class TransferService(models.TransientModel):
@@ -16,7 +16,7 @@ class TransferService(models.TransientModel):
     project = fields.Selection(selection=PROJECT, string="Project", required=1)
 
     def trigger_transfer(self):
-        if self.project == "project.site1":
+        if self.project == "project_site1":
             self.project_site1_transfer()
 
     def project_site1_transfer(self):
