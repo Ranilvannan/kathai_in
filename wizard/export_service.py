@@ -36,12 +36,12 @@ class ExportService(models.TransientModel):
             data = self.generate_json(recs)
 
             # Story export
-            tmp_file = self.generate_tmp_json_file(data["story"])
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path, story_filename)
+            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
 
             # Category export
-            tmp_file = self.generate_tmp_json_file(data["category"])
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path, category_filename)
+            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -81,19 +81,20 @@ class ExportService(models.TransientModel):
 
         return {"story": story, "category": category}
 
-    def generate_tmp_json_file(self, json_data):
+    def generate_tmp_json_file(self, json_data, suffix):
         prefix = datetime.now().strftime('%s')
-        tmp_file = tempfile.NamedTemporaryFile(prefix=prefix, suffix=".json", mode="w+")
+        tmp_file = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, delete=False, mode="w+")
         json.dump(json_data, tmp_file)
         tmp_file.flush()
 
         return tmp_file
 
-    def move_tmp_file(self, host, username, key_filename, tmp_file, path, filename):
+    def move_tmp_file(self, host, username, key_filename, tmp_file, path):
         ssh_client = SSHClient()
         ssh_client.set_missing_host_key_policy(AutoAddPolicy())
         ssh_client.connect(hostname=host, username=username, key_filename=key_filename)
         sftp_client = ssh_client.open_sftp()
+        filename = os.path.basename(tmp_file.name)
         local_path = tmp_file.name
         remote_path = os.path.join(path, filename)
         sftp_client.put(local_path, remote_path)
