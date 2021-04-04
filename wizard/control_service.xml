@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="control_service_form" model="ir.ui.view">
+        <field name="name">control.service.form</field>
+        <field name="model">control.service</field>
+        <field name="arch" type="xml">
+            <form string="Control Service">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group col="1">
+                        <button name="trigger_transfer_service" string="Transfer Service" type="object"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="control_service_action" model="ir.actions.act_window">
+        <field name="name">Control Service</field>
+        <field name="res_model">control.service</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="control_service_menu"
+              name="Control Service"
+              parent="book_menu"
+              action="control_service_action"
+              sequence="60"/>
+
+</odoo>

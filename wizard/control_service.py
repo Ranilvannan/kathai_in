@@ -11,15 +11,7 @@ class ControlService(models.TransientModel):
 
     project = fields.Selection(selection=PROJECT, string="Project", required=1)
 
-    def get_project(self):
-        result = None
-        if self.project == "project_site1":
-            result = "project.site1"
-
-        return result
-
     def trigger_transfer_service(self):
-        site_model = self.get_project()
         rec = self.env["transfer.service"].create({"name": self.project})
         rec.trigger_transfer()
 
