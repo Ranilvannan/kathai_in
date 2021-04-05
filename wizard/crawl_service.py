@@ -1,6 +1,6 @@
 from odoo import models, fields, api
 
-CRAWL_TYPE = [("direct", "Direct"), ("history", "History")]
+CRAWL_TYPE = [("first_page", "First Page"), ("history", "History")]
 SITE = [("desitales2", "Desitales 2"),
         ("tamilkamaveri", "Tamilkamaveri")]
 
@@ -20,7 +20,7 @@ class CrawlService(models.TransientModel):
             site_model = "tamil.kamaveri"
             domain = "https://www.tamilkamaveri.com"
 
-        if self.crawl_type == "direct":
+        if self.crawl_type == "first_page":
             self.data_crawl(site_model, domain)
         elif self.crawl_type == "history":
             self.history_crawl(site_model, domain)
