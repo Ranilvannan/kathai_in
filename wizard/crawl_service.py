@@ -1,49 +1,43 @@
 from odoo import models, fields, api
 
+CRAWL_TYPE = [("direct", "Direct"), ("history", "History")]
+SITE = [("desitales2", "Desitales 2"),
+        ("tamilkamaveri", "Tamilkamaveri")]
+
 
 class CrawlService(models.TransientModel):
     _name = "crawl.service"
     _description = "Crawl Service"
 
-    def trigger_freesexkahani_crawl(self):
-        obj = self.env["free.sex.kahani"].create({
-            "domain": "https://www.freesexkahani.com",
-            "url": "https://www.freesexkahani.com",
-            "page": 2})
+    site = fields.Selection(selection=SITE, string="Site", required=1)
+    crawl_type = fields.Selection(selection=CRAWL_TYPE, string="Crawl Type", required=1)
+
+    def trigger_data_crawl(self):
+        if self.site == "desitales2":
+            site_model = "desi.tales2"
+            domain = "https://www.desitales2.com"
+        elif self.site == "tamilkamaveri":
+            site_model = "tamil.kamaveri"
+            domain = "https://www.tamilkamaveri.com"
+
+        if self.crawl_type == "direct":
+            self.data_crawl(site_model, domain)
+        elif self.crawl_type == "history":
+            self.history_crawl(site_model, domain)
+
+    def data_crawl(self, site_model, domain):
+        obj = self.env[site_model].create({
+            "domain": domain,
+            "url": domain,
+            "page": 1})
 
         obj.trigger_crawl()
 
-    def trigger_desitales2_crawl(self):
-        obj = self.env["desi.tales2"].create({
-            "domain": "https://www.desitales2.com",
-            "url": "https://www.desitales2.com",
-            "page": 2})
-
-        obj.trigger_crawl()
-
-    def trigger_desitales2_history_crawl(self):
-        history_obj = self.env["history.history"].search([("domain", "=", "https://www.desitales2.com")])
+    def history_crawl(self, site_model, domain):
+        history_obj = self.env["history.history"].search([("domain", "=", domain)])
         if history_obj:
-            obj = self.env["desi.tales2"].create({
-                "domain": "https://www.desitales2.com",
-                "url": history_obj.url,
-                "page": 1})
-
-            obj.trigger_crawl()
-
-    def trigger_tamilkamaveri_crawl(self):
-        obj = self.env["tamil.kamaveri"].create({
-            "domain": "https://www.tamilkamaveri.com",
-            "url": "https://www.tamilkamaveri.com",
-            "page": 2})
-
-        obj.trigger_crawl()
-
-    def trigger_tamilkamaveri_history_crawl(self):
-        history_obj = self.env["history.history"].search([("domain", "=", "https://www.tamilkamaveri.com")])
-        if history_obj:
-            obj = self.env["tamil.kamaveri"].create({
-                "domain": "https://www.tamilkamaveri.com",
+            obj = self.env[site_model].create({
+                "domain": domain,
                 "url": history_obj.url,
                 "page": 1})
 
