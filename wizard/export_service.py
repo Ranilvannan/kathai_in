@@ -33,7 +33,7 @@ class ExportService(models.TransientModel):
         recs = self.env[site_model].search([("is_exported", "=", False), ("is_valid", "=", True)])
 
         if recs:
-            data = self.generate_json(recs)
+            data = self.generate_json(recs, lang)
 
             # Story export
             tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
@@ -46,7 +46,7 @@ class ExportService(models.TransientModel):
         for rec in recs:
             rec.is_exported = True
 
-    def generate_json(self, recs):
+    def generate_json(self, recs, lang):
         story = []
         cat_id = []
         category = []
@@ -64,7 +64,8 @@ class ExportService(models.TransientModel):
                 "next": {"name": rec.next_id.title, "url": rec.next_id.site_url},
                 "category": {"name": rec.category_id.name, "url": rec.category_id.url},
                 "content_ids": [{"content": item.content, "order_seq": item.order_seq} for item in rec.content_ids],
-                "published_on": self.in_format(rec.date)
+                "published_on": self.in_format(rec.date),
+                "language": lang
             }
 
             category_data = {
@@ -105,6 +106,6 @@ class ExportService(models.TransientModel):
 
     def in_format(self, date):
         result = None
-        if date and isinstance(date, datetime):
+        if date:
             result = date.strftime("%d-%m-%Y")
         return result
