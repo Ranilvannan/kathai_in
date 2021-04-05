@@ -7,9 +7,12 @@
         <field name="arch" type="xml">
             <form string="Crawl Service">
                 <sheet>
-                    <group string="Desitales2" col="1">
-                        <button name="trigger_desitales2_crawl" string="Desitales2 Crawl" type="object"/>
-                        <button name="trigger_desitales2_history_crawl" string="Desitales2 History Crawl" type="object"/>
+                    <group>
+                        <field name="site"/>
+                        <field name="crawl_type"/>
+                    </group>
+                    <group col="1">
+                        <button name="trigger_crawl" string="Crawl" type="object" class="oe_highlight"/>
                     </group>
                 </sheet>
             </form>

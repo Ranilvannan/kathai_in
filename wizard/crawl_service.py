@@ -12,7 +12,7 @@ class CrawlService(models.TransientModel):
     site = fields.Selection(selection=SITE, string="Site", required=1)
     crawl_type = fields.Selection(selection=CRAWL_TYPE, string="Crawl Type", required=1)
 
-    def trigger_data_crawl(self):
+    def trigger_crawl(self):
         if self.site == "desitales2":
             site_model = "desi.tales2"
             domain = "https://www.desitales2.com"
