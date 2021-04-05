@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sitemap_service_form" model="ir.ui.view">
+        <field name="name">sitemap.service.form</field>
+        <field name="model">sitemap.service</field>
+        <field name="arch" type="xml">
+            <form string="sitemap Service">
+                <sheet>
+                    <group>
+                        <field name="month"/>
+                        <field name="year"/>
+                        <field name="project"/>
+                    </group>
+                    <button name="trigger_sitemap" string="Generate Sitemap" type="object" class="oe_highlight"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sitemap_service_action" model="ir.actions.act_window">
+        <field name="name">sitemap Service</field>
+        <field name="res_model">sitemap.service</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="sitemap_service_menu"
+              name="sitemap Service"
+              parent="book_menu"
+              action="sitemap_service_action"
+              sequence="70"/>
+
+</odoo>

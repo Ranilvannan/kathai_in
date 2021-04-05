@@ -1,4 +1,5 @@
 from odoo import models, fields, api, exceptions
+from odoo.tools import config
 import os
 from datetime import datetime
 import calendar
@@ -39,25 +40,66 @@ class SitemapService(models.TransientModel):
             self.project_site1_sitemap()
 
     def project_site1_sitemap(self):
-        host = ""
-        username = ""
-        key_file = ""
-        path = ""
-        domain = ""
+        site_model = "project.site1"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_file = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site1_path"]
+        domain = config["project_site1_domain"]
+        per_page = 9
 
+        self.article_sitemap(site_model, domain, host, username, key_file, remote_path)
+        self.page_sitemap(site_model, domain, host, username, key_file, remote_path, per_page)
 
-    def page_sitemap(self):
-        pass
+    def home_page_urls(self, site_model, domain, per_page):
+        result = []
+        count = self.env[site_model].search_count([("is_exported", ">=", True)])
 
-    def article_sitemap(self, site_model, remote_path, domain):
+        if count:
+            total_page = int(count / per_page) + 1
+            for page in range(1, total_page):
+                loc = "{0}/page/{1}/".format(domain, page)
+                lastmod = datetime.now().strftime("%Y-%m-%d")
+                result.append({"loc": loc, "lastmod": lastmod})
+
+        return result
+
+    def category_page_urls(self, site_model, domain, per_page):
+        result = []
+        category_ids = self.env["story.category"].search([])
+
+        for category_id in category_ids:
+            count = self.env[site_model].search_count([("is_exported", ">=", True),
+                                                       ("category_id", "=", category_id.id)])
+
+            if count:
+                total_page = int(count/per_page) + 1
+                for page in range(1, total_page):
+                    loc = "{0}/category/{1}/page/{2}/".format(domain, category_id.url, page)
+                    lastmod = datetime.now().strftime("%Y-%m-%d")
+                    result.append({"loc": loc, "lastmod": lastmod})
+
+        return result
+
+    def page_sitemap(self, site_model, domain, host, username, key_file, remote_path, per_page):
+        filename = INDEX_FILENAME
+
+        recs = self.home_page_urls(site_model, domain, per_page)
+        category_page_list = self.category_page_urls(site_model, domain, per_page)
+        recs.extend(category_page_list)
+        xml_data = self.generate_sitemap_xml_data(recs, "daily")
+        tmp_file = self.generate_tmp_xml_file(xml_data)
+        self.move_tmp_file(host, username, key_file, tmp_file, remote_path, filename)
+        tmp_file.close()
+        return True
+
+    def article_sitemap(self, site_model, domain, host, username, key_file, remote_path):
         day = calendar.monthrange(int(self.year), int(self.month))
         from_date = "{0}-{1}-{2}".format(self.year, self.month, "01")
         till_date = "{0}-{1}-{2}".format(self.year, self.month, day[1])
-        date_obj = datetime.strptime(from_date, "%d-%m-%Y")
+        date_obj = datetime.strptime(from_date, "%Y-%m-%d")
         month_name = date_obj.strftime("%B").lower()
-
         filename = ARTICLE_FILENAME.format(month_name, self.year)
-        filepath = os.path.join(remote_path, "sitemap", filename)
 
         result = []
         recs = self.env[site_model].search([("date", ">=", from_date),
@@ -65,11 +107,15 @@ class SitemapService(models.TransientModel):
                                             ("is_exported", "=", True)])
 
         for rec in recs:
-            url = [domain, "category", rec.category_id.url, rec.site_url]
-            result.append({"loc": "/".join(url),
-                           "lastmod": rec.get_published_on_us_format()})
+            loc = "{0}/category/{1}/{2}/".format(domain, rec.category_id.url, rec.site_url)
+            result.append({"loc": loc,
+                           "lastmod": self.us_format(rec.date)})
 
-        self.generate_sitemap_xml_data(result, "monthly")
+        xml_data = self.generate_sitemap_xml_data(result, "monthly")
+        tmp_file = self.generate_tmp_xml_file(xml_data)
+        self.move_tmp_file(host, username, key_file, tmp_file, remote_path, filename)
+        tmp_file.close()
+        return True
 
     def generate_sitemap_xml_data(self, recs, change_freq):
         urlset = etree.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
@@ -82,13 +128,31 @@ class SitemapService(models.TransientModel):
             etree.SubElement(url, "priority").text = "0.5"
 
         data = etree.tostring(urlset, pretty_print=True, xml_declaration=True, encoding="utf-8")
-
         return data
 
-    def generate_tmp_xml_file(self, xml_data, suffix):
+    def generate_tmp_xml_file(self, xml_data):
         prefix = datetime.now().strftime('%s')
-        tmp_file = tempfile.NamedTemporaryFile(prefix=prefix, suffix=suffix, delete=False, mode="w+")
-        xml_data.write(tmp_file, pretty_print=True, xml_declaration=True, encoding="utf-8")
+        tmp_file = tempfile.NamedTemporaryFile(prefix=prefix, suffix=".xml", delete=False, mode="wb+")
+        tmp_file.write(xml_data)
         tmp_file.flush()
 
         return tmp_file
+
+    def move_tmp_file(self, host, username, key_filename, tmp_file, path, filename):
+        ssh_client = SSHClient()
+        ssh_client.set_missing_host_key_policy(AutoAddPolicy())
+        ssh_client.connect(hostname=host, username=username, key_filename=key_filename)
+        sftp_client = ssh_client.open_sftp()
+        local_path = tmp_file.name
+        remote_path = os.path.join(path, "sitemap", filename)
+        sftp_client.put(local_path, remote_path)
+        sftp_client.close()
+        tmp_file.close()
+
+        return True
+
+    def us_format(self, date):
+        result = None
+        if date:
+            result = date.strftime("%Y-%m-%d")
+        return result
