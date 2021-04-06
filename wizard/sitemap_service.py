@@ -58,7 +58,10 @@ class SitemapService(models.TransientModel):
         if count:
             total_page = int(count / per_page) + 1
             for page in range(1, total_page):
-                loc = "{0}/page/{1}/".format(domain, page)
+                if page == 1:
+                    loc = domain
+                else:
+                    loc = "{0}/page/{1}/".format(domain, page)
                 lastmod = datetime.now().strftime("%Y-%m-%d")
                 result.append({"loc": loc, "lastmod": lastmod})
 
@@ -75,7 +78,10 @@ class SitemapService(models.TransientModel):
             if count:
                 total_page = int(count/per_page) + 1
                 for page in range(1, total_page):
-                    loc = "{0}/category/{1}/page/{2}/".format(domain, category_id.url, page)
+                    if page == 1:
+                        loc = "{0}/category/{1}/".format(domain, category_id.url)
+                    else:
+                        loc = "{0}/category/{1}/page/{2}/".format(domain, category_id.url, page)
                     lastmod = datetime.now().strftime("%Y-%m-%d")
                     result.append({"loc": loc, "lastmod": lastmod})
 
