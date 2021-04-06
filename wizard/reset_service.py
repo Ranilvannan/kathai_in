@@ -17,6 +17,7 @@ class ResetService(models.TransientModel):
 
     def site_reset(self, site_model):
         un_exported = self.env[site_model].search_count([("is_exported", "=", False)])
+
         if un_exported:
             raise exceptions.ValidationError("Error! Reset needs all records to be exported")
 
