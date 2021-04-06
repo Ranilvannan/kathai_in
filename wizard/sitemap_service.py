@@ -93,7 +93,7 @@ class SitemapService(models.TransientModel):
         recs = self.home_page_urls(site_model, domain, per_page)
         category_page_list = self.category_page_urls(site_model, domain, per_page)
         recs.extend(category_page_list)
-        xml_data = self.generate_sitemap_xml_data(recs, "daily")
+        xml_data = self.generate_sitemap_xml_data(recs)
         tmp_file = self.generate_tmp_xml_file(xml_data)
         self.move_tmp_file(host, username, key_file, tmp_file, remote_path, filename)
         tmp_file.close()
@@ -117,21 +117,19 @@ class SitemapService(models.TransientModel):
             result.append({"loc": loc,
                            "lastmod": self.us_format(rec.date)})
 
-        xml_data = self.generate_sitemap_xml_data(result, "monthly")
+        xml_data = self.generate_sitemap_xml_data(result)
         tmp_file = self.generate_tmp_xml_file(xml_data)
         self.move_tmp_file(host, username, key_file, tmp_file, remote_path, filename)
         tmp_file.close()
         return True
 
-    def generate_sitemap_xml_data(self, recs, change_freq):
+    def generate_sitemap_xml_data(self, recs):
         urlset = etree.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
 
         for rec in recs:
             url = etree.SubElement(urlset, "url")
             etree.SubElement(url, "loc").text = rec["loc"]
             etree.SubElement(url, "lastmod").text = rec["lastmod"]
-            etree.SubElement(url, "changefreq").text = change_freq
-            etree.SubElement(url, "priority").text = "0.5"
 
         data = etree.tostring(urlset, pretty_print=True, xml_declaration=True, encoding="utf-8")
         return data
