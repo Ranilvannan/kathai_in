@@ -33,3 +33,10 @@ class ControlService(models.TransientModel):
     def trigger_reset_service(self):
         rec = self.env["reset.service"].create({"project": self.project})
         rec.trigger_export_reset()
+
+    def trigger_desitales2_history_crawl(self):
+        site = "desitales2"
+        crawl_type = "history"
+
+        obj = self.env["crawl.service"].create({"site": site, "crawl_type": crawl_type})
+        obj.trigger_crawl()

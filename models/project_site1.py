@@ -4,16 +4,7 @@ import os
 from datetime import datetime
 import random
 
-MIN_PUBLISH = 50
-NUM_SELECT = 2
-PER_PAGE = 9
 LANGUAGE = "English"
-
-DOMAIN = config["project_site1_domain"]
-HOST = config["story_book_export_host"]
-USERNAME = config["story_book_export_username"]
-KEY_FILENAME = config["story_book_export_public_key_filename"]
-REMOTE_FILE = config["project_site1_path"]
 
 
 class ProjectSite1(models.Model):
