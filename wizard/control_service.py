@@ -40,3 +40,10 @@ class ControlService(models.TransientModel):
 
         obj = self.env["crawl.service"].create({"site": site, "crawl_type": crawl_type})
         obj.trigger_crawl()
+
+    def trigger_tamilkamaveri_history_crawl(self):
+        site = "tamilkamaveri"
+        crawl_type = "history"
+
+        obj = self.env["crawl.service"].create({"site": site, "crawl_type": crawl_type})
+        obj.trigger_crawl()
