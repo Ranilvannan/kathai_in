@@ -42,7 +42,6 @@ class TransferService(models.TransientModel):
 
             if category_obj and (publish < MIN_PUBLISH):
                 data = {"title": rec.title,
-                        "preview": rec.preview,
                         "ref": rec.name,
                         "category_id": category_obj.category_id.id,
                         "language": rec.language.id,
@@ -66,7 +65,6 @@ class TransferService(models.TransientModel):
                                                                     ("category_id", "!=", False)])
                     if category_obj and (publish < MIN_PUBLISH):
                         data = {"title": story_obj.title,
-                                "preview": story_obj.preview,
                                 "ref": story_obj.name,
                                 "category_id": category_obj.category_id.id,
                                 "prev_id": rec.id,
