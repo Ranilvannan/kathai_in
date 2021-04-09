@@ -24,5 +24,6 @@ class ValidationService(models.TransientModel):
                     and rec.category_id \
                     and rec.site_title \
                     and rec.site_preview \
-                    and rec.site_url:
+                    and rec.site_url \
+                    and rec.published_on:
                 rec.write({"is_valid": True})
