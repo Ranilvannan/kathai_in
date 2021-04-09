@@ -19,23 +19,11 @@ class SiteUpdateService(models.TransientModel):
 
     def trigger_site_update(self):
         if self.project == "project_site1":
-            self.project_site1_update(site_model="project.site1")
+            self.project_site_update(site_model="project.site1")
         elif self.project == "project_site2":
-            self.project_site1_update(site_model="project.site2")
+            self.project_site_update(site_model="project.site2")
 
-    def project_site1_update(self, site_model):
-        recs = self.env[site_model].search([("is_valid", "=", False)])[:100]
-        for rec in recs:
-            preview = self.generate_preview(rec.content)
-            site_title = self.get_translated_text(rec.title)
-            site_preview = self.get_translated_text(preview)
-
-            rec.write({"site_title": site_title,
-                       "site_preview": site_preview,
-                       "preview": preview,
-                       "site_url": self.generate_url(site_title)})
-
-    def project_site2_update(self, site_model):
+    def project_site_update(self, site_model):
         recs = self.env[site_model].search([("is_valid", "=", False)])[:100]
         for rec in recs:
             preview = self.generate_preview(rec.content)
