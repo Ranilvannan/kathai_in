@@ -14,10 +14,10 @@ class PublishService(models.TransientModel):
 
     def trigger_publish(self):
         if self.project == "project_site1":
-            self.project_site1_publish()
+            self.project_site_publish("project.site1")
 
-    def project_site1_publish(self):
-        recs = self.env["project.site1"].search([("published_on", "=", False)])[:self.count]
+    def project_site_publish(self, site_model):
+        recs = self.env[site_model].search([("published_on", "=", False)])[:self.count]
 
         for rec in recs:
             rec.published_on = self.date
