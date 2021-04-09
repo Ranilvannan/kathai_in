@@ -34,6 +34,7 @@ class ProjectSite1(models.Model):
     is_valid = fields.Boolean(string="Valid", default=False)
     last_checked_on = fields.Date(string="Last Checked On")
     is_exported = fields.Boolean(string="Exported", default=False)
+    published_on = fields.Date(string="Published On")
 
     @api.model
     def create(self, vals):

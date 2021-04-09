@@ -29,6 +29,7 @@
                         <field name="is_valid"/>
                         <field name="last_checked_on"/>
                         <field name="is_exported"/>
+                        <field name="published_on"/>
                     </group>
                     <notebook>
                         <page string="Content">
