@@ -25,7 +25,7 @@
     </record>
 
     <menuitem id="sitemap_service_menu"
-              name="sitemap Service"
+              name="Sitemap Service"
               parent="book_menu"
               action="sitemap_service_action"
               sequence="70"/>

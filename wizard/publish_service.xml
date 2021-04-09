@@ -27,7 +27,7 @@
     </record>
 
     <menuitem id="publish_service_menu"
-              name="publish Service"
+              name="Publish Service"
               parent="book_menu"
               action="publish_service_action"
               sequence="80"/>
