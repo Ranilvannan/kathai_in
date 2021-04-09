@@ -69,6 +69,7 @@ class SitemapService(models.TransientModel):
         result = []
         count = self.env[site_model].search_count([("is_exported", ">=", True),
                                                    ("published_on", "<=", datetime.now())])
+        result.append({"loc": domain, "lastmod": datetime.now().strftime("%Y-%m-%d")})
 
         if count:
             total_page = int(count / per_page) + 1
