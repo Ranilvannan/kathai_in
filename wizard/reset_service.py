@@ -14,6 +14,8 @@ class ResetService(models.TransientModel):
     def trigger_export_reset(self):
         if self.project == "project_site1":
             self.site_reset("project.site1")
+        elif self.project == "project_site2":
+            self.site_reset("project.site2")
 
     def site_reset(self, site_model):
         un_exported = self.env[site_model].search_count([("is_exported", "=", False)])
