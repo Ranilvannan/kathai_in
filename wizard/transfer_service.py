@@ -30,7 +30,7 @@ class TransferService(models.TransientModel):
         list_of_random_items = []
         recs = self.env["story.book"].search([(book_field, "=", False),
                                               ("language.name", "=", lang),
-                                              ("prev_url", "=", False)])
+                                              ("prev_url", "=", False)])[:1000]
 
         if len(recs) > NUM_SELECT:
             list_of_random_items = random.sample(recs, NUM_SELECT)
@@ -71,7 +71,7 @@ class TransferService(models.TransientModel):
                                 "category_id": category_obj.category_id.id,
                                 "prev_id": rec.id,
                                 "language": rec.language.id,
-                                "content_ids": rec.content}
+                                "content": rec.content}
 
                         record_id = self.env[site_model].create(data)
                         rec.write({"next_id": record_id.id})
