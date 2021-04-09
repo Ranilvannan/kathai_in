@@ -42,23 +42,23 @@ class SiteUpdateService(models.TransientModel):
         if not preview_data:
             for rec in recs:
                 for data in key_list:
-                    if rec.find(data) > 0:
+                    if rec.find(data) > 0 and (not preview_data):
                         preview_data = rec
 
         if not preview_data:
             for rec in recs:
                 space_list = rec.split(" ")
-                if len(space_list) >= 24:
+                if len(space_list) >= 24 and (not preview_data):
                     preview_data = rec
 
         if not preview_data:
             content_len = len(recs)
-            if content_len >= 4:
+            if content_len >= 4 and (not preview_data):
                 preview_data = recs[4]
 
         if not preview_data:
             content_len = len(recs)
-            if content_len >= 1:
+            if content_len >= 1 and (not preview_data):
                 preview_data = recs[1]
 
         return preview_data
