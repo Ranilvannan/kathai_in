@@ -20,6 +20,7 @@
                     <group string="Content" col="4">
                         <field name="title"/>
                         <field name="preview"/>
+                        <field name="language"/>
                         <field name="category_id"/>
                         <field name="prev_id"/>
                         <field name="next_id"/>
@@ -28,16 +29,11 @@
                         <field name="is_valid"/>
                         <field name="last_checked_on"/>
                         <field name="is_exported"/>
-                        <field name="url_verified"/>
+                        <field name="published_on"/>
                     </group>
                     <notebook>
                         <page string="Content">
-                            <field name="content_ids">
-                                <tree editable="bottom">
-                                    <field name="order_seq"/>
-                                    <field name="content"/>
-                                </tree>
-                            </field>
+                            <field name="content"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -56,7 +52,6 @@
                 <field name="is_valid"/>
                 <field name="last_checked_on"/>
                 <field name="is_exported"/>
-                <field name="url_verified"/>
             </tree>
         </field>
     </record>

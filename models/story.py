@@ -22,7 +22,6 @@ class StoryBook(models.Model):
 
     # CONTENT
     title = fields.Text(string="Title")
-    content_ids = fields.One2many(comodel_name="story.content", inverse_name="story_id")
     content = fields.Text(string="Content")
     category = fields.Char(string="Category")
 

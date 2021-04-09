@@ -23,7 +23,6 @@ class ProjectSite1(models.Model):
     title = fields.Text(string="Title")
     preview = fields.Text(string="Preview")
     category_id = fields.Many2one(comodel_name="story.category", string="Category")
-    content_ids = fields.One2many(comodel_name="site1.content", inverse_name="story_id")
     content = fields.Text(string="Content")
     language = fields.Many2one(comodel_name="story.language", string="Language")
 
