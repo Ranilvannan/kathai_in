@@ -38,6 +38,8 @@ class SitemapService(models.TransientModel):
     def trigger_sitemap(self):
         if self.project == "project_site1":
             self.project_site1_sitemap()
+        elif self.project == "project_site2":
+            self.project_site2_sitemap()
 
     def project_site1_sitemap(self):
         site_model = "project.site1"
@@ -46,6 +48,18 @@ class SitemapService(models.TransientModel):
         key_file = config["story_book_export_public_key_filename"]
         remote_path = config["project_site1_path"]
         domain = config["project_site1_domain"]
+        per_page = 9
+
+        self.article_sitemap(site_model, domain, host, username, key_file, remote_path)
+        self.page_sitemap(site_model, domain, host, username, key_file, remote_path, per_page)
+
+    def project_site2_sitemap(self):
+        site_model = "project.site2"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_file = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site2_path"]
+        domain = config["project_site2_domain"]
         per_page = 9
 
         self.article_sitemap(site_model, domain, host, username, key_file, remote_path)
