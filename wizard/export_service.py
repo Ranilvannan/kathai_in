@@ -65,7 +65,7 @@ class ExportService(models.TransientModel):
                 "prev": {"name": rec.prev_id.title, "url": rec.prev_id.site_url},
                 "next": {"name": rec.next_id.title, "url": rec.next_id.site_url},
                 "category": {"name": rec.category_id.name, "url": rec.category_id.url},
-                "content_ids": rec.split("|#|"),
+                "content_ids": rec.content.split("|#|"),
                 "published_on": self.in_format(rec.published_on),
                 "language": lang
             }
