@@ -5,6 +5,7 @@ from itertools import groupby
 from operator import itemgetter
 import unicodedata
 from .translator import translate
+from .preview_key import key_list
 
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2")]
@@ -23,12 +24,42 @@ class SiteUpdateService(models.TransientModel):
     def project_site1_update(self, site_model):
         recs = self.env[site_model].search([("is_valid", "=", False)])[:100]
         for rec in recs:
+            preview = self.generate_preview(rec.content)
             site_title = self.get_translated_text(rec.title)
-            site_preview = self.get_translated_text(rec.preview)
+            site_preview = self.get_translated_text(preview)
 
             rec.write({"site_title": site_title,
                        "site_preview": site_preview,
+                       "preview": preview,
                        "site_url": self.generate_url(site_title)})
+
+    def generate_preview(self, content):
+        preview_data = False
+        recs = content.split("|#|")[:10]
+
+        if not preview_data:
+            for rec in recs:
+                for data in key_list:
+                    if rec.find(data) > 0:
+                        preview_data = rec
+
+        if not preview_data:
+            for rec in recs:
+                space_list = rec.split(" ")
+                if len(space_list) >= 24:
+                    preview_data = rec
+
+        if not preview_data:
+            content_len = len(recs)
+            if content_len >= 4:
+                preview_data = recs[4]
+
+        if not preview_data:
+            content_len = len(recs)
+            if content_len >= 1:
+                preview_data = recs[1]
+
+        return preview_data
 
     def get_translated_text(self, text):
         result = translate(text)
