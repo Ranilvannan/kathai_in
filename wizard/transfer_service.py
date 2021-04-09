@@ -3,7 +3,7 @@ from odoo.tools import config
 from datetime import datetime
 import random
 
-MIN_PUBLISH = 50
+MIN_PUBLISH = 300
 NUM_SELECT = 2
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2")]
