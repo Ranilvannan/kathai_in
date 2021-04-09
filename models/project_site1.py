@@ -24,6 +24,8 @@ class ProjectSite1(models.Model):
     preview = fields.Text(string="Preview")
     category_id = fields.Many2one(comodel_name="story.category", string="Category")
     content_ids = fields.One2many(comodel_name="site1.content", inverse_name="story_id")
+    content = fields.Text(string="Content")
+    language = fields.Many2one(comodel_name="story.language", string="Language")
 
     prev_id = fields.Many2one(comodel_name="project.site1", string="Previous")
     next_id = fields.Many2one(comodel_name="project.site1", string="Next")

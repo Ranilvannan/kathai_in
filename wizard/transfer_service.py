@@ -45,10 +45,8 @@ class TransferService(models.TransientModel):
                         "preview": rec.preview,
                         "ref": rec.name,
                         "category_id": category_obj.category_id.id,
-                        "content_ids": [(0, 0, {"order_seq": item.order_seq,
-                                                "content": item.content})
-                                        for item in rec.content_ids]}
-
+                        "language": rec.language.id,
+                        "content": rec.content}
                 record_id = self.env[site_model].create(data)
                 rec.write({book_field: record_id.name})
 
@@ -72,9 +70,8 @@ class TransferService(models.TransientModel):
                                 "ref": story_obj.name,
                                 "category_id": category_obj.category_id.id,
                                 "prev_id": rec.id,
-                                "content_ids": [(0, 0, {"order_seq": item.order_seq,
-                                                        "content": item.content})
-                                                for item in story_obj.content_ids]}
+                                "language": rec.language.id,
+                                "content_ids": rec.content}
 
                         record_id = self.env[site_model].create(data)
                         rec.write({"next_id": record_id.id})

@@ -10,6 +10,7 @@
                     <group>
                         <field name="name"/>
                         <field name="category_id"/>
+                        <field name="language"/>
                     </group>
                 </sheet>
             </form>
@@ -23,6 +24,7 @@
             <tree name="Tag">
                 <field name="name"/>
                 <field name="category_id"/>
+                <field name="language"/>
             </tree>
         </field>
     </record>

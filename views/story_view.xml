@@ -10,6 +10,7 @@
                     <h1><field name="name"/></h1>
                     <group>
                         <field name="date"/>
+                        <field name="sequence"/>
                     </group>
                     <group string="Crawl Info" col="4">
                         <field name="crawl_domain"/>
@@ -22,18 +23,15 @@
                         <field name="preview"/>
                         <field name="category"/>
                     </group>
-                    <group string="Project Info">
+                    <group string="Project Info" col="4">
+                        <field name="active"/>
+                        <field name="is_cat_checked"/>
                         <field name="project_site1"/>
                         <field name="project_site2"/>
                     </group>
                     <notebook>
                         <page string="Content">
-                            <field name="content_ids">
-                                <tree editable="bottom">
-                                    <field name="order_seq"/>
-                                    <field name="content"/>
-                                </tree>
-                            </field>
+                            <field name="content"/>
                         </page>
                     </notebook>
                 </sheet>

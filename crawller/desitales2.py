@@ -70,7 +70,7 @@ class DesiTales2(models.TransientModel):
                 data = {
                     "title": title,
                     "preview": preview,
-                    "content_ids": self.content_crawl(content_html),
+                    "content": self.content_crawl(content_html),
                     "crawl_domain": self.domain,
                     "crawl_url": url,
                     "prev_url": prev_url,
@@ -101,18 +101,15 @@ class DesiTales2(models.TransientModel):
             self.create_article(article_html)
 
     def content_crawl(self, soup):
-        content_list = []
-        count = 1
+        content_data = ""
         content = soup.find("section", class_="story-content")
 
         if content:
             recs = content.find_all("p")
+            content_list = [rec.text.strip() for rec in recs]
+            content_data = "|#|".join(content_list)
 
-            for rec in recs:
-                content_list.append((0, 0, {"order_seq": count, "content": rec.text.strip()}))
-                count = count + 1
-
-        return content_list
+        return content_data
 
     def article_previous(self, soup):
         url = None
