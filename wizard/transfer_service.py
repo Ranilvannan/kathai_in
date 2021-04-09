@@ -18,11 +18,20 @@ class TransferService(models.TransientModel):
     def trigger_transfer(self):
         if self.project == "project_site1":
             self.project_site1_transfer()
+        elif self.project == "project_site2":
+            self.project_site2_transfer()
 
     def project_site1_transfer(self):
         site_model = "project.site1"
         book_field = "project_site1"
         lang = "English"
+        self.next_record_import(site_model, book_field)
+        self.new_record_import(site_model, book_field, lang)
+
+    def project_site2_transfer(self):
+        site_model = "project.site2"
+        book_field = "project_site2"
+        lang = "Tamil"
         self.next_record_import(site_model, book_field)
         self.new_record_import(site_model, book_field, lang)
 
