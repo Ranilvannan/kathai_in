@@ -64,7 +64,7 @@
 
     <menuitem id="project_site1_menu"
               name="Project Site 1"
-              parent="english_menu"
+              parent="Project_menu"
               action="project_site1_action"
               sequence="10"/>
 

@@ -10,6 +10,7 @@ class StoryCategory(models.Model):
     name = fields.Char(string="Name")
     url = fields.Char(string="URL")
     description = fields.Text(string="Description")
+    tag_ids = fields.One2many(comodel_name="category.tag", inverse_name="category_id")
 
 
 class CategoryTag(models.Model):

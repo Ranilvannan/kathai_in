@@ -23,8 +23,10 @@
         'views/project_site1_view.xml',
         'views/project_site2_view.xml',
         'wizard/crawl_service.xml',
+        'wizard/publish_service.xml',
         'wizard/sitemap_service.xml',
-        'wizard/control_service.xml'
+        'wizard/control_service.xml',
+        'wizard/report_service.xml'
     ],
     'demo': [],
     'qweb': [],

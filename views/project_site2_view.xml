@@ -69,8 +69,8 @@
 
     <menuitem id="project_site2_menu"
               name="Project Site 2"
-              parent="tamil_menu"
+              parent="Project_menu"
               action="project_site2_action"
-              sequence="10"/>
+              sequence="20"/>
 
 </odoo>

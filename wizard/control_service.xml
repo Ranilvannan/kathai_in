@@ -33,6 +33,6 @@
               name="Control Service"
               parent="book_menu"
               action="control_service_action"
-              sequence="80"/>
+              sequence="90"/>
 
 </odoo>

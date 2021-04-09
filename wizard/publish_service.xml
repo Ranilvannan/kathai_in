@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="publish_service_form" model="ir.ui.view">
+        <field name="name">publish.service.form</field>
+        <field name="model">publish.service</field>
+        <field name="arch" type="xml">
+            <form string="publish Service">
+                <sheet>
+                    <group>
+                        <field name="project"/>
+                        <field name="count"/>
+                        <field name="date"/>
+                    </group>
+                    <group col="1">
+                        <button name="trigger_publish" string="publish" type="object" class="oe_highlight"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="publish_service_action" model="ir.actions.act_window">
+        <field name="name">publish Service</field>
+        <field name="res_model">publish.service</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="publish_service_menu"
+              name="publish Service"
+              parent="book_menu"
+              action="publish_service_action"
+              sequence="80"/>
+
+</odoo>

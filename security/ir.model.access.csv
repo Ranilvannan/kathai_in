@@ -15,7 +15,9 @@ validation_service_admin,validation.service.admin,model_validation_service,story
 export_service_admin,export.service.admin,model_export_service,story_book_admin,1,1,1,1
 reset_service_admin,reset.service.admin,model_reset_service,story_book_admin,1,1,1,1
 sitemap_service_admin,sitemap.service.admin,model_sitemap_service,story_book_admin,1,1,1,1
+publish_service_admin,publish.service.admin,model_publish_service,story_book_admin,1,1,1,1
 control_service_admin,control.service.admin,model_control_service,story_book_admin,1,1,1,1
+report_service_admin,report.service.admin,model_report_service,story_book_admin,1,1,1,1
 desi_tales2_admin,desi.tales2.admin,model_desi_tales2,story_book_admin,1,1,1,1
 tamil_kamaveri_admin,tamil.kamaveri.admin,model_tamil_kamaveri,story_book_admin,1,1,1,1
 history_history_admin,history.history.admin,model_history_history,story_book_admin,1,1,1,1
