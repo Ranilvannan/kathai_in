@@ -20,7 +20,6 @@
                     </group>
                     <group string="Content">
                         <field name="title"/>
-                        <field name="preview"/>
                         <field name="category"/>
                     </group>
                     <group string="Project Info" col="4">

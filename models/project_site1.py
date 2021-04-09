@@ -40,12 +40,3 @@ class ProjectSite1(models.Model):
     def create(self, vals):
         vals["name"] = self.env['ir.sequence'].next_by_code("project.site1")
         return super(ProjectSite1, self).create(vals)
-
-
-class Site1Content(models.Model):
-    _name = "site1.content"
-    _description = "Site 1 Content"
-
-    order_seq = fields.Integer(string="Order Sequence")
-    content = fields.Text(string="Content")
-    story_id = fields.Many2one(comodel_name="project.site1", string="Story")

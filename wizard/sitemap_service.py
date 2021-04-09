@@ -53,7 +53,8 @@ class SitemapService(models.TransientModel):
 
     def home_page_urls(self, site_model, domain, per_page):
         result = []
-        count = self.env[site_model].search_count([("is_exported", ">=", True)])
+        count = self.env[site_model].search_count([("is_exported", ">=", True),
+                                                   ("published_on", "<=", datetime.now())])
 
         if count:
             total_page = int(count / per_page) + 1
@@ -73,7 +74,8 @@ class SitemapService(models.TransientModel):
 
         for category_id in category_ids:
             count = self.env[site_model].search_count([("is_exported", ">=", True),
-                                                       ("category_id", "=", category_id.id)])
+                                                       ("category_id", "=", category_id.id),
+                                                       ("published_on", "<=", datetime.now())])
 
             if count:
                 total_page = int(count/per_page) + 1
@@ -110,6 +112,7 @@ class SitemapService(models.TransientModel):
         result = []
         recs = self.env[site_model].search([("date", ">=", from_date),
                                             ("date", "<=", till_date),
+                                            ("published_on", "<=", datetime.now()),
                                             ("is_exported", "=", True)])
 
         for rec in recs:

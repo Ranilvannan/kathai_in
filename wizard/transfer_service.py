@@ -38,6 +38,7 @@ class TransferService(models.TransientModel):
         for rec in list_of_random_items:
             publish = self.env[site_model].search_count([("date", "=", datetime.now())])
             category_obj = self.env["category.tag"].search([("name", "=", rec.category),
+                                                            ("language", "=", rec.language.id),
                                                             ("category_id", "!=", False)])
 
             if category_obj and (publish < MIN_PUBLISH):
@@ -62,6 +63,7 @@ class TransferService(models.TransientModel):
                 if story_obj:
                     publish = self.env[site_model].search_count([("date", "=", datetime.now())])
                     category_obj = self.env["category.tag"].search([("name", "=", story_obj.category),
+                                                                    ("language", "=", rec.language.id),
                                                                     ("category_id", "!=", False)])
                     if category_obj and (publish < MIN_PUBLISH):
                         data = {"title": story_obj.title,
