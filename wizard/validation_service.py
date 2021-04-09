@@ -20,7 +20,7 @@ class ValidationService(models.TransientModel):
         for rec in recs:
             if rec.title \
                     and rec.preview \
-                    and rec.content_ids \
+                    and rec.content \
                     and rec.category_id \
                     and rec.site_title \
                     and rec.site_preview \
