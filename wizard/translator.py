@@ -47,4 +47,4 @@ def translate(text):
         letters = utf8.get_letters(text)
         result = "".join([data_dict.get(letter, letter) for letter in letters])
 
-    return result.title()
+    return result.lower()
