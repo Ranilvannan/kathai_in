@@ -30,7 +30,9 @@ class ExportService(models.TransientModel):
         story_filename = "_{0}_story.json".format(lang)
         category_filename = "_{0}_category.json".format(lang)
 
-        recs = self.env[site_model].search([("is_exported", "=", False), ("is_valid", "=", True)])
+        recs = self.env[site_model].search([("is_exported", "=", False),
+                                            ("published_on", "!=", False),
+                                            ("is_valid", "=", True)])
 
         if recs:
             data = self.generate_json(recs, lang)
