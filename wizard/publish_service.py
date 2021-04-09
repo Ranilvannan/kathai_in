@@ -15,6 +15,8 @@ class PublishService(models.TransientModel):
     def trigger_publish(self):
         if self.project == "project_site1":
             self.project_site_publish("project.site1")
+        elif self.project == "project_site2":
+            self.project_site_publish("project.site2")
 
     def project_site_publish(self, site_model):
         recs = self.env[site_model].search([("is_valid", "=", True), ("published_on", "=", False)])[:self.count]

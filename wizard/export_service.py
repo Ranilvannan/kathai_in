@@ -19,6 +19,8 @@ class ExportService(models.TransientModel):
     def trigger_export(self):
         if self.project == "project_site1":
             self.project_site1_export()
+        elif self.project == "project_site2":
+            self.project_site2_export()
 
     def project_site1_export(self):
         site_model = "project.site1"
@@ -27,6 +29,34 @@ class ExportService(models.TransientModel):
         key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site1_path"]
         lang = config["project_site1_language"]
+        story_filename = "_{0}_story.json".format(lang)
+        category_filename = "_{0}_category.json".format(lang)
+
+        recs = self.env[site_model].search([("is_exported", "=", False),
+                                            ("published_on", "!=", False),
+                                            ("is_valid", "=", True)])
+
+        if recs:
+            data = self.generate_json(recs, lang)
+
+            # Story export
+            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+            # Category export
+            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+        for rec in recs:
+            rec.is_exported = True
+
+    def project_site2_export(self):
+        site_model = "project.site2"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_filename = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site2_path"]
+        lang = config["project_site2_language"]
         story_filename = "_{0}_story.json".format(lang)
         category_filename = "_{0}_category.json".format(lang)
 
