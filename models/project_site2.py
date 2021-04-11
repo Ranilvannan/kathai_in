@@ -1,8 +1,5 @@
 from odoo import models, fields, api
-from odoo.tools import config
-import os
 from datetime import datetime
-import random
 
 LANGUAGE = "Tamil"
 

@@ -1,12 +1,12 @@
 from odoo import models, fields, api
 from datetime import datetime
 
-LANGUAGE = "English"
+LANGUAGE = "Hindi"
 
 
-class ProjectSite1(models.Model):
-    _name = "project.site1"
-    _description = "Project Site 1 sexstory.osholikes"
+class ProjectSite3(models.Model):
+    _name = "project.site3"
+    _description = "Project Site 1 hindisexstory.osholikes"
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)
@@ -23,8 +23,8 @@ class ProjectSite1(models.Model):
     content = fields.Text(string="Content")
     language = fields.Many2one(comodel_name="story.language", string="Language")
 
-    prev_id = fields.Many2one(comodel_name="project.site1", string="Previous")
-    next_id = fields.Many2one(comodel_name="project.site1", string="Next")
+    prev_id = fields.Many2one(comodel_name="project.site3", string="Previous")
+    next_id = fields.Many2one(comodel_name="project.site3", string="Next")
 
     # Status
     is_valid = fields.Boolean(string="Valid", default=False)
@@ -34,5 +34,5 @@ class ProjectSite1(models.Model):
 
     @api.model
     def create(self, vals):
-        vals["name"] = self.env['ir.sequence'].next_by_code("project.site1")
-        return super(ProjectSite1, self).create(vals)
+        vals["name"] = self.env['ir.sequence'].next_by_code("project.site3")
+        return super(ProjectSite3, self).create(vals)

@@ -2,7 +2,8 @@ from odoo import models, fields, api, exceptions
 
 
 PROJECT = [("project_site1", "Project Site 1"),
-           ("project_site2", "Project Site 2")]
+           ("project_site2", "Project Site 2"),
+           ("project_site3", "Project Site 3")]
 
 
 class ResetService(models.TransientModel):
@@ -16,6 +17,8 @@ class ResetService(models.TransientModel):
             self.site_reset("project.site1")
         elif self.project == "project_site2":
             self.site_reset("project.site2")
+        elif self.project == "project_site3":
+            self.site_reset("project.site3")
 
     def site_reset(self, site_model):
         un_exported = self.env[site_model].search_count([("is_exported", "=", False)])

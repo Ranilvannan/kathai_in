@@ -27,6 +27,7 @@
                         <field name="is_cat_checked"/>
                         <field name="project_site1"/>
                         <field name="project_site2"/>
+                        <field name="project_site3"/>
                     </group>
                     <notebook>
                         <page string="Content">

@@ -7,7 +7,8 @@ import tempfile
 from paramiko import SSHClient, AutoAddPolicy
 
 PROJECT = [("project_site1", "Project Site 1"),
-           ("project_site2", "Project Site 2")]
+           ("project_site2", "Project Site 2"),
+           ("project_site3", "Project Site 3")]
 
 
 class ExportService(models.TransientModel):
@@ -21,6 +22,8 @@ class ExportService(models.TransientModel):
             self.project_site1_export()
         elif self.project == "project_site2":
             self.project_site2_export()
+        elif self.project == "project_site3":
+            self.project_site3_export()
 
     def project_site1_export(self):
         site_model = "project.site1"
@@ -57,6 +60,34 @@ class ExportService(models.TransientModel):
         key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site2_path"]
         lang = config["project_site2_language"]
+        story_filename = "_{0}_story.json".format(lang)
+        category_filename = "_{0}_category.json".format(lang)
+
+        recs = self.env[site_model].search([("is_exported", "=", False),
+                                            ("published_on", "!=", False),
+                                            ("is_valid", "=", True)])
+
+        if recs:
+            data = self.generate_json(recs, lang)
+
+            # Story export
+            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+            # Category export
+            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+        for rec in recs:
+            rec.is_exported = True
+
+    def project_site3_export(self):
+        site_model = "project.site3"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_filename = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site3_path"]
+        lang = config["project_site3_language"]
         story_filename = "_{0}_story.json".format(lang)
         category_filename = "_{0}_category.json".format(lang)
 

@@ -6,7 +6,8 @@ import random
 MIN_PUBLISH = 300
 NUM_SELECT = 2
 PROJECT = [("project_site1", "Project Site 1"),
-           ("project_site2", "Project Site 2")]
+           ("project_site2", "Project Site 2"),
+           ("project_site3", "Project Site 3")]
 
 
 class TransferService(models.TransientModel):
@@ -20,6 +21,8 @@ class TransferService(models.TransientModel):
             self.project_site1_transfer()
         elif self.project == "project_site2":
             self.project_site2_transfer()
+        elif self.project == "project_site3":
+            self.project_site3_transfer()
 
     def project_site1_transfer(self):
         site_model = "project.site1"
@@ -32,6 +35,13 @@ class TransferService(models.TransientModel):
         site_model = "project.site2"
         book_field = "project_site2"
         lang = "Tamil"
+        self.next_record_import(site_model, book_field)
+        self.new_record_import(site_model, book_field, lang)
+
+    def project_site3_transfer(self):
+        site_model = "project.site3"
+        book_field = "project_site3"
+        lang = "Hindi"
         self.next_record_import(site_model, book_field)
         self.new_record_import(site_model, book_field, lang)
 
