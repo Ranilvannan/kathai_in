@@ -38,6 +38,15 @@
             <field eval="False" name="company_id"/>
         </record>
 
+        <record id="project_site4_sequence" model="ir.sequence">
+            <field name="name">Project Site 4</field>
+            <field name="code">project.site4</field>
+            <field name="prefix">SITE4/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+
         <record id="story_language_hindi" model="story.language">
             <field name="name">Hindi</field>
             <field name="code">HINDI</field>
@@ -77,6 +86,6 @@
             <field name="name">Urdu</field>
             <field name="code">URDU</field>
         </record>
-        
+
     </data>
 </odoo>
