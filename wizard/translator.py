@@ -10,9 +10,13 @@ def translate(text):
 
         last_character = ""
         for letter in text:
-            name = unicodedata.name(letter)
-            character = name.split()
-            current_character = character[-1]
+            try:
+                name = unicodedata.name(letter)
+                character = name.split()
+                current_character = character[-1]
+            except:
+                name = " "
+
             if "LETTER" in name:
                 english.append(last_character)
                 last_character = current_character
