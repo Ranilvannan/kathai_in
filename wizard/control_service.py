@@ -3,7 +3,8 @@ from odoo import models, fields, api, exceptions
 
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2"),
-           ("project_site3", "Project Site 3")]
+           ("project_site3", "Project Site 3"),
+           ("project_site4", "Project Site 4")]
 
 
 class ControlService(models.TransientModel):
@@ -49,6 +50,12 @@ class ControlService(models.TransientModel):
         obj.trigger_crawl()
 
         site = "antarvasnax"
+        crawl_type = "history"
+
+        obj = self.env["crawl.service"].create({"site": site, "crawl_type": crawl_type})
+        obj.trigger_crawl()
+
+        site = "kambimalayalamkathakal"
         crawl_type = "history"
 
         obj = self.env["crawl.service"].create({"site": site, "crawl_type": crawl_type})

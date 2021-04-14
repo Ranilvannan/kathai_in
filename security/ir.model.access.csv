@@ -6,6 +6,7 @@ story_language_admin,story.language.admin,model_story_language,story_book_admin,
 project_site1_admin,project.site1.admin,model_project_site1,story_book_admin,1,1,1,1
 project_site2_admin,project.site2.admin,model_project_site2,story_book_admin,1,1,1,1
 project_site3_admin,project.site3.admin,model_project_site3,story_book_admin,1,1,1,1
+project_site4_admin,project.site4.admin,model_project_site4,story_book_admin,1,1,1,1
 crawl_service_admin,crawl.service.admin,model_crawl_service,story_book_admin,1,1,1,1
 transfer_service_admin,transfer.service.admin,model_transfer_service,story_book_admin,1,1,1,1
 site_update_service_admin,site.update.service.admin,model_site_update_service,story_book_admin,1,1,1,1

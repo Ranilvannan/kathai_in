@@ -3,7 +3,8 @@ from odoo import models, fields, api
 CRAWL_TYPE = [("first_page", "First Page"), ("history", "History")]
 SITE = [("desitales2", "Desitales 2"),
         ("tamilkamaveri", "Tamilkamaveri"),
-        ("antarvasnax", "Antarvasnax")]
+        ("antarvasnax", "Antarvasnax"),
+        ("kambimalayalamkathakal", "Kambimalayalamkathakal")]
 
 
 class CrawlService(models.TransientModel):
@@ -23,6 +24,9 @@ class CrawlService(models.TransientModel):
         elif self.site == "antarvasnax":
             site_model = "antar.vasnax"
             domain = "https://www.antarvasnax.com"
+        elif self.site == "kambimalayalamkathakal":
+            site_model = "kambimalayalam.kathakal"
+            domain = "https://www.kambimalayalamkathakal.com"
 
         if self.crawl_type == "first_page":
             self.data_crawl(site_model, domain)

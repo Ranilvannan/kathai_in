@@ -53,5 +53,30 @@
             <field name="code">TAMIL</field>
         </record>
 
+        <record id="story_language_malayalam" model="story.language">
+            <field name="name">Malayalam</field>
+            <field name="code">MALAYALAM</field>
+        </record>
+
+        <record id="story_language_telugu" model="story.language">
+            <field name="name">Telugu</field>
+            <field name="code">TELUGU</field>
+        </record>
+
+        <record id="story_language_kannada" model="story.language">
+            <field name="name">Kannada</field>
+            <field name="code">KANNADA</field>
+        </record>
+
+        <record id="story_language_bengali" model="story.language">
+            <field name="name">Bengali</field>
+            <field name="code">KANNADA</field>
+        </record>
+
+        <record id="story_language_urdu" model="story.language">
+            <field name="name">Urdu</field>
+            <field name="code">URDU</field>
+        </record>
+        
     </data>
 </odoo>
