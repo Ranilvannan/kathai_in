@@ -47,6 +47,6 @@ class CrawlService(models.TransientModel):
             obj = self.env[site_model].create({
                 "domain": domain,
                 "url": history_obj.url,
-                "page": 1})
+                "page": 5})
 
             obj.trigger_crawl()

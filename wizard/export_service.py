@@ -118,13 +118,11 @@ class ExportService(models.TransientModel):
             story_data = {
                 "story_id": rec.id,
                 "name": rec.name,
-                "site_url": rec.site_url,
-                "site_title": rec.site_title,
-                "site_preview": rec.site_preview,
+                "url": rec.url,
                 "title": rec.title,
                 "preview": rec.preview,
-                "prev": {"name": rec.prev_id.title, "url": rec.prev_id.site_url},
-                "next": {"name": rec.next_id.title, "url": rec.next_id.site_url},
+                "prev": {"name": rec.prev_id.title, "url": rec.prev_id.url},
+                "next": {"name": rec.next_id.title, "url": rec.next_id.url},
                 "category": {"name": rec.category_id.name, "url": rec.category_id.url},
                 "content_ids": rec.content.split("|#|"),
                 "published_on": self.in_format(rec.published_on),
@@ -134,8 +132,7 @@ class ExportService(models.TransientModel):
             category_data = {
                 "category_id": rec.category_id.id,
                 "name": rec.category_id.name,
-                "url": rec.category_id.url,
-                "description": rec.category_id.description
+                "url": rec.category_id.url
                 }
 
             story.append(story_data)

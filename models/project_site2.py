@@ -13,10 +13,7 @@ class ProjectSite2(models.Model):
     ref = fields.Char(string="Reference")
     date = fields.Date(string="Date", default=datetime.now())
 
-    site_url = fields.Text(string="Site URL")
-    site_title = fields.Text(string="Site Title")
-    site_preview = fields.Text(string="Site Preview")
-
+    url = fields.Text(string="URL")
     title = fields.Text(string="Title")
     preview = fields.Text(string="Preview")
     category_id = fields.Many2one(comodel_name="story.category", string="Category")

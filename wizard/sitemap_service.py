@@ -76,7 +76,7 @@ class SitemapService(models.TransientModel):
                 if page == 1:
                     loc = domain
                 else:
-                    loc = "{0}/page/{1}/".format(domain, page)
+                    loc = "{0}/?page={1}/".format(domain, page)
                 lastmod = datetime.now().strftime("%Y-%m-%d")
                 result.append({"loc": loc, "lastmod": lastmod})
 
@@ -97,7 +97,7 @@ class SitemapService(models.TransientModel):
                     if page == 1:
                         loc = "{0}/category/{1}/".format(domain, category_id.url)
                     else:
-                        loc = "{0}/category/{1}/page/{2}/".format(domain, category_id.url, page)
+                        loc = "{0}/category/{1}/?page={2}/".format(domain, category_id.url, page)
                     lastmod = datetime.now().strftime("%Y-%m-%d")
                     result.append({"loc": loc, "lastmod": lastmod})
 
@@ -130,7 +130,7 @@ class SitemapService(models.TransientModel):
                                             ("is_exported", "=", True)])
 
         for rec in recs:
-            loc = "{0}/category/{1}/{2}/".format(domain, rec.category_id.url, rec.site_url)
+            loc = "{0}/category/{1}/{2}/".format(domain, rec.category_id.url, rec.url)
             result.append({"loc": loc,
                            "lastmod": self.us_format(rec.date)})
 

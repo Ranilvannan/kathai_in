@@ -33,13 +33,10 @@ class SiteUpdateService(models.TransientModel):
         recs = self.env[site_model].search([("is_valid", "=", False)])[:100]
         for rec in recs:
             preview = self.generate_preview(rec.content)
-            site_title = self.get_translated_text(rec.title).title()
-            site_preview = self.get_translated_text(preview)
+            title = self.get_translated_text(rec.title).title()
 
-            rec.write({"site_title": site_title,
-                       "site_preview": site_preview,
-                       "preview": preview,
-                       "site_url": self.generate_url(site_title)})
+            rec.write({"preview": preview,
+                       "url": self.generate_url(title)})
 
     def generate_preview(self, content):
         preview_data = False
