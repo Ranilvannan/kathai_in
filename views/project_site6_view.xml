@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_site6_form" model="ir.ui.view">
+        <field name="name">project.site6.form</field>
+        <field name="model">project.site6</field>
+        <field name="arch" type="xml">
+            <form string="Project Site 6">
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group col="4">
+                        <field name="date"/>
+                        <field name="ref"/>
+                    </group>
+                    <group string="Content" col="4">
+                        <field name="url"/>
+                        <field name="title"/>
+                        <field name="preview"/>
+                        <field name="language"/>
+                        <field name="category_id"/>
+                        <field name="prev_id"/>
+                        <field name="next_id"/>
+                    </group>
+                    <group string="Status" col="4">
+                        <field name="is_valid"/>
+                        <field name="last_checked_on"/>
+                        <field name="is_exported"/>
+                        <field name="published_on"/>
+                    </group>
+                    <notebook>
+                        <page string="Content">
+                            <field name="content"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_site6_tree" model="ir.ui.view">
+        <field name="name">project.site6.tree</field>
+        <field name="model">project.site6</field>
+        <field name="arch" type="xml">
+            <tree name="Project Site 6">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="ref"/>
+                <field name="is_valid"/>
+                <field name="last_checked_on"/>
+                <field name="is_exported"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="project_site6_action" model="ir.actions.act_window">
+        <field name="name">Project Site 6</field>
+        <field name="res_model">project.site6</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="project_site6_menu"
+              name="Project Site 6"
+              parent="Project_menu"
+              action="project_site6_action"
+              sequence="60"/>
+
+</odoo>

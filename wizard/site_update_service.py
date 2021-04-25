@@ -10,7 +10,10 @@ from .preview_key import key_list
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2"),
            ("project_site3", "Project Site 3"),
-           ("project_site4", "Project Site 4")]
+           ("project_site4", "Project Site 4"),
+           ("project_site5", "Project Site 5"),
+           ("project_site6", "Project Site 6"),
+           ("project_site7", "Project Site 7")]
 
 
 class SiteUpdateService(models.TransientModel):
@@ -28,6 +31,12 @@ class SiteUpdateService(models.TransientModel):
             self.project_site_update(site_model="project.site3")
         elif self.project == "project_site4":
             self.project_site_update(site_model="project.site4")
+        elif self.project == "project_site5":
+            self.project_site_update(site_model="project.site5")
+        elif self.project == "project_site6":
+            self.project_site_update(site_model="project.site6")
+        elif self.project == "project_site7":
+            self.project_site_update(site_model="project.site7")
 
     def project_site_update(self, site_model):
         recs = self.env[site_model].search([("is_valid", "=", False)])[:100]

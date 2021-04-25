@@ -8,7 +8,11 @@ from paramiko import SSHClient, AutoAddPolicy
 
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2"),
-           ("project_site3", "Project Site 3")]
+           ("project_site3", "Project Site 3"),
+           ("project_site4", "Project Site 4"),
+           ("project_site5", "Project Site 5"),
+           ("project_site6", "Project Site 6"),
+           ("project_site7", "Project Site 7")]
 
 
 class ExportService(models.TransientModel):
@@ -88,6 +92,118 @@ class ExportService(models.TransientModel):
         key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site3_path"]
         lang = config["project_site3_language"]
+        story_filename = "_{0}_story.json".format(lang)
+        category_filename = "_{0}_category.json".format(lang)
+
+        recs = self.env[site_model].search([("is_exported", "=", False),
+                                            ("published_on", "!=", False),
+                                            ("is_valid", "=", True)])
+
+        if recs:
+            data = self.generate_json(recs, lang)
+
+            # Story export
+            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+            # Category export
+            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+        for rec in recs:
+            rec.is_exported = True
+
+    def project_site4_export(self):
+        site_model = "project.site4"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_filename = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site4_path"]
+        lang = config["project_site4_language"]
+        story_filename = "_{0}_story.json".format(lang)
+        category_filename = "_{0}_category.json".format(lang)
+
+        recs = self.env[site_model].search([("is_exported", "=", False),
+                                            ("published_on", "!=", False),
+                                            ("is_valid", "=", True)])
+
+        if recs:
+            data = self.generate_json(recs, lang)
+
+            # Story export
+            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+            # Category export
+            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+        for rec in recs:
+            rec.is_exported = True
+
+    def project_site5_export(self):
+        site_model = "project.site5"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_filename = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site5_path"]
+        lang = config["project_site5_language"]
+        story_filename = "_{0}_story.json".format(lang)
+        category_filename = "_{0}_category.json".format(lang)
+
+        recs = self.env[site_model].search([("is_exported", "=", False),
+                                            ("published_on", "!=", False),
+                                            ("is_valid", "=", True)])
+
+        if recs:
+            data = self.generate_json(recs, lang)
+
+            # Story export
+            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+            # Category export
+            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+        for rec in recs:
+            rec.is_exported = True
+
+    def project_site6_export(self):
+        site_model = "project.site6"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_filename = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site6_path"]
+        lang = config["project_site6_language"]
+        story_filename = "_{0}_story.json".format(lang)
+        category_filename = "_{0}_category.json".format(lang)
+
+        recs = self.env[site_model].search([("is_exported", "=", False),
+                                            ("published_on", "!=", False),
+                                            ("is_valid", "=", True)])
+
+        if recs:
+            data = self.generate_json(recs, lang)
+
+            # Story export
+            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+            # Category export
+            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
+            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+
+        for rec in recs:
+            rec.is_exported = True
+
+    def project_site7_export(self):
+        site_model = "project.site7"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_filename = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site7_path"]
+        lang = config["project_site7_language"]
         story_filename = "_{0}_story.json".format(lang)
         category_filename = "_{0}_category.json".format(lang)
 

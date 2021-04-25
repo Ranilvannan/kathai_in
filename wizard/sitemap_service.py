@@ -22,8 +22,13 @@ MONTH = [("01", "January"),
          ("12", "December")]
 YEAR = [("2021", "2021"), ("2022", "2022")]
 PROJECT = [("project_site1", "Project Site 1"),
-           ("project_site2", "Project Site 2")]
-INDEX_FILENAME = "sitemap.xml"
+           ("project_site2", "Project Site 2"),
+           ("project_site3", "Project Site 3"),
+           ("project_site4", "Project Site 4"),
+           ("project_site5", "Project Site 5"),
+           ("project_site6", "Project Site 6"),
+           ("project_site7", "Project Site 7")]
+INDEX_FILENAME = "initial_sitemap.xml"
 ARTICLE_FILENAME = "{0}_{1}_sitemap.xml"
 
 
@@ -60,6 +65,18 @@ class SitemapService(models.TransientModel):
         key_file = config["story_book_export_public_key_filename"]
         remote_path = config["project_site2_path"]
         domain = config["project_site2_domain"]
+        per_page = 9
+
+        self.article_sitemap(site_model, domain, host, username, key_file, remote_path)
+        self.page_sitemap(site_model, domain, host, username, key_file, remote_path, per_page)
+
+    def project_site3_sitemap(self):
+        site_model = "project.site3"
+        host = config["story_book_export_host"]
+        username = config["story_book_export_username"]
+        key_file = config["story_book_export_public_key_filename"]
+        remote_path = config["project_site3_path"]
+        domain = config["project_site3_domain"]
         per_page = 9
 
         self.article_sitemap(site_model, domain, host, username, key_file, remote_path)

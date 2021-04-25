@@ -1,12 +1,12 @@
 from odoo import models, fields, api
 from datetime import datetime
 
-LANGUAGE = "Hindi"
+LANGUAGE = "Malayalam"
 
 
 class ProjectSite4(models.Model):
     _name = "project.site4"
-    _description = "Project Site 1 malayalamsexstory.osholikes"
+    _description = "Project Site 4 malayalamsexstory.osholikes"
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)

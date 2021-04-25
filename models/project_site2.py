@@ -6,7 +6,7 @@ LANGUAGE = "Tamil"
 
 class ProjectSite2(models.Model):
     _name = "project.site2"
-    _description = "Project Site 1 tamilsexstory.osholikes"
+    _description = "Project Site 2 tamilosexstory.osholikes"
     _rec_name = "name"
 
     name = fields.Char(string="Name", readonly=True)

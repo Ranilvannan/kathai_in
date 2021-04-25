@@ -47,9 +47,31 @@
             <field eval="False" name="company_id"/>
         </record>
 
-        <record id="story_language_hindi" model="story.language">
-            <field name="name">Hindi</field>
-            <field name="code">HINDI</field>
+        <record id="project_site5_sequence" model="ir.sequence">
+            <field name="name">Project Site 5</field>
+            <field name="code">project.site5</field>
+            <field name="prefix">SITE5/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+
+        <record id="project_site6_sequence" model="ir.sequence">
+            <field name="name">Project Site 6</field>
+            <field name="code">project.site6</field>
+            <field name="prefix">SITE6/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+        </record>
+
+        <record id="project_site7_sequence" model="ir.sequence">
+            <field name="name">Project Site 7</field>
+            <field name="code">project.site7</field>
+            <field name="prefix">SITE7/%(year)s/%(month)s/</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
         </record>
 
         <record id="story_language_english" model="story.language">
@@ -62,6 +84,11 @@
             <field name="code">TAMIL</field>
         </record>
 
+        <record id="story_language_hindi" model="story.language">
+            <field name="name">Hindi</field>
+            <field name="code">HINDI</field>
+        </record>
+
         <record id="story_language_malayalam" model="story.language">
             <field name="name">Malayalam</field>
             <field name="code">MALAYALAM</field>
@@ -72,19 +99,14 @@
             <field name="code">TELUGU</field>
         </record>
 
+        <record id="story_language_bengali" model="story.language">
+            <field name="name">Bengali</field>
+            <field name="code">BENGALI</field>
+        </record>
+
         <record id="story_language_kannada" model="story.language">
             <field name="name">Kannada</field>
             <field name="code">KANNADA</field>
-        </record>
-
-        <record id="story_language_bengali" model="story.language">
-            <field name="name">Bengali</field>
-            <field name="code">KANNADA</field>
-        </record>
-
-        <record id="story_language_urdu" model="story.language">
-            <field name="name">Urdu</field>
-            <field name="code">URDU</field>
         </record>
 
     </data>

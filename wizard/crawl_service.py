@@ -4,7 +4,9 @@ CRAWL_TYPE = [("first_page", "First Page"), ("history", "History")]
 SITE = [("desitales2", "Desitales 2"),
         ("tamilkamaveri", "Tamilkamaveri"),
         ("antarvasnax", "Antarvasnax"),
-        ("kambimalayalamkathakal", "Kambimalayalamkathakal")]
+        ("kambimalayalamkathakal", "Kambimalayalamkathakal"),
+        ("kamakathalu", "Kamakathalu"),
+        ("banglachotikahinii", "Banglachotikahinii")]
 
 
 class CrawlService(models.TransientModel):
@@ -27,6 +29,12 @@ class CrawlService(models.TransientModel):
         elif self.site == "kambimalayalamkathakal":
             site_model = "kambimalayalam.kathakal"
             domain = "https://www.kambimalayalamkathakal.com"
+        elif self.site == "kamakathalu":
+            site_model = "kama.kathalu"
+            domain = "https://www.kamakathalu.com"
+        elif self.site == "banglachotikahinii":
+            site_model = "Bangla.chotikahinii"
+            domain = "https://www.banglachotikahinii.com"
 
         if self.crawl_type == "first_page":
             self.data_crawl(site_model, domain)

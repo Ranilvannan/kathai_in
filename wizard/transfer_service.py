@@ -8,7 +8,10 @@ NUM_SELECT = 2
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2"),
            ("project_site3", "Project Site 3"),
-           ("project_site4", "Project Site 4")]
+           ("project_site4", "Project Site 4"),
+           ("project_site5", "Project Site 5"),
+           ("project_site6", "Project Site 6"),
+           ("project_site7", "Project Site 7")]
 
 
 class TransferService(models.TransientModel):
@@ -26,6 +29,12 @@ class TransferService(models.TransientModel):
             self.project_site3_transfer()
         elif self.project == "project_site4":
             self.project_site4_transfer()
+        elif self.project == "project_site5":
+            self.project_site5_transfer()
+        elif self.project == "project_site6":
+            self.project_site6_transfer()
+        elif self.project == "project_site7":
+            self.project_site7_transfer()
 
     def project_site1_transfer(self):
         site_model = "project.site1"
@@ -52,6 +61,27 @@ class TransferService(models.TransientModel):
         site_model = "project.site4"
         book_field = "project_site4"
         lang = "Malayalam"
+        self.next_record_import(site_model, book_field)
+        self.new_record_import(site_model, book_field, lang)
+
+    def project_site5_transfer(self):
+        site_model = "project.site5"
+        book_field = "project_site5"
+        lang = "Telugu"
+        self.next_record_import(site_model, book_field)
+        self.new_record_import(site_model, book_field, lang)
+
+    def project_site6_transfer(self):
+        site_model = "project.site6"
+        book_field = "project_site6"
+        lang = "Bengali"
+        self.next_record_import(site_model, book_field)
+        self.new_record_import(site_model, book_field, lang)
+
+    def project_site7_transfer(self):
+        site_model = "project.site7"
+        book_field = "project_site7"
+        lang = "Kannada"
         self.next_record_import(site_model, book_field)
         self.new_record_import(site_model, book_field, lang)
 
