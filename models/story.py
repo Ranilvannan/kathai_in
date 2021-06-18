@@ -22,6 +22,7 @@ class StoryBook(models.Model):
 
     # CONTENT
     title = fields.Text(string="Title")
+    preview = fields.Text(string="Preview")
     content = fields.Text(string="Content")
     category = fields.Char(string="Category")
 

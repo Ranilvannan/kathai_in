@@ -1,10 +1,7 @@
 from odoo import models, fields, api, exceptions
-from odoo.tools import config
 from datetime import datetime
-import random
 
 MIN_PUBLISH = 300
-NUM_SELECT = 2
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2"),
            ("project_site3", "Project Site 3"),
@@ -86,22 +83,18 @@ class TransferService(models.TransientModel):
         self.new_record_import(site_model, book_field, lang)
 
     def new_record_import(self, site_model, book_field, lang):
-        list_of_random_items = []
         recs = self.env["story.book"].search([(book_field, "=", False),
                                               ("language.name", "=", lang),
-                                              ("prev_url", "=", False)])[:1000]
+                                              ("prev_url", "=", False)])[:10]
 
-        if len(recs) > NUM_SELECT:
-            list_of_random_items = random.sample(recs, NUM_SELECT)
-
-        for rec in list_of_random_items:
-            publish = self.env[site_model].search_count([("date", "=", datetime.now())])
+        for rec in recs:
             category_obj = self.env["category.tag"].search([("name", "=", rec.category),
                                                             ("language", "=", rec.language.id),
                                                             ("category_id", "!=", False)])
 
-            if category_obj and (publish < MIN_PUBLISH):
+            if category_obj:
                 data = {"title": rec.title,
+                        "preview": rec.preview,
                         "ref": rec.name,
                         "category_id": category_obj.category_id.id,
                         "language": rec.language.id,
@@ -112,7 +105,7 @@ class TransferService(models.TransientModel):
     def next_record_import(self, site_model, book_field):
         recs = self.env[site_model].search([("last_checked_on", "!=", datetime.now()),
                                             ("is_exported", "=", True),
-                                            ("next_id", "=", False)])[:100]
+                                            ("next_id", "=", False)])[:10]
 
         for rec in recs:
             story_id = self.env["story.book"].search([("name", "=", rec.ref)])
@@ -126,6 +119,7 @@ class TransferService(models.TransientModel):
                                                                     ("category_id", "!=", False)])
                     if category_obj and (publish < MIN_PUBLISH):
                         data = {"title": story_obj.title,
+                                "preview": story_obj.preview,
                                 "ref": story_obj.name,
                                 "category_id": category_obj.category_id.id,
                                 "prev_id": rec.id,

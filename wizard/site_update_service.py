@@ -41,39 +41,8 @@ class SiteUpdateService(models.TransientModel):
     def project_site_update(self, site_model):
         recs = self.env[site_model].search([("is_valid", "=", False)])[:100]
         for rec in recs:
-            preview = self.generate_preview(rec.content)
             title = self.get_translated_text(rec.title).title()
-
-            rec.write({"preview": preview,
-                       "url": self.generate_url(title)})
-
-    def generate_preview(self, content):
-        preview_data = False
-        recs = content.split("|#|")[:10]
-
-        if not preview_data:
-            for rec in recs:
-                for data in key_list:
-                    if rec.find(data) > 0 and (not preview_data):
-                        preview_data = rec
-
-        if not preview_data:
-            for rec in recs:
-                space_list = rec.split(" ")
-                if len(space_list) >= 24 and (not preview_data):
-                    preview_data = rec
-
-        if not preview_data:
-            content_len = len(recs)
-            if content_len >= 4 and (not preview_data):
-                preview_data = recs[4]
-
-        if not preview_data:
-            content_len = len(recs)
-            if content_len >= 1 and (not preview_data):
-                preview_data = recs[1]
-
-        return preview_data
+            rec.write({"url": self.generate_url(title)})
 
     def get_translated_text(self, text):
         result = translate(text)

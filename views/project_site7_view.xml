@@ -14,8 +14,6 @@
                     </group>
                     <group string="Content" col="4">
                         <field name="url"/>
-                        <field name="title"/>
-                        <field name="preview"/>
                         <field name="language"/>
                         <field name="category_id"/>
                         <field name="prev_id"/>
@@ -26,6 +24,10 @@
                         <field name="last_checked_on"/>
                         <field name="is_exported"/>
                         <field name="published_on"/>
+                    </group>
+                    <group>
+                        <field name="title"/>
+                        <field name="preview"/>
                     </group>
                     <notebook>
                         <page string="Content">

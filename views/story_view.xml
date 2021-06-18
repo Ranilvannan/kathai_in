@@ -20,6 +20,7 @@
                     </group>
                     <group string="Content">
                         <field name="title"/>
+                        <field name="preview"/>
                         <field name="category"/>
                     </group>
                     <group string="Project Info" col="4">
@@ -28,6 +29,10 @@
                         <field name="project_site1"/>
                         <field name="project_site2"/>
                         <field name="project_site3"/>
+                        <field name="project_site4"/>
+                        <field name="project_site5"/>
+                        <field name="project_site6"/>
+                        <field name="project_site7"/>
                     </group>
                     <notebook>
                         <page string="Content">

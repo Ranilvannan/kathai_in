@@ -62,6 +62,7 @@ class TamilKamaveri(models.TransientModel):
 
             if not rec:
                 title = self.article_title(article)
+                preview = self.article_preview(article)
                 category = self.article_category(article)
                 language = self.env["story.language"].search([("code", "=", LANGUAGE_CODE)])
 
@@ -70,6 +71,7 @@ class TamilKamaveri(models.TransientModel):
 
                 data = {
                     "title": title,
+                    "preview": preview,
                     "content": self.content_crawl(content_html),
                     "crawl_domain": self.domain,
                     "crawl_url": url,
