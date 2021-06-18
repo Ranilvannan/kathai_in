@@ -15,11 +15,8 @@ transfer_service_admin,transfer.service.admin,model_transfer_service,story_book_
 site_update_service_admin,site.update.service.admin,model_site_update_service,story_book_admin,1,1,1,1
 validation_service_admin,validation.service.admin,model_validation_service,story_book_admin,1,1,1,1
 export_service_admin,export.service.admin,model_export_service,story_book_admin,1,1,1,1
-reset_service_admin,reset.service.admin,model_reset_service,story_book_admin,1,1,1,1
-sitemap_service_admin,sitemap.service.admin,model_sitemap_service,story_book_admin,1,1,1,1
 publish_service_admin,publish.service.admin,model_publish_service,story_book_admin,1,1,1,1
 control_service_admin,control.service.admin,model_control_service,story_book_admin,1,1,1,1
-report_service_admin,report.service.admin,model_report_service,story_book_admin,1,1,1,1
 desi_tales2_admin,desi.tales2.admin,model_desi_tales2,story_book_admin,1,1,1,1
 tamil_kamaveri_admin,tamil.kamaveri.admin,model_tamil_kamaveri,story_book_admin,1,1,1,1
 antar_vasnax_admin,antar.vasnax.admin,model_antar_vasnax,story_book_admin,1,1,1,1
@@ -27,4 +24,3 @@ kambimalayalam_kathakal_admin,kambimalayalam.kathakal.admin,model_kambimalayalam
 kama_kathalu_admin,kama.kathalu.admin,model_kama_kathalu,story_book_admin,1,1,1,1
 bangla_chotikahinii_admin,bangla.chotikahinii.admin,model_bangla_chotikahinii,story_book_admin,1,1,1,1
 history_history_admin,history.history.admin,model_history_history,story_book_admin,1,1,1,1
-book_attachment_admin,book.attachment.admin,model_book_attachment,story_book_admin,1,1,1,1

@@ -29,13 +29,11 @@
         'views/project_site7_view.xml',
         'wizard/crawl_service.xml',
         'wizard/publish_service.xml',
-        'wizard/sitemap_service.xml',
-        'wizard/control_service.xml',
-        'wizard/report_service.xml'
+        'wizard/control_service.xml'
     ],
     'demo': [],
     'qweb': [],
     'installable': True,
     'application': True,
-    'auto_install': True,
+    'auto_install': False,
 }

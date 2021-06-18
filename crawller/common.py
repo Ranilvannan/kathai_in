@@ -1,21 +1,6 @@
 from bs4 import BeautifulSoup
-from googletrans import Translator
 from urllib.parse import urldefrag
 import requests
-import random
-import string
-
-
-def translate_text(text):
-    result = ''
-    try:
-        translator = Translator()
-        result = translator.translate(text)
-        result = result.text
-    except:
-        pass
-
-    return result
 
 
 def clean_url(url):

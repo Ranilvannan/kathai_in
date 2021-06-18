@@ -4,7 +4,4 @@ from . import site_update_service
 from . import validation_service
 from . import publish_service
 from . import export_service
-from . import reset_service
-from . import sitemap_service
 from . import control_service
-from . import report_service

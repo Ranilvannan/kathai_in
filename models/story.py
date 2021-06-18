@@ -31,6 +31,9 @@ class StoryBook(models.Model):
     project_site2 = fields.Char(string="Project Site 2")
     project_site3 = fields.Char(string="Project Site 3")
     project_site4 = fields.Char(string="Project Site 4")
+    project_site5 = fields.Char(string="Project Site 5")
+    project_site6 = fields.Char(string="Project Site 6")
+    project_site7 = fields.Char(string="Project Site 7")
     is_cat_checked = fields.Boolean(string="Is Category Checked", default=False)
 
     @api.model
