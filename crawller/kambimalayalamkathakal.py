@@ -1,6 +1,8 @@
 from odoo import models, fields
 from .common import get_url_content, clean_url
 
+LANGUAGE_CODE = "MALAYALAM"
+
 
 class KambimalayalamKathakal(models.TransientModel):
     _name = "kambimalayalam.kathakal"
@@ -61,7 +63,7 @@ class KambimalayalamKathakal(models.TransientModel):
             if not rec:
                 title = self.article_title(article)
                 category = self.article_category(article)
-                language = self.env["story.language"].search([("code", "=", "MALAYALAM")])
+                language = self.env["story.language"].search([("code", "=", LANGUAGE_CODE)])
 
                 content_html = get_url_content(url)
                 prev_url = self.article_previous(content_html)
