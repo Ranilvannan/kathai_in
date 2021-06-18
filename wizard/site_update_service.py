@@ -42,7 +42,14 @@ class SiteUpdateService(models.TransientModel):
         recs = self.env[site_model].search([("is_valid", "=", False)])[:100]
         for rec in recs:
             title = self.get_translated_text(rec.title).title()
-            rec.write({"url": self.generate_url(title)})
+            url = self.generate_url(title)
+
+            if rec.title \
+                    and rec.preview \
+                    and rec.content \
+                    and rec.category_id \
+                    and url:
+                rec.write({"url": url, "is_valid": True})
 
     def get_translated_text(self, text):
         result = translate(text)
@@ -55,8 +62,8 @@ class SiteUpdateService(models.TransientModel):
         return str(text)
 
     def generate_url(self, text):
-        new_text = "".join([c if c.isalnum() else "-" for c in text.lower()])
+        new_text = "".join([c if c.isalnum() else "_" for c in text.lower()])
         new_text = "".join(map(next, map(itemgetter(1), groupby(new_text))))
         res = "".join(random.choices(string.ascii_lowercase + string.digits, k=7))
-        site_path = "{0}-{1}".format(new_text, res)
+        site_path = "{0}_{1}".format(new_text, res)
         return site_path

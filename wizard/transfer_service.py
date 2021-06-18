@@ -1,7 +1,6 @@
 from odoo import models, fields, api, exceptions
 from datetime import datetime
 
-MIN_PUBLISH = 300
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2"),
            ("project_site3", "Project Site 3"),
@@ -113,11 +112,10 @@ class TransferService(models.TransientModel):
                 story_obj = self.env["story.book"].search([("prev_url", "=", story_id.crawl_url),
                                                            (book_field, "=", False)])
                 if story_obj:
-                    publish = self.env[site_model].search_count([("date", "=", datetime.now())])
                     category_obj = self.env["category.tag"].search([("name", "=", story_obj.category),
                                                                     ("language", "=", rec.language.id),
                                                                     ("category_id", "!=", False)])
-                    if category_obj and (publish < MIN_PUBLISH):
+                    if category_obj:
                         data = {"title": story_obj.title,
                                 "preview": story_obj.preview,
                                 "ref": story_obj.name,

@@ -28,12 +28,17 @@ class ExportService(models.TransientModel):
             self.project_site2_export()
         elif self.project == "project_site3":
             self.project_site3_export()
+        elif self.project == "project_site4":
+            self.project_site4_export()
+        elif self.project == "project_site5":
+            self.project_site5_export()
+        elif self.project == "project_site6":
+            self.project_site6_export()
+        elif self.project == "project_site7":
+            self.project_site7_export()
 
     def project_site1_export(self):
         site_model = "project.site1"
-        host = config["story_book_export_host"]
-        username = config["story_book_export_username"]
-        key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site1_path"]
         lang = config["project_site1_language"]
         story_filename = "_{0}_story.json".format(lang)
@@ -48,20 +53,17 @@ class ExportService(models.TransientModel):
 
             # Story export
             tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
             # Category export
             tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
 
     def project_site2_export(self):
         site_model = "project.site2"
-        host = config["story_book_export_host"]
-        username = config["story_book_export_username"]
-        key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site2_path"]
         lang = config["project_site2_language"]
         story_filename = "_{0}_story.json".format(lang)
@@ -76,20 +78,17 @@ class ExportService(models.TransientModel):
 
             # Story export
             tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
             # Category export
             tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
 
     def project_site3_export(self):
         site_model = "project.site3"
-        host = config["story_book_export_host"]
-        username = config["story_book_export_username"]
-        key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site3_path"]
         lang = config["project_site3_language"]
         story_filename = "_{0}_story.json".format(lang)
@@ -104,20 +103,17 @@ class ExportService(models.TransientModel):
 
             # Story export
             tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
             # Category export
             tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
 
     def project_site4_export(self):
         site_model = "project.site4"
-        host = config["story_book_export_host"]
-        username = config["story_book_export_username"]
-        key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site4_path"]
         lang = config["project_site4_language"]
         story_filename = "_{0}_story.json".format(lang)
@@ -132,20 +128,17 @@ class ExportService(models.TransientModel):
 
             # Story export
             tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
             # Category export
             tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
 
     def project_site5_export(self):
         site_model = "project.site5"
-        host = config["story_book_export_host"]
-        username = config["story_book_export_username"]
-        key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site5_path"]
         lang = config["project_site5_language"]
         story_filename = "_{0}_story.json".format(lang)
@@ -160,20 +153,17 @@ class ExportService(models.TransientModel):
 
             # Story export
             tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
             # Category export
             tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
 
     def project_site6_export(self):
         site_model = "project.site6"
-        host = config["story_book_export_host"]
-        username = config["story_book_export_username"]
-        key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site6_path"]
         lang = config["project_site6_language"]
         story_filename = "_{0}_story.json".format(lang)
@@ -188,20 +178,17 @@ class ExportService(models.TransientModel):
 
             # Story export
             tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
             # Category export
             tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
 
     def project_site7_export(self):
         site_model = "project.site7"
-        host = config["story_book_export_host"]
-        username = config["story_book_export_username"]
-        key_filename = config["story_book_export_public_key_filename"]
         remote_path = config["project_site7_path"]
         lang = config["project_site7_language"]
         story_filename = "_{0}_story.json".format(lang)
@@ -216,11 +203,11 @@ class ExportService(models.TransientModel):
 
             # Story export
             tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
             # Category export
             tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(host, username, key_filename, tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -266,7 +253,11 @@ class ExportService(models.TransientModel):
 
         return tmp_file
 
-    def move_tmp_file(self, host, username, key_filename, tmp_file, path):
+    def move_tmp_file(self, tmp_file, path):
+        host = config["export_host"]
+        username = config["export_username"]
+        key_filename = config["export_public_key_filename"]
+
         ssh_client = SSHClient()
         ssh_client.set_missing_host_key_policy(AutoAddPolicy())
         ssh_client.connect(hostname=host, username=username, key_filename=key_filename)
