@@ -46,7 +46,7 @@ class ExportService(models.TransientModel):
         
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])
+                                            ("is_valid", "=", True)])[:100]
 
         if recs:
             # Blog export
@@ -70,7 +70,7 @@ class ExportService(models.TransientModel):
         
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])
+                                            ("is_valid", "=", True)])[:100]
 
         if recs:
             # Blog export
@@ -94,7 +94,7 @@ class ExportService(models.TransientModel):
         
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])
+                                            ("is_valid", "=", True)])[:100]
 
         if recs:
             # Blog export
@@ -118,7 +118,7 @@ class ExportService(models.TransientModel):
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])
+                                            ("is_valid", "=", True)])[:100]
 
         if recs:
             # Blog export
@@ -142,7 +142,7 @@ class ExportService(models.TransientModel):
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])
+                                            ("is_valid", "=", True)])[:100]
 
         if recs:
             # Blog export
@@ -166,7 +166,7 @@ class ExportService(models.TransientModel):
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])
+                                            ("is_valid", "=", True)])[:100]
 
         if recs:
             # Blog export
@@ -190,7 +190,7 @@ class ExportService(models.TransientModel):
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])
+                                            ("is_valid", "=", True)])[:100]
 
         if recs:
             # Blog export

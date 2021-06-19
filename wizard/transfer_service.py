@@ -70,14 +70,14 @@ class TransferService(models.TransientModel):
     def project_site6_transfer(self):
         site_model = "project.site6"
         book_field = "project_site6"
-        lang = "Bengali"
+        lang = "Kannada"
         self.next_record_import(site_model, book_field)
         self.new_record_import(site_model, book_field, lang)
 
     def project_site7_transfer(self):
         site_model = "project.site7"
         book_field = "project_site7"
-        lang = "Kannada"
+        lang = "Bengali"
         self.next_record_import(site_model, book_field)
         self.new_record_import(site_model, book_field, lang)
 
@@ -125,7 +125,7 @@ class TransferService(models.TransientModel):
                                 "content": rec.content}
 
                         record_id = self.env[site_model].create(data)
-                        rec.write({"next_id": record_id.id})
+                        rec.write({"next_id": record_id.id, "is_exported": False})
                         story_obj.write({book_field: record_id.name})
 
             rec.write({"last_checked_on": datetime.now()})
