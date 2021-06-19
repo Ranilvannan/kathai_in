@@ -27,17 +27,9 @@ class ControlService(models.TransientModel):
         rec = self.env["site.update.service"].create({"project": self.project})
         rec.trigger_site_update()
 
-    def trigger_validation_service(self):
-        rec = self.env["validation.service"].create({"project": self.project})
-        rec.trigger_validation()
-
     def trigger_export_service(self):
         rec = self.env["export.service"].create({"project": self.project})
         rec.trigger_export()
-
-    def trigger_reset_service(self):
-        rec = self.env["reset.service"].create({"project": self.project})
-        rec.trigger_export_reset()
 
     def trigger_history_crawl(self):
         site = "desitales2"

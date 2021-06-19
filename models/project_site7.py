@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 from datetime import datetime
 
-LANGUAGE = "Kannada"
+LANGUAGE = "Bengali"
 
 
 class ProjectSite7(models.Model):

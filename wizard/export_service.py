@@ -42,7 +42,7 @@ class ExportService(models.TransientModel):
     def project_site1_export(self):
         site_model = "project.site1"
         remote_path = config["project_site1_path"]
-        lang = config["project_site1_language"]
+        lang = "English"
         
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
@@ -52,13 +52,13 @@ class ExportService(models.TransientModel):
             # Blog export
             blog_list = self.generate_json(recs, lang)
             tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         # Category export
         category_list = self.generate_category(site_model, lang)
         if category_list:
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -66,7 +66,7 @@ class ExportService(models.TransientModel):
     def project_site2_export(self):
         site_model = "project.site2"
         remote_path = config["project_site2_path"]
-        lang = config["project_site2_language"]
+        lang = "Tamil"
         
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
@@ -76,13 +76,13 @@ class ExportService(models.TransientModel):
             # Blog export
             blog_list = self.generate_json(recs, lang)
             tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         # Category export
         category_list = self.generate_category(site_model, lang)
         if category_list:
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -90,7 +90,7 @@ class ExportService(models.TransientModel):
     def project_site3_export(self):
         site_model = "project.site3"
         remote_path = config["project_site3_path"]
-        lang = config["project_site3_language"]
+        lang = "Hindi"
         
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
@@ -100,13 +100,13 @@ class ExportService(models.TransientModel):
             # Blog export
             blog_list = self.generate_json(recs, lang)
             tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         # Category export
         category_list = self.generate_category(site_model, lang)
         if category_list:
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -114,7 +114,7 @@ class ExportService(models.TransientModel):
     def project_site4_export(self):
         site_model = "project.site4"
         remote_path = config["project_site4_path"]
-        lang = config["project_site4_language"]
+        lang = "Malayalam"
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
@@ -124,13 +124,13 @@ class ExportService(models.TransientModel):
             # Blog export
             blog_list = self.generate_json(recs, lang)
             tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         # Category export
         category_list = self.generate_category(site_model, lang)
         if category_list:
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -138,7 +138,7 @@ class ExportService(models.TransientModel):
     def project_site5_export(self):
         site_model = "project.site5"
         remote_path = config["project_site5_path"]
-        lang = config["project_site5_language"]
+        lang = "Telugu"
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
@@ -148,13 +148,13 @@ class ExportService(models.TransientModel):
             # Blog export
             blog_list = self.generate_json(recs, lang)
             tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         # Category export
         category_list = self.generate_category(site_model, lang)
         if category_list:
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -162,7 +162,7 @@ class ExportService(models.TransientModel):
     def project_site6_export(self):
         site_model = "project.site6"
         remote_path = config["project_site6_path"]
-        lang = config["project_site6_language"]
+        lang = "Telugu"
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
@@ -172,13 +172,13 @@ class ExportService(models.TransientModel):
             # Blog export
             blog_list = self.generate_json(recs, lang)
             tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         # Category export
         category_list = self.generate_category(site_model, lang)
         if category_list:
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -186,7 +186,7 @@ class ExportService(models.TransientModel):
     def project_site7_export(self):
         site_model = "project.site7"
         remote_path = config["project_site7_path"]
-        lang = config["project_site7_language"]
+        lang = "Bengali"
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
@@ -196,13 +196,13 @@ class ExportService(models.TransientModel):
             # Blog export
             blog_list = self.generate_json(recs, lang)
             tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         # Category export
         category_list = self.generate_category(site_model, lang)
         if category_list:
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            # self.move_tmp_file(tmp_file, remote_path)
+            self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -279,9 +279,3 @@ class ExportService(models.TransientModel):
         tmp_file.close()
 
         return True
-
-    def in_format(self, date):
-        result = None
-        if date:
-            result = date.strftime("%d-%m-%Y")
-        return result

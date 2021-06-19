@@ -14,9 +14,7 @@
                         <button name="trigger_generate_tag" string="Generate Tag" type="object" class="oe_highlight"/>
                         <button name="trigger_transfer_service" string="Transfer Service" type="object" class="oe_highlight"/>
                         <button name="trigger_site_update_service" string="Site Update Service" type="object" class="oe_highlight"/>
-                        <button name="trigger_validation_service" string="Validation Service" type="object" class="oe_highlight"/>
                         <button name="trigger_export_service" string="Export Service" type="object" class="oe_highlight"/>
-                        <button name="trigger_reset_service" string="Reset Service" type="object" class="oe_highlight"/>
                     </group>
                 </sheet>
             </form>
