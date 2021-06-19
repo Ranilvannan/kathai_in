@@ -37,6 +37,6 @@
               name="History"
               parent="book_menu"
               action="history_history_action"
-              sequence="50"/>
+              sequence="60"/>
 
 </odoo>

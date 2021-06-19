@@ -2,6 +2,7 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 story_book_admin,story.book.admin,model_story_book,story_book_admin,1,1,1,1
 story_category_admin,story.category.admin,model_story_category,story_book_admin,1,1,1,1
 category_tag_admin,category.tag.admin,model_category_tag,story_book_admin,1,1,1,1
+blog_gallery_admin,blog.gallery.admin,model_blog_gallery,story_book_admin,1,1,1,1
 story_language_admin,story.language.admin,model_story_language,story_book_admin,1,1,1,1
 project_site1_admin,project.site1.admin,model_project_site1,story_book_admin,1,1,1,1
 project_site2_admin,project.site2.admin,model_project_site2,story_book_admin,1,1,1,1

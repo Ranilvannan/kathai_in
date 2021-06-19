@@ -28,6 +28,8 @@
                     <group>
                         <field name="title"/>
                         <field name="preview"/>
+                        <field name="gallery_id"/>
+                        <field name="gallery_ids" widget="many2many_tags"/>
                     </group>
                     <notebook>
                         <page string="Content">

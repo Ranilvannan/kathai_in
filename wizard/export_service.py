@@ -6,6 +6,8 @@ from datetime import datetime
 import tempfile
 from paramiko import SSHClient, AutoAddPolicy
 
+BLOG_FILENAME = "_blog.json"
+CATEGORY_FILENAME = "_category.json"
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2"),
            ("project_site3", "Project Site 3"),
@@ -41,23 +43,22 @@ class ExportService(models.TransientModel):
         site_model = "project.site1"
         remote_path = config["project_site1_path"]
         lang = config["project_site1_language"]
-        story_filename = "_{0}_story.json".format(lang)
-        category_filename = "_{0}_category.json".format(lang)
-
+        
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])
 
         if recs:
-            data = self.generate_json(recs, lang)
+            # Blog export
+            blog_list = self.generate_json(recs, lang)
+            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
-            # Story export
-            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(tmp_file, remote_path)
-
-            # Category export
-            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(tmp_file, remote_path)
+        # Category export
+        category_list = self.generate_category(site_model, lang)
+        if category_list:
+            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -66,23 +67,22 @@ class ExportService(models.TransientModel):
         site_model = "project.site2"
         remote_path = config["project_site2_path"]
         lang = config["project_site2_language"]
-        story_filename = "_{0}_story.json".format(lang)
-        category_filename = "_{0}_category.json".format(lang)
-
+        
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])
 
         if recs:
-            data = self.generate_json(recs, lang)
+            # Blog export
+            blog_list = self.generate_json(recs, lang)
+            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
-            # Story export
-            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(tmp_file, remote_path)
-
-            # Category export
-            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(tmp_file, remote_path)
+        # Category export
+        category_list = self.generate_category(site_model, lang)
+        if category_list:
+            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -91,23 +91,22 @@ class ExportService(models.TransientModel):
         site_model = "project.site3"
         remote_path = config["project_site3_path"]
         lang = config["project_site3_language"]
-        story_filename = "_{0}_story.json".format(lang)
-        category_filename = "_{0}_category.json".format(lang)
-
+        
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])
 
         if recs:
-            data = self.generate_json(recs, lang)
+            # Blog export
+            blog_list = self.generate_json(recs, lang)
+            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
-            # Story export
-            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(tmp_file, remote_path)
-
-            # Category export
-            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(tmp_file, remote_path)
+        # Category export
+        category_list = self.generate_category(site_model, lang)
+        if category_list:
+            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -116,23 +115,22 @@ class ExportService(models.TransientModel):
         site_model = "project.site4"
         remote_path = config["project_site4_path"]
         lang = config["project_site4_language"]
-        story_filename = "_{0}_story.json".format(lang)
-        category_filename = "_{0}_category.json".format(lang)
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])
 
         if recs:
-            data = self.generate_json(recs, lang)
+            # Blog export
+            blog_list = self.generate_json(recs, lang)
+            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
-            # Story export
-            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(tmp_file, remote_path)
-
-            # Category export
-            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(tmp_file, remote_path)
+        # Category export
+        category_list = self.generate_category(site_model, lang)
+        if category_list:
+            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -141,23 +139,22 @@ class ExportService(models.TransientModel):
         site_model = "project.site5"
         remote_path = config["project_site5_path"]
         lang = config["project_site5_language"]
-        story_filename = "_{0}_story.json".format(lang)
-        category_filename = "_{0}_category.json".format(lang)
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])
 
         if recs:
-            data = self.generate_json(recs, lang)
+            # Blog export
+            blog_list = self.generate_json(recs, lang)
+            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
-            # Story export
-            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(tmp_file, remote_path)
-
-            # Category export
-            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(tmp_file, remote_path)
+        # Category export
+        category_list = self.generate_category(site_model, lang)
+        if category_list:
+            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -166,23 +163,22 @@ class ExportService(models.TransientModel):
         site_model = "project.site6"
         remote_path = config["project_site6_path"]
         lang = config["project_site6_language"]
-        story_filename = "_{0}_story.json".format(lang)
-        category_filename = "_{0}_category.json".format(lang)
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])
 
         if recs:
-            data = self.generate_json(recs, lang)
+            # Blog export
+            blog_list = self.generate_json(recs, lang)
+            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
-            # Story export
-            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(tmp_file, remote_path)
-
-            # Category export
-            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(tmp_file, remote_path)
+        # Category export
+        category_list = self.generate_category(site_model, lang)
+        if category_list:
+            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -191,59 +187,72 @@ class ExportService(models.TransientModel):
         site_model = "project.site7"
         remote_path = config["project_site7_path"]
         lang = config["project_site7_language"]
-        story_filename = "_{0}_story.json".format(lang)
-        category_filename = "_{0}_category.json".format(lang)
 
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])
 
         if recs:
-            data = self.generate_json(recs, lang)
+            # Blog export
+            blog_list = self.generate_json(recs, lang)
+            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
-            # Story export
-            tmp_file = self.generate_tmp_json_file(data["story"], story_filename)
-            self.move_tmp_file(tmp_file, remote_path)
-
-            # Category export
-            tmp_file = self.generate_tmp_json_file(data["category"], category_filename)
-            self.move_tmp_file(tmp_file, remote_path)
+        # Category export
+        category_list = self.generate_category(site_model, lang)
+        if category_list:
+            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
 
+    def generate_category(self, site_model, lang):
+        category = []
+        recs = self.env["story.category"].search([("language", "=", lang)])
+        for rec in recs:
+            story = self.env[site_model].search([("category_id", "=", rec.id)])
+            if story:
+                data = {
+                    "category_id": rec.id,
+                    "name": rec.name,
+                    "url": rec.url
+                }
+                category.append(data)
+
+        return category
+
     def generate_json(self, recs, lang):
         story = []
-        cat_id = []
-        category = []
 
         for rec in recs:
-            story_data = {
-                "story_id": rec.id,
+            data = {
+                "blog_id": rec.id,
                 "name": rec.name,
                 "url": rec.url,
                 "title": rec.title,
                 "preview": rec.preview,
-                "prev": {"name": rec.prev_id.title, "url": rec.prev_id.url},
-                "next": {"name": rec.next_id.title, "url": rec.next_id.url},
-                "category": {"name": rec.category_id.name, "url": rec.category_id.url},
+                "image_filename": rec.gallery_id.filename,
+                "image_filepath": rec.gallery_id.filepath,
+                "image_description": rec.gallery_id.description,
+                "galleries": [{"image_filename": gallery.filename,
+                               "image_filepath": gallery.filepath,
+                               "image_description": gallery.description} for gallery in rec.gallery_ids],
+                "previous_title": rec.prev_id.title,
+                "previous_url": rec.prev_id.url,
+                "next_title": rec.next_id.title,
+                "next_url": rec.next_id.url,
+                "category_name": rec.category_id.name,
+                "category_url": rec.category_id.url,
                 "content_ids": rec.content.split("|#|"),
-                "published_on": self.in_format(rec.published_on),
+                "published_on": rec.published_on.strftime("%d-%m-%Y") if rec.published_on else None,
+                "date": rec.published_on.isoformat() if rec.published_on else None,
                 "language": lang
             }
 
-            category_data = {
-                "category_id": rec.category_id.id,
-                "name": rec.category_id.name,
-                "url": rec.category_id.url
-                }
+            story.append(data)
 
-            story.append(story_data)
-            if rec.category_id.id not in cat_id:
-                cat_id.append(rec.category_id.id)
-                category.append(category_data)
-
-        return {"story": story, "category": category}
+        return story
 
     def generate_tmp_json_file(self, json_data, suffix):
         prefix = datetime.now().strftime('%s')

@@ -18,6 +18,7 @@
         'views/story_view.xml',
         'views/category_view.xml',
         'views/tag_view.xml',
+        'views/gallery_view.xml',
         'views/language_view.xml',
         'views/history_view.xml',
         'views/project_site1_view.xml',

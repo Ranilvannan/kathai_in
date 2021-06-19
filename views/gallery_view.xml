@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="blog_gallery_form" model="ir.ui.view">
+        <field name="name">blog.gallery.form</field>
+        <field name="model">blog.gallery</field>
+        <field name="arch" type="xml">
+            <form string="Gallery">
+                <sheet>
+                    <group col="4">
+                        <field name="date"/>
+                        <field name="filename"/>
+                        <field name="filepath"/>
+                        <field name="description"/>
+                        <field name="image"/>
+                        <field name="is_exported"/>
+                    </group>
+                    <button name="trigger_gallery" class="btn btn-primary" string="Save" type="object"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="blog_gallery_tree" model="ir.ui.view">
+        <field name="name">blog.gallery.tree</field>
+        <field name="model">blog.gallery</field>
+        <field name="arch" type="xml">
+            <tree name="Gallery">
+                <field name="date"/>
+                <field name="filename"/>
+                <field name="filepath"/>
+                <field name="description"/>
+                <field name="is_exported"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="blog_gallery_action" model="ir.actions.act_window">
+        <field name="name">Gallery</field>
+        <field name="res_model">blog.gallery</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="blog_gallery_menu"
+              name="Gallery"
+              parent="book_menu"
+              action="blog_gallery_action"
+              sequence="40"/>
+
+</odoo>
