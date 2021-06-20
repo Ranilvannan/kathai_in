@@ -88,7 +88,6 @@ class TransferService(models.TransientModel):
 
         for rec in recs:
             category_obj = self.env["category.tag"].search([("name", "=", rec.category),
-                                                            ("language", "=", rec.language.id),
                                                             ("category_id", "!=", False)])
 
             if category_obj:
