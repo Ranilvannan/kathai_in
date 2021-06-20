@@ -72,9 +72,6 @@ class ExportService(models.TransientModel):
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
             self.move_tmp_file(tmp_file, remote_path)
 
-        for rec in recs:
-            rec.is_exported = True
-
     def trigger_gallery_export(self):
         remote_path = config["export_path"]
         recs = self.env["blog.gallery"].search([("is_exported", "=", False)])[:500]
@@ -127,7 +124,7 @@ class ExportService(models.TransientModel):
                 "category_id": rec.id,
                 "name": rec.name,
                 "url": rec.url,
-                "language": rec.language
+                "language": rec.language.name
             }
             category.append(data)
 
