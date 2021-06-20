@@ -30,7 +30,7 @@ class ExportService(models.TransientModel):
         for rec in recs:
             rec.is_exported = False
 
-    def trigger_export(self):
+    def trigger_story_export(self):
         site_model = None
         remote_path = config["export_path"]
 
@@ -57,7 +57,7 @@ class ExportService(models.TransientModel):
 
         if recs:
             # Blog export
-            blog_list = self.generate_json(recs)
+            blog_list = self.generate_story_json(recs)
             tmp_file = self.generate_tmp_json_file(blog_list, blog_filename)
             self.move_tmp_file(tmp_file, remote_path)
 
@@ -86,21 +86,7 @@ class ExportService(models.TransientModel):
         for rec in recs:
             rec.is_exported = True
 
-    def generate_category_json(self):
-        category = []
-        recs = self.env["story.category"].search([("id", ">", 0)])
-        for rec in recs:
-            data = {
-                "category_id": rec.id,
-                "name": rec.name,
-                "url": rec.url,
-                "language": rec.language
-            }
-            category.append(data)
-
-        return category
-
-    def generate_json(self, recs):
+    def generate_story_json(self, recs):
         story = []
 
         for rec in recs:
@@ -132,6 +118,20 @@ class ExportService(models.TransientModel):
             story.append(data)
 
         return story
+
+    def generate_category_json(self):
+        category = []
+        recs = self.env["story.category"].search([("id", ">", 0)])
+        for rec in recs:
+            data = {
+                "category_id": rec.id,
+                "name": rec.name,
+                "url": rec.url,
+                "language": rec.language
+            }
+            category.append(data)
+
+        return category
 
     def generate_gallery_json(self, recs):
         galleries = []
