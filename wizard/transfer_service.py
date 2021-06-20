@@ -113,7 +113,6 @@ class TransferService(models.TransientModel):
                                                            (book_field, "=", False)])
                 if story_obj:
                     category_obj = self.env["category.tag"].search([("name", "=", story_obj.category),
-                                                                    ("language", "=", rec.language.id),
                                                                     ("category_id", "!=", False)])
                     if category_obj:
                         data = {"title": story_obj.title,

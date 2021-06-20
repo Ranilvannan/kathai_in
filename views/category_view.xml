@@ -10,7 +10,6 @@
                     <group>
                         <field name="name"/>
                         <field name="url"/>
-                        <field name="language"/>
                         <field name="description"/>
                     </group>
 
@@ -19,7 +18,6 @@
                             <field name="tag_ids">
                                 <tree editable="bottom">
                                     <field name="name"/>
-                                    <field name="language"/>
                                     <field name="category_id"/>
                                 </tree>
                             </field>
