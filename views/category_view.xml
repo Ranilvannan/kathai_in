@@ -35,7 +35,6 @@
             <tree name="Category">
                 <field name="name"/>
                 <field name="url"/>
-                <field name="language"/>
             </tree>
         </field>
     </record>
