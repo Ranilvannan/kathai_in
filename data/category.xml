@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="aunty_sex_category" model="story.category">
+            <field name="name">Aunty Sex</field>
+            <field name="url">aunty_sex</field>
+            <field name="description">Aunty Sex</field>
+        </record>
+        <record id="family_sex_category" model="story.category">
+            <field name="name">Family Sex</field>
+            <field name="url">family_sex</field>
+            <field name="description">Family Sex</field>
+        </record>
+        <record id="group_sex_category" model="story.category">
+            <field name="name">Group Sex</field>
+            <field name="url">group_sex</field>
+            <field name="description">Group Sex</field>
+        </record>
+        <record id="teen_sex_category" model="story.category">
+            <field name="name">Teen Sex</field>
+            <field name="url">teen_sex</field>
+            <field name="description">Teen Sex</field>
+        </record>
+        <record id="couple_sex_category" model="story.category">
+            <field name="name">Couple Sex</field>
+            <field name="url">couple_sex</field>
+            <field name="description">Couple Sex</field>
+        </record>
+        <record id="gay_sex_category" model="story.category">
+            <field name="name">Gay Sex</field>
+            <field name="url">gay_sex</field>
+            <field name="description">Gay Sex</field>
+        </record>
+        <record id="lesbian_sex_category" model="story.category">
+            <field name="name">Lesbian Sex</field>
+            <field name="url">lesbian_sex</field>
+            <field name="description">Lesbian Sex</field>
+        </record>
+        <record id="office_sex_category" model="story.category">
+            <field name="name">Office/ Maid/ Teacher Sex</field>
+            <field name="url">office_sex</field>
+            <field name="description">Office Sex</field>
+        </record>
+        <record id="other_sex_category" model="story.category">
+            <field name="name">Other Sex</field>
+            <field name="url">other_sex</field>
+            <field name="description">Other Sex</field>
+        </record>
+
+    </data>
+</odoo>
