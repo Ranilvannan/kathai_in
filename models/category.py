@@ -9,6 +9,7 @@ class StoryCategory(models.Model):
     language = fields.Many2one(comodel_name="story.language")
     name = fields.Char(string="Name")
     url = fields.Char(string="URL")
+    description = fields.Text(string="Description")
     tag_ids = fields.One2many(comodel_name="category.tag", inverse_name="category_id")
 
 

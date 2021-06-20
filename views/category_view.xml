@@ -11,6 +11,7 @@
                         <field name="name"/>
                         <field name="url"/>
                         <field name="language"/>
+                        <field name="description"/>
                     </group>
 
                     <notebook>

@@ -107,6 +107,7 @@ class ExportService(models.TransientModel):
                 "next_url": rec.next_id.url,
                 "category_name": rec.category_id.name,
                 "category_url": rec.category_id.url,
+                "category_description": rec.category_id.description,
                 "content_ids": rec.content.split("|#|"),
                 "published_on": rec.published_on.strftime("%d-%m-%Y") if rec.published_on else None,
                 "date": rec.published_on.isoformat() if rec.published_on else None
