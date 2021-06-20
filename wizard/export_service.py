@@ -66,10 +66,10 @@ class ExportService(models.TransientModel):
 
     def trigger_category_export(self):
         remote_path = config["export_path"]
-        recs = self.env["blog.gallery"].search([("is_exported", "=", False)])[:500]
+        recs = self.env["story.category"].search([("id", ">", 0)])
         if recs:
-            gallery_list = self.generate_category_json()
-            tmp_file = self.generate_tmp_json_file(gallery_list, CATEGORY_FILENAME)
+            category_list = self.generate_category_json()
+            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
             self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
