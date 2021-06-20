@@ -1,13 +1,13 @@
 from odoo import models, fields, api
 from datetime import datetime
 
-LANGUAGE = "English"
-
 
 class ProjectSite1(models.Model):
     _name = "project.site1"
     _description = "Project Site 1 picosexstory.osholikes"
     _rec_name = "name"
+    _language = "English"
+    _blog_code = "English"
 
     name = fields.Char(string="Name", readonly=True)
     ref = fields.Char(string="Reference")

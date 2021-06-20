@@ -25,81 +25,58 @@ class ExportService(models.TransientModel):
     project = fields.Selection(selection=PROJECT, string="Project", required=1)
 
     def reset_gallery(self):
-        recs = self.env["blog.gallery"].search([("id", ">", 0)])
+        recs = self.env["blog.gallery"].search([("is_exported", "=", True)])[:500]
 
         for rec in recs:
             rec.is_exported = False
 
     def trigger_export(self):
         site_model = None
-        remote_path = None
-        lang = None
+        remote_path = config["export_path"]
 
         if self.project == "project_site1":
             site_model = "project.site1"
-            remote_path = config["project_site1_path"]
-            lang = "English"
-
         elif self.project == "project_site2":
             site_model = "project.site2"
-            remote_path = config["project_site2_path"]
-            lang = "Tamil"
-
         elif self.project == "project_site3":
             site_model = "project.site3"
-            remote_path = config["project_site3_path"]
-            lang = "Hindi"
-
         elif self.project == "project_site4":
             site_model = "project.site4"
-            remote_path = config["project_site4_path"]
-            lang = "Malayalam"
-
         elif self.project == "project_site5":
             site_model = "project.site4"
-            remote_path = config["project_site4_path"]
-            lang = "Telugu"
-
         elif self.project == "project_site6":
             site_model = "project.site4"
-            remote_path = config["project_site4_path"]
-            lang = "Kannada"
-
         elif self.project == "project_site7":
             site_model = "project.site4"
-            remote_path = config["project_site4_path"]
-            lang = "Bengali"
 
-        self.project_export(site_model, remote_path, lang)
-
-        # Gallery update for many photos
-        self.reset_gallery()
-        gallery_count = self.env["blog.gallery"].search_count([("is_exported", "=", False)])
-        while gallery_count == 0:
-            self.trigger_gallery_export(remote_path)
-            gallery_count = self.env["blog.gallery"].search_count([("is_exported", "=", False)])
-
-    def project_export(self, site_model, remote_path, lang):
+        blog_code = self.env[site_model]._blog_code
+        blog_filename = "_{0}{1}".format(blog_code, BLOG_FILENAME)
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])[:100]
 
         if recs:
             # Blog export
-            blog_list = self.generate_json(recs, lang)
-            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        # Category export
-        category_list = self.generate_category(site_model, lang)
-        if category_list:
-            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            blog_list = self.generate_json(recs)
+            tmp_file = self.generate_tmp_json_file(blog_list, blog_filename)
             self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
 
-    def trigger_gallery_export(self, remote_path):
+    def trigger_category_export(self):
+        remote_path = config["export_path"]
+        recs = self.env["blog.gallery"].search([("is_exported", "=", False)])[:500]
+        if recs:
+            gallery_list = self.generate_category_json()
+            tmp_file = self.generate_tmp_json_file(gallery_list, CATEGORY_FILENAME)
+            self.move_tmp_file(tmp_file, remote_path)
+
+        for rec in recs:
+            rec.is_exported = True
+
+    def trigger_gallery_export(self):
+        remote_path = config["export_path"]
         recs = self.env["blog.gallery"].search([("is_exported", "=", False)])[:500]
         if recs:
             gallery_list = self.generate_gallery_json(recs)
@@ -109,28 +86,28 @@ class ExportService(models.TransientModel):
         for rec in recs:
             rec.is_exported = True
 
-    def generate_category(self, site_model, lang):
+    def generate_category_json(self):
         category = []
-        recs = self.env["story.category"].search([("language", "=", lang)])
+        recs = self.env["story.category"].search([("id", ">", 0)])
         for rec in recs:
-            story = self.env[site_model].search([("category_id", "=", rec.id)])
-            if story:
-                data = {
-                    "category_id": rec.id,
-                    "name": rec.name,
-                    "url": rec.url
-                }
-                category.append(data)
+            data = {
+                "category_id": rec.id,
+                "name": rec.name,
+                "url": rec.url,
+                "language": rec.language
+            }
+            category.append(data)
 
         return category
 
-    def generate_json(self, recs, lang):
+    def generate_json(self, recs):
         story = []
 
         for rec in recs:
             data = {
                 "blog_id": rec.id,
-                "blog_code": lang,
+                "blog_code": rec._blog_code,
+                "language": rec._language,
                 "name": rec.name,
                 "url": rec.url,
                 "title": rec.title,
