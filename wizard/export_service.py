@@ -59,7 +59,7 @@ class ExportService(models.TransientModel):
             # Blog export
             blog_list = self.generate_story_json(recs)
             tmp_file = self.generate_tmp_json_file(blog_list, blog_filename)
-            self.move_tmp_file(tmp_file, remote_path)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -70,7 +70,7 @@ class ExportService(models.TransientModel):
         if recs:
             category_list = self.generate_category_json()
             tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
+            # self.move_tmp_file(tmp_file, remote_path)
 
     def trigger_gallery_export(self):
         remote_path = config["export_path"]
@@ -78,7 +78,7 @@ class ExportService(models.TransientModel):
         if recs:
             gallery_list = self.generate_gallery_json(recs)
             tmp_file = self.generate_tmp_json_file(gallery_list, GALLERY_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
+            # self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
             rec.is_exported = True
@@ -107,7 +107,6 @@ class ExportService(models.TransientModel):
                 "next_url": rec.next_id.url,
                 "category_name": rec.category_id.name,
                 "category_url": rec.category_id.url,
-                "category_description": rec.category_id.description,
                 "content_ids": rec.content.split("|#|"),
                 "published_on": rec.published_on.strftime("%d-%m-%Y") if rec.published_on else None,
                 "date": rec.published_on.isoformat() if rec.published_on else None
@@ -125,7 +124,8 @@ class ExportService(models.TransientModel):
                 "category_id": rec.id,
                 "name": rec.name,
                 "url": rec.url,
-                "language": rec.language.name
+                "language": rec.language.name,
+                "description": rec.description
             }
             category.append(data)
 
