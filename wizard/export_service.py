@@ -43,11 +43,11 @@ class ExportService(models.TransientModel):
         elif self.project == "project_site4":
             site_model = "project.site4"
         elif self.project == "project_site5":
-            site_model = "project.site4"
+            site_model = "project.site5"
         elif self.project == "project_site6":
-            site_model = "project.site4"
+            site_model = "project.site6"
         elif self.project == "project_site7":
-            site_model = "project.site4"
+            site_model = "project.site7"
 
         blog_code = self.env[site_model]._blog_code
         blog_filename = "_{0}{1}".format(blog_code, BLOG_FILENAME)
