@@ -8,6 +8,7 @@ from paramiko import SSHClient, AutoAddPolicy
 
 BLOG_FILENAME = "_blog.json"
 CATEGORY_FILENAME = "_category.json"
+GALLERY_FILENAME = "_gallery.json"
 PROJECT = [("project_site1", "Project Site 1"),
            ("project_site2", "Project Site 2"),
            ("project_site3", "Project Site 3"),
@@ -23,27 +24,62 @@ class ExportService(models.TransientModel):
 
     project = fields.Selection(selection=PROJECT, string="Project", required=1)
 
+    def reset_gallery(self):
+        recs = self.env["blog.gallery"].search([("id", ">", 0)])
+
+        for rec in recs:
+            rec.is_exported = False
+
     def trigger_export(self):
+        site_model = None
+        remote_path = None
+        lang = None
+
         if self.project == "project_site1":
-            self.project_site1_export()
+            site_model = "project.site1"
+            remote_path = config["project_site1_path"]
+            lang = "English"
+
         elif self.project == "project_site2":
-            self.project_site2_export()
+            site_model = "project.site2"
+            remote_path = config["project_site2_path"]
+            lang = "Tamil"
+
         elif self.project == "project_site3":
-            self.project_site3_export()
+            site_model = "project.site3"
+            remote_path = config["project_site3_path"]
+            lang = "Hindi"
+
         elif self.project == "project_site4":
-            self.project_site4_export()
+            site_model = "project.site4"
+            remote_path = config["project_site4_path"]
+            lang = "Malayalam"
+
         elif self.project == "project_site5":
-            self.project_site5_export()
+            site_model = "project.site4"
+            remote_path = config["project_site4_path"]
+            lang = "Telugu"
+
         elif self.project == "project_site6":
-            self.project_site6_export()
+            site_model = "project.site4"
+            remote_path = config["project_site4_path"]
+            lang = "Kannada"
+
         elif self.project == "project_site7":
-            self.project_site7_export()
+            site_model = "project.site4"
+            remote_path = config["project_site4_path"]
+            lang = "Bengali"
 
-    def project_site1_export(self):
-        site_model = "project.site1"
-        remote_path = config["project_site1_path"]
-        lang = "English"
-        
+        self.project_export(site_model, remote_path, lang)
+
+        # Gallery update for many photos
+        self.reset_gallery()
+        gallery_count = self.env["blog.gallery"].search_count([("is_exported", "=", False)])
+        while gallery_count == 0:
+            self.trigger_gallery_export(remote_path)
+            gallery_count = self.env["blog.gallery"].search_count([("is_exported", "=", False)])
+
+    def project_export(self, site_model, remote_path, lang):
         recs = self.env[site_model].search([("is_exported", "=", False),
                                             ("published_on", "!=", False),
                                             ("is_valid", "=", True)])[:100]
@@ -63,145 +99,11 @@ class ExportService(models.TransientModel):
         for rec in recs:
             rec.is_exported = True
 
-    def project_site2_export(self):
-        site_model = "project.site2"
-        remote_path = config["project_site2_path"]
-        lang = "Tamil"
-        
-        recs = self.env[site_model].search([("is_exported", "=", False),
-                                            ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])[:100]
-
+    def trigger_gallery_export(self, remote_path):
+        recs = self.env["blog.gallery"].search([("is_exported", "=", False)])[:500]
         if recs:
-            # Blog export
-            blog_list = self.generate_json(recs, lang)
-            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        # Category export
-        category_list = self.generate_category(site_model, lang)
-        if category_list:
-            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        for rec in recs:
-            rec.is_exported = True
-
-    def project_site3_export(self):
-        site_model = "project.site3"
-        remote_path = config["project_site3_path"]
-        lang = "Hindi"
-        
-        recs = self.env[site_model].search([("is_exported", "=", False),
-                                            ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])[:100]
-
-        if recs:
-            # Blog export
-            blog_list = self.generate_json(recs, lang)
-            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        # Category export
-        category_list = self.generate_category(site_model, lang)
-        if category_list:
-            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        for rec in recs:
-            rec.is_exported = True
-
-    def project_site4_export(self):
-        site_model = "project.site4"
-        remote_path = config["project_site4_path"]
-        lang = "Malayalam"
-
-        recs = self.env[site_model].search([("is_exported", "=", False),
-                                            ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])[:100]
-
-        if recs:
-            # Blog export
-            blog_list = self.generate_json(recs, lang)
-            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        # Category export
-        category_list = self.generate_category(site_model, lang)
-        if category_list:
-            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        for rec in recs:
-            rec.is_exported = True
-
-    def project_site5_export(self):
-        site_model = "project.site5"
-        remote_path = config["project_site5_path"]
-        lang = "Telugu"
-
-        recs = self.env[site_model].search([("is_exported", "=", False),
-                                            ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])[:100]
-
-        if recs:
-            # Blog export
-            blog_list = self.generate_json(recs, lang)
-            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        # Category export
-        category_list = self.generate_category(site_model, lang)
-        if category_list:
-            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        for rec in recs:
-            rec.is_exported = True
-
-    def project_site6_export(self):
-        site_model = "project.site6"
-        remote_path = config["project_site6_path"]
-        lang = "Telugu"
-
-        recs = self.env[site_model].search([("is_exported", "=", False),
-                                            ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])[:100]
-
-        if recs:
-            # Blog export
-            blog_list = self.generate_json(recs, lang)
-            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        # Category export
-        category_list = self.generate_category(site_model, lang)
-        if category_list:
-            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        for rec in recs:
-            rec.is_exported = True
-
-    def project_site7_export(self):
-        site_model = "project.site7"
-        remote_path = config["project_site7_path"]
-        lang = "Bengali"
-
-        recs = self.env[site_model].search([("is_exported", "=", False),
-                                            ("published_on", "!=", False),
-                                            ("is_valid", "=", True)])[:100]
-
-        if recs:
-            # Blog export
-            blog_list = self.generate_json(recs, lang)
-            tmp_file = self.generate_tmp_json_file(blog_list, BLOG_FILENAME)
-            self.move_tmp_file(tmp_file, remote_path)
-
-        # Category export
-        category_list = self.generate_category(site_model, lang)
-        if category_list:
-            tmp_file = self.generate_tmp_json_file(category_list, CATEGORY_FILENAME)
+            gallery_list = self.generate_gallery_json(recs)
+            tmp_file = self.generate_tmp_json_file(gallery_list, GALLERY_FILENAME)
             self.move_tmp_file(tmp_file, remote_path)
 
         for rec in recs:
@@ -228,6 +130,7 @@ class ExportService(models.TransientModel):
         for rec in recs:
             data = {
                 "blog_id": rec.id,
+                "blog_code": lang,
                 "name": rec.name,
                 "url": rec.url,
                 "title": rec.title,
@@ -246,13 +149,26 @@ class ExportService(models.TransientModel):
                 "category_url": rec.category_id.url,
                 "content_ids": rec.content.split("|#|"),
                 "published_on": rec.published_on.strftime("%d-%m-%Y") if rec.published_on else None,
-                "date": rec.published_on.isoformat() if rec.published_on else None,
-                "language": lang
+                "date": rec.published_on.isoformat() if rec.published_on else None
             }
 
             story.append(data)
 
         return story
+
+    def generate_gallery_json(self, recs):
+        galleries = []
+
+        for rec in recs:
+            image = {
+                "gallery_id": rec.id,
+                "filename": rec.filename,
+                "filepath": rec.filepath,
+                "description": rec.description
+            }
+            galleries.append(image)
+
+        return galleries
 
     def generate_tmp_json_file(self, json_data, suffix):
         prefix = datetime.now().strftime('%s')
