@@ -13,7 +13,6 @@
                     <group col="1">
                         <button name="trigger_generate_tag" string="Generate Tag" type="object" class="oe_highlight"/>
                         <button name="trigger_transfer_service" string="Transfer Service" type="object" class="oe_highlight"/>
-                        <button name="trigger_site_update_service" string="Site Update Service" type="object" class="oe_highlight"/>
                         <button name="trigger_story_export" string="Story Export" type="object" class="oe_highlight"/>
                         <button name="trigger_category_export" string="Category Export" type="object" class="oe_highlight"/>
                         <button name="trigger_gallery_export" string="Gallery Export" type="object" class="oe_highlight"/>

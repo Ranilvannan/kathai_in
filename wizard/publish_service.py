@@ -34,7 +34,12 @@ class PublishService(models.TransientModel):
             self.project_site_publish("project.site7")
 
     def project_site_publish(self, site_model):
-        recs = self.env[site_model].search([("is_valid", "=", True), ("published_on", "=", False)])[:self.count]
+        recs = self.env[site_model].search([("is_valid", "=", False), ("published_on", "=", False)])[:self.count]
 
         for rec in recs:
-            rec.published_on = self.date
+            if rec.title \
+                    and rec.preview \
+                    and rec.content \
+                    and rec.category_id \
+                    and rec.url:
+                rec.write({"published_on": self.date, "is_valid": True})

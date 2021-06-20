@@ -30,4 +30,5 @@ class ProjectSite5(models.Model):
     @api.model
     def create(self, vals):
         vals["name"] = self.env['ir.sequence'].next_by_code("project.site5")
+        vals["url"] = self.env["site.update.service"].get_url(vals["title"])
         return super(ProjectSite5, self).create(vals)

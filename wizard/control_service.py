@@ -23,10 +23,6 @@ class ControlService(models.TransientModel):
         rec = self.env["transfer.service"].create({"project": self.project})
         rec.trigger_transfer()
 
-    def trigger_site_update_service(self):
-        rec = self.env["site.update.service"].create({"project": self.project})
-        rec.trigger_site_update()
-
     def trigger_story_export(self):
         rec = self.env["export.service"].create({"project": self.project})
         rec.trigger_story_export()
